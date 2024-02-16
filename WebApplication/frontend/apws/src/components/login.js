@@ -39,24 +39,24 @@ class Login extends React.Component {
 
   render(){
     return (
-      
       <div id = "back">
-  
-        <div id = "login">
-          <h1>APWS</h1>
-          <label>Username   </label>
-          <input id="username" type='text' name='user' value={this.user} onChange={this.usernameHandler}></input>
-          <br/><br/>
-          <label>Password</label>
-          <input id="password" type='password' name='user' value={this.pass} onChange={this.passwordHandler}></input>
-          <br/><br/>
-          <button id='loginBtn'>Login</button>
-          {/* <button onClick={this.test}>test</button> */}
-          <br/><br/>
-          <Link to={"/"}>Forgot Password</Link>
-          <br/><br/>
-          <Link to='/Create-User'>Create New Account</Link> <br />
-        </div>
+          <div id = "login">
+            <br />
+            <h1>APWS</h1>
+            <br />
+            <label>Username   </label>
+            <input id="username" type='text' name='user' value={this.user} onChange={this.usernameHandler}></input>
+            <br/><br/>
+            <label>Password   </label>
+            <input id="password" type='password' name='user' value={this.pass} onChange={this.passwordHandler}></input>
+            <br/><br/>
+            <button id='loginBtn'>Login</button>
+            {/* <button onClick={this.test}>test</button> */}
+            <br/><br/>
+            <Link to={"/"}>Forgot Password</Link>
+            <br/><br/>
+            <Link to='/Create-User'>Create New Account</Link> <br />
+          </div>
       </div>
     )
   }
