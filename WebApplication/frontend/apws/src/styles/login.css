@@ -21,7 +21,7 @@
     background-attachment: fixed; */
     background-size: auto 35%;
     border: 15px solid;
-    border-image: conic-gradient(rgb(58, 226, 58), yellow, rgb(29, 80, 247), rgb(58, 226, 58), yellow, rgb(29, 80, 247), rgb(58, 226, 58)) 1;
+    border-image: conic-gradient(rgb(58, 226, 58), yellow,rgb(58, 226, 58), rgb(29, 80, 247), rgb(58, 226, 58), yellow,rgb(58, 226, 58), rgb(29, 80, 247), rgb(58, 226, 58)) 1;
     background-color: rgb(253, 252, 252);
     width: 400px;
     height: 400px;
