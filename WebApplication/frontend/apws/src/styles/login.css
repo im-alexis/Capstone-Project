@@ -14,11 +14,11 @@
 }
 
 #login{
-    height: 100vh;
+    /* height: 100vh;
     background-image: url(realistic-vector-ivy-plant-isolated-600nw-1058422427.webp);
     background-position: top;
     background-repeat: repeat-x;
-    background-attachment: fixed;
+    background-attachment: fixed; */
     background-size: auto 35%;
     border: 15px solid;
     border-image: conic-gradient(rgb(58, 226, 58), yellow, rgb(29, 80, 247), rgb(58, 226, 58), yellow, rgb(29, 80, 247), rgb(58, 226, 58)) 1;
