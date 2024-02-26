@@ -32,6 +32,25 @@ class Login extends React.Component {
     })
   }
   login(){
+    fetch("API URL", {
+      method: ("API METHOD"),
+      mode: "cors",
+      headers:{
+        'content-Type':'application/json'
+      },
+      body: JSON.stringify({
+        Username: this.state.user,
+        Password: this.state.pass
+      })
+    })
+    
+    .then(response => response.json())
+    .then((data) => {
+      this.setState({
+        success: data['Access'],
+        user: data['Username']
+      })
+    })
       
 
 
