@@ -1,29 +1,38 @@
 #back{
     height: 100vh;
-    background-image: url(Background.jpg);
-    background-repeat: no-repeat;
-    background-position: center;
+    background-image: url(0_2.webp);
+    background-position: bottom;
+    background-repeat: repeat-x;
     background-attachment: fixed;
-    background-size: cover;
+    /* background-size: cover;  */
+    background-size: auto 30%;
+    background-color: white;
+    border: white;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 #login{
-    border: 5px solid;
-    background: white;
-    border-color: #BF5700;
-    border-radius: 25px;
+    /* height: 100vh;
+    background-image: url(realistic-vector-ivy-plant-isolated-600nw-1058422427.webp);
+    background-position: top;
+    background-repeat: repeat-x;
+    background-attachment: fixed; */
+    background-size: auto 35%;
+    border: 15px solid;
+    border-image: conic-gradient(rgb(58, 226, 58), yellow,rgb(58, 226, 58), rgb(29, 80, 247), rgb(58, 226, 58), yellow,rgb(58, 226, 58), rgb(29, 80, 247), rgb(58, 226, 58)) 1;
+    background-color: rgb(253, 252, 252);
     width: 400px;
     height: 400px;
     align-items: center;
     justify-content: center;
     text-align: center;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 p{
-    
     margin: 0.1px;
-    color: rgba(128, 128, 128, 0.9);
+    color: rgba(255, 255, 255, 0.9);
 }
 .passLbl{
     margin-bottom:0.1px ;
