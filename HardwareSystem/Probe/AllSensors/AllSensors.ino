@@ -1,3 +1,17 @@
+/*
+Creators: Evan LeBel, Ian Skillman, Jaime Sanchez, Rodrigo Romero
+Date: 2/28/2024
+
+FOR THIS CODE YOU NEED LIBRARY "Adafruit AHTX0"
+
+Connectors:
+Temp & Humid Sensor: Connect Vin to 3.3V, GND to GND, SCL to A5, SDA to A4
+PhotoResistor: Connect A1 to voltage going from photoresistor to gnd. Circuit is from 3.3V to PhotoResistor to Resistor to GND
+UltraSonic: Connect GND to GND, Echo to D10, Trig to D9, and VCC to VBUS
+Soil: Connect A Pin connects to A0, + Pin connects to 3.3V, - Pin connects to GND
+*/
+
+
 #include <Adafruit_AHTX0.h>
 
 Adafruit_AHTX0 aht;
