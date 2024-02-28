@@ -1,0 +1,18 @@
+ALWAYS WORK IN A VIRTUAL ENVIRONMENT
+
+TO CREATE A VIRTUAL ENVIRONMENT: (pip or pip3)
+pip install virtualenv
+python<version> -m venv <virtual-environment-name>
+
+TO ACTIVATE THE ENVIRONMENT:
+source <virtual-environment-name>/bin/activate
+
+TO INSTALL LIBRARIES:
+pip install -r requirements.txt  
+
+IF YOU ADD NEW LIBRARIES:
+pip freeze > requirements.txt
+
+
+TO CLOSE THE VIRTUAL ENVIRONMENT:
+deactivate
