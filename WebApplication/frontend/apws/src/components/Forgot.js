@@ -6,43 +6,21 @@ class Forgot extends React.Component {
     constructor(props){
       super(props)
       this.forgot = this.forgot.bind(this)
-      this.usernameHandler = this.usernameHandler.bind(this)
+      this.emailHandler = this.emailHandler.bind(this)
       this.state = {
-        user: "",
+        email: "",    // NOTE SHOULD USERNAMES JUST BE EMAILS??
         success: false
       }
     }
 
-    usernameHandler(){
-      var newUser = document.getElementById("username").value
+    emailHandler(){
+      var newEmail = document.getElementById("email").value
       this.setState({
-        user: newUser
+        email: newEmail
       })
     }
 
-    forgot(){
-      fetch("API URL", {
-        method: ("API METHOD"),
-        mode: "cors",
-        headers:{
-          'content-Type':'application/json'
-        },
-        body: JSON.stringify({
-          Username: this.state.user,
-        })
-      })
-      
-      .then(response => response.json())
-      .then((data) => {
-        this.setState({
-          success: data['Access'],
-          user: data['Username']
-        })
-      })
-        
-  
-  
-    }
+    forgot(){}
   
     render(){
       return (
@@ -50,23 +28,17 @@ class Forgot extends React.Component {
             <div id = "login">
               <br />
               <h1>APWS</h1>
-              <br />
-              <label>Username   </label>
-              <input id="username" type='text' name='user' value={this.user} onChange={this.usernameHandler}></input>
+              <br/>
+              <label>Email   </label>
+              <input type='email' name='user' value={this.email} id='email'></input>
               <br/><br/>
-              <label>Password   </label>
-              <input id="password" type='password' name='user' value={this.pass} onChange={this.passwordHandler}></input>
+              <button  id='loginBtn'>Forgot Password</button> 
               <br/><br/>
-              <button id='loginBtn'>Login</button>
-              {/* <button onClick={this.test}>test</button> */}
-              <br/><br/>
-              <Link to={"/"}>Forgot Password</Link>
-              <br/><br/>
-              <Link to='/Create-User'>Create New Account</Link> <br />
-            </div>
+              <Link to='/'>Sign in</Link> <br />
+          </div>
         </div>
       )
     }
   }
   
-  export default Login;
+  export default Forgot;

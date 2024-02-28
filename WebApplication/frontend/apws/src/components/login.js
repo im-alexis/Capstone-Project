@@ -72,7 +72,7 @@ class Login extends React.Component {
             <button id='loginBtn'>Login</button>
             {/* <button onClick={this.test}>test</button> */}
             <br/><br/>
-            <Link to={"/"}>Forgot Password</Link>
+            <Link to="/Forgot">Forgot Password</Link>
             <br/><br/>
             <Link to='/Create-User'>Create New Account</Link> <br />
           </div>

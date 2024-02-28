@@ -10,7 +10,7 @@ class CreateUser extends React.Component {
     this.state = {
       user: "",
       pass: "",
-      pass2:"",
+      pass2: "",
       success: false
     }
   }
