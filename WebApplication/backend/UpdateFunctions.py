@@ -4,9 +4,8 @@
 #   2) /change_role
 #   3) /leave_system
 #   4) /join_system
-#   5) /leave_system
-#   6) /akn_request
-#   7) /register_system
-#   8) /data
+#   5) /akn_request
+#   6) /register_system
+#   7) /data
 
 

@@ -3,29 +3,53 @@
 #   1) /(login)
 #   2) /create_user
 #   3) /forgot_password
-#   4) Encryption
 
+from pymongo import MongoClient
+import cypher
 
-# USER VALIDATION
-def encrypt(passw):
-    encrypt = ""
-    for char in passw:
-        newC = char
-        if ord(newC) - 13 < 34:
-            newC = chr(127 - (34 - (ord(newC) - 13)))
+# to access the database w/o certifi add this: &tlsAllowInvalidCertificates=true at the end of url
+client = MongoClient(
+    "mongodb+srv://alexistorres1802:PsVRgNszt317idtn@apws.qpzzxgw.mongodb.net/")
+systems_db = client.Systems
+users_db = client.Users
+user_collection = users_db.User
+system_collection = users_db.Systems
+
+def user_exists(username):
+    user = user_collection.find_one({'username': username})
+    if user is not None:  
+        return True
+    else:
+        return False
+      
+def sign_in(username, password):  # Returns Json
+    user = user_collection.find_one({'username': username})
+    if user is not None:
+        account_password = cypher.decrypt(user['password'])
+        if password == account_password:
+            return {'message': 'Authorized', }
         else:
-            newC = chr(ord(char) - 13)
-        encrypt += newC
-    return encrypt[::-1]
+            return {'message': 'Not Authorized, incorrect Password', }
+    else:
+        return {'message': 'User does not exist', }
 
 
-def decrypt(passw):
-    decrypt = ""
-    for char in passw:
-        newC = char
-        if ord(newC) + 13 > 126:
-            newC = chr(33 + ord(newC) - 126 + 13)
-        else:
-            newC = chr(ord(char) + 13)
-        decrypt += newC
-    return decrypt[::-1]
+def sign_up( username, password):
+    user = user_collection.find_one({'username': username})
+    if user is None:
+        newUser = {
+            "username": username,
+            "password": cypher.encrypt(password),
+            "systems": [],
+        }
+        user_collection.insert_one(newUser)
+        return {'message': 'User added.', }
+    else:
+        return {'message': 'Username exists already.', }
+    
+def password_reset(username):
+    if user_exists(username):
+        #Send an email
+        return {'message': 'Sent email', }
+    else:
+        return {'message': 'Username does not exist', }

@@ -2,25 +2,45 @@
 # Home of Routes
 
 from flask import Flask, request, session
+import SystemFunctions, UpdateFunctions, LoginFunctions
 
 #LOOK INTO SESSIONS
 app = Flask(__name__)
 
+#var resposnse is in JSON formatting
 
 #login route
 @app.route("/", methods=['POST'])
 def login_page():
-    return "Placeholder"
+    response = ''
+    username = request.form['username']
+    password = request.form['password']
+    response = LoginFunctions.sign_in(username, password)
+    # global username_global
+    # username_global = username
+    return response
 
 #create_user route
 @app.route("/create_user", methods=['POST'])
 def create_user():
-    return "Placeholder"
+    response = ''
+    username = request.form['username']
+    password = request.form['password']
+    response = LoginFunctions.sign_up( username, password)
+    # global username_global
+    # username_global = username
+    # session['username'] = Username
+    return response  # This is a Json Response
+
+   
 
 #forgot_password route
 @app.route("/forgot_password", methods=['POST'])
 def forgot_password():
-    return "Placeholder"
+    response = ''
+    username = request.form['username']
+    response = LoginFunctions.password_reset(username)
+    return response
 
 #dashboard route
 @app.route("/dashboard", methods=['POST'])
