@@ -1,0 +1,29 @@
+EESchema-LIBRARY Version 2.3
+#encoding utf-8
+#SamacSys ECAD Model COM-16473
+#/14900881/1234331/2.50/8/3/Integrated Circuit
+DEF COM-16473 IC 0 30 Y Y 1 F N
+F0 "IC" 1050 300 50 H V L CNN
+F1 "COM-16473" 1050 200 50 H V L CNN
+F2 "DIP794W53P254L959H508Q8N" 1050 100 50 H I L CNN
+F3 "https://cdn.sparkfun.com/assets/8/3/b/7/1/DS-16473-555_Timer.pdf?_gl=1*8sadh2*_ga*ODM4OTk0OTI2LjE3MDYwODA4NzA.*_ga_T369JS7J9N*MTcwNjg2ODUwOC40LjEuMTcwNjg2ODUyNS40My4wLjA." 1050 0 50 H I L CNN
+F4 "Timers & Support Products 555 Timer" 1050 -100 50 H I L CNN "Description"
+F5 "5.08" 1050 -200 50 H I L CNN "Height"
+F6 "474-COM-16473" 1050 -300 50 H I L CNN "Mouser Part Number"
+F7 "https://www.mouser.co.uk/ProductDetail/SparkFun/COM-16473?qs=hWgE7mdIu5SX4yvJS%252Buqog%3D%3D" 1050 -400 50 H I L CNN "Mouser Price/Stock"
+F8 "SparkFun" 1050 -500 50 H I L CNN "Manufacturer_Name"
+F9 "COM-16473" 1050 -600 50 H I L CNN "Manufacturer_Part_Number"
+DRAW
+X GND 1 0 0 200 R 50 50 0 0 P
+X TRIG 2 0 -100 200 R 50 50 0 0 P
+X OUT 3 0 -200 200 R 50 50 0 0 P
+X RESET 4 0 -300 200 R 50 50 0 0 P
+X VCC 8 1200 0 200 L 50 50 0 0 P
+X DISCH 7 1200 -100 200 L 50 50 0 0 P
+X THRES 6 1200 -200 200 L 50 50 0 0 P
+X CONT 5 1200 -300 200 L 50 50 0 0 P
+P 5 0 1 6 200 100 1000 100 1000 -400 200 -400 200 100 N
+ENDDRAW
+ENDDEF
+#
+#End Library
