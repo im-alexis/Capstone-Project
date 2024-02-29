@@ -17,23 +17,24 @@ class Login extends React.Component {
       success: false
     }
   }
+
   passwordHandler(){
     var newPass = document.getElementById("password").value
     this.setState({
       pass: newPass
     })
-    
-
   }
+
   usernameHandler(){
     var newUser = document.getElementById("username").value
     this.setState({
       user: newUser
     })
   }
+
   login(){
-    fetch("API URL", {
-      method: ("API METHOD"),
+    fetch("http://127.0.0.1:5000/", {
+      method: 'POST',
       mode: "cors",
       headers:{
         'content-Type':'application/json'
@@ -51,6 +52,14 @@ class Login extends React.Component {
         user: data['Username']
       })
     })
+    setTimeout(() => {
+      if(this.state.success === true){
+        window.alert("successfully signed in")
+        window.location.replace(`/dashboard`)
+      }else{
+        alert("Incorrect Username or Password")
+      }
+    }, 500); // 2000 milliseconds = 2 seconds
       
 
 
@@ -64,12 +73,12 @@ class Login extends React.Component {
             <h1>APWS</h1>
             <br />
             <label>Username   </label>
-            <input id="username" type='text' name='user' value={this.user} onChange={this.usernameHandler}></input>
+            <input id="username" type='email' name='user' value={this.user} onChange={this.usernameHandler} required></input>
             <br/><br/>
             <label>Password   </label>
-            <input id="password" type='password' name='user' value={this.pass} onChange={this.passwordHandler}></input>
+            <input id="password" type='password' name='user' value={this.pass} onChange={this.passwordHandler} required></input>
             <br/><br/>
-            <button id='loginBtn'>Login</button>
+            <button onClick={this.login} id='loginBtn'>Login</button>
             {/* <button onClick={this.test}>test</button> */}
             <br/><br/>
             <Link to="/Forgot">Forgot Password</Link>
