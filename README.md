@@ -3,7 +3,7 @@
 
 Faculty Mentor: Dr. Wei Li
 
-Team Members: Javier Padilla, Alexis Torres, Ian Skillman, Kiet Le, Evan LeBel, Jesus Hernandez, Jaime Sanchez
+Team Members: Javier Padilla, Alexis Torres, Ian Skillman, Kiet Le, Evan LeBel, Jesus Hernandez, Jaime Sanchez, Rodrigo Romero
 
 Project Description:
 Due to changes in the weather and busy work weeks, it can be challenging to keep track of when you last watered your plants. Our Watering System will automate the need to keep track of the last time you watered your plants and give you more time to enjoy seeing your plants grow. This can create longevity in plants including flowers and plants that can feed humans for years to come. 
