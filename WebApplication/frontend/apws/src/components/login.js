@@ -33,7 +33,7 @@ class Login extends React.Component {
   }
 
   login(){
-    fetch("API URL", {
+    fetch("http://127.0.0.1:5000/", {
       method: 'POST',
       mode: "cors",
       headers:{
@@ -55,7 +55,7 @@ class Login extends React.Component {
     setTimeout(() => {
       if(this.state.success === true){
         window.alert("successfully signed in")
-        window.location.replace(`/Dashboard?Username=${this.state.user}`)
+        window.location.replace(`/dashboard`)
       }else{
         alert("Incorrect Username or Password")
       }

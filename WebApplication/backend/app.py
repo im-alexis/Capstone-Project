@@ -2,14 +2,21 @@
 # Home of Routes
 
 from flask import Flask, request, session
+from flask_cors import CORS
 
 #LOOK INTO SESSIONS
 app = Flask(__name__)
+CORS(app)
 
 
 #login route
 @app.route("/", methods=['POST'])
 def login_page():
+    data = request.get_json()
+    print(data)
+    if 'Username' in data and data['Username'] != "":
+        response = {"Username" : data["Username"], "Access" : True}
+        return response
     return "Placeholder"
 
 #create_user route
