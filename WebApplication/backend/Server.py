@@ -6,6 +6,7 @@ import SystemFunctions, UpdateFunctions, LoginFunctions
 
 #LOOK INTO SESSIONS
 app = Flask(__name__)
+client = MongoClient("mongodb+srv://alexistorres1802:PsVRgNszt317idtn@apws.qpzzxgw.mongodb.net/")
 
 #var resposnse is in JSON formatting
 
@@ -15,7 +16,7 @@ def login_page():
     response = ''
     username = request.form['username']
     password = request.form['password']
-    response = LoginFunctions.sign_in(username, password)
+    response = LoginFunctions.sign_in(username, password,client)
     # global username_global
     # username_global = username
     return response
@@ -26,7 +27,7 @@ def create_user():
     response = ''
     username = request.form['username']
     password = request.form['password']
-    response = LoginFunctions.sign_up( username, password)
+    response = LoginFunctions.sign_up( username, password,client)
     # global username_global
     # username_global = username
     # session['username'] = Username
@@ -39,7 +40,7 @@ def create_user():
 def forgot_password():
     response = ''
     username = request.form['username']
-    response = LoginFunctions.password_reset(username)
+    response = LoginFunctions.password_reset(username,client)
     return response
 
 #dashboard route

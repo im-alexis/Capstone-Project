@@ -8,21 +8,20 @@ from pymongo import MongoClient
 import cypher
 
 # to access the database w/o certifi add this: &tlsAllowInvalidCertificates=true at the end of url
-client = MongoClient(
-    "mongodb+srv://alexistorres1802:PsVRgNszt317idtn@apws.qpzzxgw.mongodb.net/")
-systems_db = client.Systems
-users_db = client.Users
-user_collection = users_db.User
-system_collection = users_db.Systems
 
-def user_exists(username):
+
+#system_collection = dbclient.Systems.System
+ 
+def user_exists(username, dbclient):
+    user_collection = dbclient.Users.User
     user = user_collection.find_one({'username': username})
     if user is not None:  
         return True
     else:
         return False
       
-def sign_in(username, password):  # Returns Json
+def sign_in(username, password, dbclient):  # Returns Json
+    user_collection = dbclient.Users.User
     user = user_collection.find_one({'username': username})
     if user is not None:
         account_password = cypher.decrypt(user['password'])
@@ -34,7 +33,8 @@ def sign_in(username, password):  # Returns Json
         return {'message': 'User does not exist', }
 
 
-def sign_up( username, password):
+def sign_up( username, password, dbclient):
+    user_collection = dbclient.Users.User
     user = user_collection.find_one({'username': username})
     if user is None:
         newUser = {
@@ -47,9 +47,9 @@ def sign_up( username, password):
     else:
         return {'message': 'Username exists already.', }
     
-def password_reset(username):
+def password_reset(username, dbclient):
     if user_exists(username):
-        #Send an email
+        #Send an email -> Look into mailtrap
         return {'message': 'Sent email', }
     else:
         return {'message': 'Username does not exist', }
