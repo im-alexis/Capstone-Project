@@ -1,7 +1,7 @@
 # Capstone Project
 # Autonomous Plant Watering System Senior Design
 
-Faculty Mentor: TBD
+Faculty Mentor: Dr. Wei Li
 
 Team Members: Javier Padilla, Alexis Torres, Ian Skillman, Kiet Le, Evan LeBel, Jesus Hernandez, Jaime Sanchez
 
