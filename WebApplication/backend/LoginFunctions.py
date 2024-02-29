@@ -26,11 +26,14 @@ def sign_in(username, password, dbclient):  # Returns Json
     if user is not None:
         account_password = cypher.decrypt(user['password'])
         if password == account_password:
-            return {'message': 'Authorized', }
+            return {'message': 'Authorized',
+                    'Access': True, }
         else:
-            return {'message': 'Not Authorized, incorrect Password', }
+            return {'message': 'Not Authorized, incorrect Password',
+                    'access': False, }
     else:
-        return {'message': 'User does not exist', }
+        return {'message': 'User does not exist',
+                'access':True, }
 
 
 def sign_up( username, password, dbclient):
