@@ -2632,7 +2632,7 @@
     (property "Value" "Conn_01x15" (at 165.1 26.67 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "KiCADv6:PRT16279" (at 165.1 48.26 0)
+    (property "Footprint" "Connector_PinSocket_1.00mm:PinSocket_1x15_P1.00mm_Vertical" (at 165.1 48.26 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 165.1 48.26 0)
@@ -2765,7 +2765,7 @@
   )
 
   (symbol (lib_id "MCU_Module:Arduino_Nano_v3.x") (at 66.04 57.15 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (in_bom yes) (on_board yes) (dnp yes) (fields_autoplaced)
     (uuid eb45c265-8109-471e-b7e0-0d80dba8fcc7)
     (property "Reference" "A2" (at 70.7741 82.55 0)
       (effects (font (size 1.27 1.27)) (justify left))

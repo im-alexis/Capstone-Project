@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP PRT-16279
+D ARDUINO NANO STACKABLE HEADERS
+K
+F https://cdn.sparkfun.com/assets/8/d/8/4/7/DS-16279-Arduino_Nano_Stackable_Header_Kit.pdf
+$ENDCMP
+#
+#End Doc Library
