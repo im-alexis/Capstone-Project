@@ -4,39 +4,39 @@
 #   2) /create_user
 #   3) /forgot_password
 
-from pymongo import MongoClient
 import cypher
-
-# to access the database w/o certifi add this: &tlsAllowInvalidCertificates=true at the end of url
-
 
 #system_collection = dbclient.Systems.System
  
-def user_exists(username, dbclient):
-    user_collection = dbclient.Users.User
+def user_exists(username, dbClient):
+    user_collection = dbClient.Users.User
     user = user_collection.find_one({'username': username})
     if user is not None:  
         return True
     else:
         return False
       
-def sign_in(username, password, dbclient):  # Returns Json
-    user_collection = dbclient.Users.User
+def sign_in(request, dbClient):  # Returns Json
+    username = request.form['username']
+    password = request.form['password']
+    user_collection = dbClient.Users.User
     user = user_collection.find_one({'username': username})
     if user is not None:
         account_password = cypher.decrypt(user['password'])
         if password == account_password:
             return {'message': 'Authorized',
-                    'Access': True, }
+                    'access': True, }
         else:
             return {'message': 'Not Authorized, incorrect Password',
                     'access': False, }
     else:
         return {'message': 'User does not exist',
-                'access':True, }
+                'access':False, }
 
 
-def sign_up( username, password, dbclient):
+def sign_up(request, dbclient):  # Returns Json
+    username = request.form['username']
+    password = request.form['password']
     user_collection = dbclient.Users.User
     user = user_collection.find_one({'username': username})
     if user is None:
@@ -50,7 +50,8 @@ def sign_up( username, password, dbclient):
     else:
         return {'message': 'Username exists already.', }
     
-def password_reset(username, dbclient):
+def password_reset(request, dbclient):
+    username = request.form['username']
     if user_exists(username):
         #Send an email -> Look into mailtrap
         return {'message': 'Sent email', }

@@ -2,6 +2,7 @@
 # Home of Routes
 
 from flask import Flask, request, session
+from pymongo import MongoClient
 #from flask_cors import CORS
 import SystemFunctions, UpdateFunctions, LoginFunctions
 
@@ -10,15 +11,15 @@ app = Flask(__name__)
 #CORS(app)
 client = MongoClient("mongodb+srv://alexistorres1802:PsVRgNszt317idtn@apws.qpzzxgw.mongodb.net/")
 
-#var resposnse is in JSON formatting
+# ^var resposnse is in JSON formatting
+# ^Function can be compressed to be send in the request
 
+# 
 #login route
 @app.route("/", methods=['POST'])
 def login_page():
     response = ''
-    username = request.form['username']
-    password = request.form['password']
-    response = LoginFunctions.sign_in(username, password,client)
+    response = LoginFunctions.sign_in(request,client)
 
     #     data = request.get_json()
     # print(data)
@@ -34,9 +35,7 @@ def login_page():
 @app.route("/create_user", methods=['POST'])
 def create_user():
     response = ''
-    username = request.form['username']
-    password = request.form['password']
-    response = LoginFunctions.sign_up( username, password,client)
+    response = LoginFunctions.sign_up(request,client)
     # global username_global
     # username_global = username
     # session['username'] = Username
@@ -47,44 +46,58 @@ def create_user():
 #forgot_password route
 @app.route("/forgot_password", methods=['POST'])
 def forgot_password():
-    response = ''
-    username = request.form['username']
-    response = LoginFunctions.password_reset(username,client)
+    response = LoginFunctions.password_reset(request,client)
     return response
 
 #dashboard route
 @app.route("/dashboard", methods=['POST'])
 def dashboard():
+    response = ''
     return "Placeholder"
 
 #register_system route
 @app.route("/register_system", methods=['POST'])
 def register_system():
-    return "Placeholder"
+    response = ''
+    response = UpdateFunctions.register_system(response, client)
+    return response
 
 #system route
 @app.route("/system", methods=['POST'])
 def system():
+    response = ''
     return "Placeholder"
 
 #update_settings route
 @app.route("/update_settings", methods=['POST'])
 def update_settings():
+    #TBD Not sure how settings will look like
+    response = ''
+    username = request.form['username']
+    systemID = request.form['systemID']
     return "Placeholder"
 
 #history route
 @app.route("/history", methods=['POST'])
 def history():
+    response = ''
+
+
     return "Placeholder"
 
 #system_users route
 @app.route("/system_users", methods=['POST'])
 def system_users():
+    response = ''
+
     return "Placeholder"
 
 #change_role route
 @app.route("/change_role", methods=['POST'])
 def change_role():
+    response = ''
+
+
     return "Placeholder"
 
 #system_invite route
