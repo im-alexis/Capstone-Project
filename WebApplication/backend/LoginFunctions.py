@@ -37,6 +37,8 @@ def sign_in(request, dbClient):  # Returns Json
 def sign_up(request, dbclient):  # Returns Json
     username = request.form['username']
     password = request.form['password']
+    print(request.form['username'])
+    print(request.form['password'])
     user_collection = dbclient.Users.User
     user = user_collection.find_one({'username': username})
     if user is None:

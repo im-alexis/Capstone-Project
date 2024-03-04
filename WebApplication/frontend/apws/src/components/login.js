@@ -33,7 +33,7 @@ class Login extends React.Component {
   }
 
   login(){
-    fetch("http://127.0.0.1:5000/", {
+    fetch("http://127.0.0.1:8000/", {
       method: 'POST',
       mode: "cors",
       headers:{
