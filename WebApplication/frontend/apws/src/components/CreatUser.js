@@ -27,6 +27,7 @@ class CreateUser extends React.Component {
       user: newUser
     })
   }
+
   Valid(txt){
 
     if(txt.length < 6){
@@ -52,12 +53,14 @@ class CreateUser extends React.Component {
       return true
     }
   }
+
   signUp(){
     let pass1 = document.getElementById("pass1").value
     let pass2 = document.getElementById("pass2").value
     let user = document.getElementById("username").value
     let uValid = this.Valid(user)
     let pValid = this.Valid(pass1)
+
     if(!uValid){
       window.alert("Username not valid")
       return
@@ -70,10 +73,37 @@ class CreateUser extends React.Component {
       window.alert("password not valid")
       return
     }
+    
     this.usernameHandler()
     this.passwordHandler()
 
-    window.alert("Successfully Created account")
+    fetch("http://127.0.0.1:5000/create_user", {
+      method: 'POST',
+      mode: "cors",
+      headers:{
+        'content-Type':'application/json'
+      },
+      body: JSON.stringify({
+        Username: this.state.user,
+        Password: this.state.pass
+      })
+    })
+    
+    .then(response => response.json())
+    .then((data) => {
+      this.setState({
+        success: data['Access'],
+      })
+    })
+    
+    setTimeout(() => {
+      if(this.state.success === true){
+        window.alert("successfully Created")
+        window.location.replace(`/`)
+      }else{
+        window.alert("Username already exists")
+      }
+    }, 500); // 2000 milliseconds = 2 seconds
 
   }
 

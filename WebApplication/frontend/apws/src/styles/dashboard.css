@@ -1,14 +1,3 @@
-#back{
-    /* height: 100vh;
-    background-image: url(0_2.webp);
-    background-position: bottom;
-    background-repeat: repeat-x;
-    background-attachment: fixed;
-    background-size: cover;  */
-    background-size: auto 30%;
+body {
     background-color: rgb(197, 233, 188);
-    border: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }

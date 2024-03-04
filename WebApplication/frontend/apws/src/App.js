@@ -2,6 +2,7 @@ import './App.css';
 import Login from './components/login'
 import CreateUser from './components/CreatUser';
 import Forgot from './components/Forgot';
+import Dashboard from './components/Dashboard';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from 'react';
 // function App() {
@@ -38,6 +39,10 @@ function App() {
                   {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
               </Route>
               <Route path="/Forgot" element={<Forgot />}>
+                  {/*<Route path="projects" element={<Projects />} />*/}
+                  {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
+              </Route>
+              <Route path="/Dashboard" element={<Dashboard />}>
                   {/*<Route path="projects" element={<Projects />} />*/}
                   {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
               </Route>
