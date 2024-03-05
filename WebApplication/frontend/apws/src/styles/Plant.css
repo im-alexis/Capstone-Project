@@ -31,8 +31,9 @@
     background-color: aqua ;
     border-radius: 5px;
     border: 1px solid hsl(0,0%,20%);
-    width: 100px;
-    height: 30px;
+    width: fit-content;
+    height: fit-content;
+    padding: 10px 20px;
     margin-bottom: 5px;
     cursor: pointer;
 
