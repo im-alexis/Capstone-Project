@@ -118,44 +118,9 @@ class CreateUser extends React.Component {
           console.log("What's going on 2")
           window.alert("Username already exists")
         }
-      }, 1000); // 2000 milliseconds = 2 seconds
+      }, 500); // 2000 milliseconds = 2 seconds
     
     });
-
-    // console.log(this.state.user)
-    // console.log(this.state.pass)
-
-    // fetch("http://127.0.0.1:8000/create_user", {
-    //   method: 'POST',
-    //   mode: "cors",
-    //   headers:{
-    //     'content-Type':'application/json'
-    //   },
-    //   body: JSON.stringify({
-    //     Username: user,
-    //     Password: pass1
-    //   })
-    // })
-    
-    // .then(response => response.json())
-    // .then((data) => {
-    //   console.log("What's going on")
-    //   console.log(data['message'])
-    //   if (data['message'] === 'User added.') {
-    //     this.setState({
-    //       success: true,
-    //     })}
-    // })
-    
-    // setTimeout(() => {
-    //   if(this.state.success === true){
-    //     window.alert("Successfully Created Account")
-    //     window.location.replace(`/`)
-    //   }else{
-    //     console.log("What's going on 2")
-    //     window.alert("Username already exists")
-    //   }
-    // }, 1000); // 2000 milliseconds = 2 seconds
 
   }
 
@@ -179,7 +144,7 @@ class CreateUser extends React.Component {
           <p>*cannot contain "!" or " "</p>
           <button onClick={this.signUp} id='loginBtn'>Create Account</button>  
           <br/><br/>
-          <Link to='/'>Sign in</Link> <br />
+          <Link to='/'>Back To Sign In</Link> <br />
         </div>
   
       </div>

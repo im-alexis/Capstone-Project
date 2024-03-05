@@ -34,7 +34,7 @@ class Forgot extends React.Component {
               <br/><br/>
               <button  id='loginBtn'>Forgot Password</button> 
               <br/><br/>
-              <Link to='/'>Sign in</Link> <br />
+              <Link to='/'>Back To Sign In</Link> <br />
           </div>
         </div>
       )

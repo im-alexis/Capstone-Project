@@ -12,7 +12,9 @@ function Dashboard(){
     <div>
       <header>
         <h1>APWS</h1>
+        <a href='/'>
         <button>Sign Out</button>
+        </a>
         <button>Settings</button> 
       </header>
       <div>
@@ -26,34 +28,5 @@ function Dashboard(){
 
 }
 
-
-
-// class Dashboard extends React.Component {
-//     constructor(props){
-//       super(props)
-//       this.Dashboard = this.Dashboard.bind(this)
-
-//       this.state = {
-//         email: "", 
-//         success: false
-//       }
-//     }
-
-//     // emailHandler(){
-//     //   var newEmail = document.getElementById("email").value
-//     //   this.setState({
-//     //     email: newEmail
-//     //   })
-//     // }
-
-//     Dashboard(){}
-  
-//     render(){
-//         return (
-//           <div>
-//         </div>
-//         )
-//       }
-//     }
   
 export default Dashboard;

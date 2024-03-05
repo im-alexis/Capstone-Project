@@ -33,7 +33,6 @@ class Login extends React.Component {
   }
 
   login(){
-    console.log("Lets get it")
     fetch("http://127.0.0.1:5000/", {
       method: 'POST',
       mode: "cors",
@@ -48,7 +47,6 @@ class Login extends React.Component {
     
     .then(response => response.json())
     .then((data) => {
-      console.log(data['access'])
       this.setState({
         success: data['access'],
         // user: data['Username']
@@ -61,7 +59,7 @@ class Login extends React.Component {
       }else{
         alert("Incorrect Username or Password")
       }
-    }, 100); // 2000 milliseconds = 2 seconds
+    }, 500); // 2000 milliseconds = 2 seconds
       
 
 
