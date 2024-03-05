@@ -17,8 +17,12 @@ def user_exists(username, dbClient):
         return False
       
 def sign_in(request, dbClient):  # Returns Json
-    username = request.form['username']
-    password = request.form['password']
+    # username = request.form['username']
+    # password = request.form['password']
+    data = request.get_json()
+    username = data['username']
+    username.lower()
+    password = data['password']
     user_collection = dbClient.Users.User
     user = user_collection.find_one({'username': username})
     if user is not None:
@@ -35,10 +39,10 @@ def sign_in(request, dbClient):  # Returns Json
 
 
 def sign_up(request, dbclient):  # Returns Json
-    username = request.form['username']
-    password = request.form['password']
-    print(request.form['username'])
-    print(request.form['password'])
+    data = request.get_json()
+    username = data['username']
+    username.lower()
+    password = data['password']
     user_collection = dbclient.Users.User
     user = user_collection.find_one({'username': username})
     if user is None:
@@ -53,7 +57,9 @@ def sign_up(request, dbclient):  # Returns Json
         return {'message': 'Username exists already.', }
     
 def password_reset(request, dbclient):
-    username = request.form['username']
+    data = request.get_json()
+    username = data['username']
+    username.lower()
     if user_exists(username):
         #Send an email -> Look into mailtrap
         return {'message': 'Sent email', }

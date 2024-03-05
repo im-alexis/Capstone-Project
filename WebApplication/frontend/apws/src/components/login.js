@@ -33,33 +33,35 @@ class Login extends React.Component {
   }
 
   login(){
-    fetch("http://127.0.0.1:8000/", {
+    console.log("Lets get it")
+    fetch("http://127.0.0.1:5000/", {
       method: 'POST',
       mode: "cors",
       headers:{
         'content-Type':'application/json'
       },
       body: JSON.stringify({
-        Username: this.state.user,
-        Password: this.state.pass
+        username: this.state.user,
+        password: this.state.pass
       })
     })
     
     .then(response => response.json())
     .then((data) => {
+      console.log(data['access'])
       this.setState({
-        success: data['Access'],
-        user: data['Username']
+        success: data['access'],
+        // user: data['Username']
       })
     })
     setTimeout(() => {
       if(this.state.success === true){
-        window.alert("successfully signed in")
-        window.location.replace(`/dashboard`)
+        window.alert("Successfully Signed In")
+        window.location.replace(`/Dashboard`)
       }else{
         alert("Incorrect Username or Password")
       }
-    }, 500); // 2000 milliseconds = 2 seconds
+    }, 100); // 2000 milliseconds = 2 seconds
       
 
 

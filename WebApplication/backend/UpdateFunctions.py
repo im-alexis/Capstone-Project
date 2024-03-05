@@ -10,8 +10,10 @@
 
 
 def register_system(request, dbClient):
-    username = request.form['username']
-    systemID = request.form['systemID']
+    data = request.get_json()
+    username = data['username']
+    username.lower()
+    systemID = data['systemID']
     user_collection = dbClient.Users.User
     system_collection = dbClient.Systems.System
     user = user_collection.find_one({"username": username})

@@ -15,14 +15,10 @@ class CreateUser extends React.Component {
     }
   }
   passwordHandler(newUser, newPass, callback){
-    // var newPass = document.getElementById("pass1").value
-    // console.log(newPass)
     this.setState({
       user: newUser,
       pass: newPass
     }, () => {
-      // console.log(this.state.user);
-      // console.log(this.state.pass);
       if (callback) {
         callback("Updated");
       }
@@ -122,7 +118,7 @@ class CreateUser extends React.Component {
           console.log("What's going on 2")
           window.alert("Username already exists")
         }
-      }, 500); // 2000 milliseconds = 2 seconds
+      }, 1000); // 2000 milliseconds = 2 seconds
     
     });
 
