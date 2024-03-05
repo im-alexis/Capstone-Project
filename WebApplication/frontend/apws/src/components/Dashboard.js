@@ -6,20 +6,28 @@ import Plant from './Plant';
 
 
 
+
 function Dashboard(){
 
   return(
-    <div>
-      <header>
-        <h1>APWS</h1>
-        <button>Sign Out</button>
-        <button>Settings</button> 
+    <div className='dashboard'>
+      <header className='dash-head'>
+        <h1 className='dash-title'>APWS</h1>
+        <button className='head-btn'>Sign Out</button>
+        <button className='head-btn'>Settings</button> 
       </header>
-      <div>
-        <Plant></Plant>
+      <div className='dash-display'>
+        <button id='joinBtn'>Join</button>
+        <div>
+          <Plant></Plant>
+          <Plant></Plant>
+          <Plant></Plant>
+          <Plant></Plant>
+        </div> 
+        
       </div>
-      <footer>
-        <p>&copy; APWS {new Date().getFullYear}</p>
+      <footer className='dash-foot'>
+        <p>&copy; APWS {new Date().getFullYear()}</p>
       </footer>
     </div>
   );
