@@ -13,8 +13,10 @@ function Dashboard(){
     <div className='dashboard'>
       <header className='dash-head'>
         <h1 className='dash-title'>APWS</h1>
-        <button className='head-btn'>Sign Out</button>
-        <button className='head-btn'>Settings</button> 
+        <a href='/'>
+          <button className='head-btn'>Sign Out</button>
+          <button className='head-btn'>Settings</button>
+        </a> 
       </header>
       <div className='dash-display'>
         <button id='joinBtn'>Join</button>
@@ -34,34 +36,5 @@ function Dashboard(){
 
 }
 
-
-
-// class Dashboard extends React.Component {
-//     constructor(props){
-//       super(props)
-//       this.Dashboard = this.Dashboard.bind(this)
-
-//       this.state = {
-//         email: "", 
-//         success: false
-//       }
-//     }
-
-//     // emailHandler(){
-//     //   var newEmail = document.getElementById("email").value
-//     //   this.setState({
-//     //     email: newEmail
-//     //   })
-//     // }
-
-//     Dashboard(){}
-  
-//     render(){
-//         return (
-//           <div>
-//         </div>
-//         )
-//       }
-//     }
   
 export default Dashboard;
