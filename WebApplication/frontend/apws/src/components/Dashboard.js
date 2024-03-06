@@ -31,6 +31,11 @@ function Dashboard(){
     //   })
   },[]);//empty array so this only runs when component initially mounts
 
+  function add_plant(){
+      const newPlant = ["plant" , 0, 11, 22, 33, 44]
+      setPlants(p => [...p, newPlant])
+  }
+
   return(
     <div className='dashboard'>
       <header className='dash-head'>
@@ -41,7 +46,7 @@ function Dashboard(){
         <button className='head-btn'>Settings</button>
       </header>
       <div className='dash-display'>
-        <button className='joinBtn'>Join</button>
+        <button className='joinBtn' onClick={add_plant}>Join</button>
         <ul className='plant-list'>
           {plants.map((plant, index) =>
             <li key={index}>
