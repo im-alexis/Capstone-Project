@@ -40,22 +40,22 @@ class Login extends React.Component {
         'content-Type':'application/json'
       },
       body: JSON.stringify({
-        Username: this.state.user,
-        Password: this.state.pass
+        username: this.state.user,
+        password: this.state.pass
       })
     })
     
     .then(response => response.json())
     .then((data) => {
       this.setState({
-        success: data['Access'],
-        user: data['Username']
+        success: data['access'],
+        // user: data['Username']
       })
     })
     setTimeout(() => {
       if(this.state.success === true){
-        window.alert("successfully signed in")
-        window.location.replace(`/dashboard`)
+        window.alert("Successfully Signed In")
+        window.location.replace(`/Dashboard`)
       }else{
         alert("Incorrect Username or Password")
       }

@@ -6,7 +6,7 @@ class CreateUser extends React.Component {
     super(props)
     this.signUp = this.signUp.bind(this)
     this.passwordHandler = this.passwordHandler.bind(this)
-    this.usernameHandler = this.usernameHandler.bind(this)
+    // this.usernameHandler = this.usernameHandler.bind(this)
     this.state = {
       user: "",
       pass: "",
@@ -14,19 +14,23 @@ class CreateUser extends React.Component {
       success: false
     }
   }
-  passwordHandler(){
-    var newPass = document.getElementById("pass1").value
+  passwordHandler(newUser, newPass, callback){
     this.setState({
+      user: newUser,
       pass: newPass
-    })
+    }, () => {
+      if (callback) {
+        callback("Updated");
+      }
+    });
   }
   
-  usernameHandler(){
-    var newUser = document.getElementById("username").value
-    this.setState({
-      user: newUser
-    })
-  }
+  // usernameHandler(newUser){
+  //   // var newUser = document.getElementById("username").value
+  //   this.setState({
+  //     user: newUser
+  //   })
+  // }
 
   Valid(txt){
 
@@ -44,7 +48,7 @@ class CreateUser extends React.Component {
       if(txt[i] === '!' || txt[i] === ' '){
         return false
       }
-    }
+    } 
     console.log(hasNumber)
     if(hasNumber === false){
       return false
@@ -73,37 +77,50 @@ class CreateUser extends React.Component {
       window.alert("password not valid")
       return
     }
-    
-    this.usernameHandler()
-    this.passwordHandler()
 
-    fetch("http://127.0.0.1:5000/create_user", {
-      method: 'POST',
-      mode: "cors",
-      headers:{
-        'content-Type':'application/json'
-      },
-      body: JSON.stringify({
-        Username: this.state.user,
-        Password: this.state.pass
+    console.log(user)
+    console.log(pass1)
+                                       
+    // this.usernameHandler(user)
+    this.passwordHandler(user, pass1, (updatedPass) => {
+      // Perform actions that depend on the updated password here
+      console.log(updatedPass);
+      var u = this.state.user
+      var p = this.state.pass
+      console.log(u)
+      console.log(p)
+      fetch("http://127.0.0.1:5000/create_user", {
+        method: 'POST',
+        mode: "cors",
+        headers:{
+          'content-Type':'application/json'
+        },
+        body: JSON.stringify({
+          username: u,
+          password: p,
+        })
       })
-    })
     
-    .then(response => response.json())
-    .then((data) => {
-      this.setState({
-        success: data['Access'],
+      .then(response => response.json())
+      .then((data) => {
+        console.log("What's going on")
+        console.log(data['message'])
+        if (data['message'] === 'User added.') {
+          this.setState({
+            success: true,
+          })}
       })
-    })
+      setTimeout(() => {
+        if(this.state.success === true){
+          window.alert("Successfully Created Account")
+          window.location.replace(`/`)
+        }else{
+          console.log("What's going on 2")
+          window.alert("Username already exists")
+        }
+      }, 500); // 2000 milliseconds = 2 seconds
     
-    setTimeout(() => {
-      if(this.state.success === true){
-        window.alert("successfully Created")
-        window.location.replace(`/`)
-      }else{
-        window.alert("Username already exists")
-      }
-    }, 500); // 2000 milliseconds = 2 seconds
+    });
 
   }
 
@@ -125,9 +142,9 @@ class CreateUser extends React.Component {
           <p>*atleast 6 charachters</p>
           <p>*atleast 1 number and letter</p>
           <p>*cannot contain "!" or " "</p>
-          <button  id='loginBtn'>Create Account</button> 
+          <button onClick={this.signUp} id='loginBtn'>Create Account</button>  
           <br/><br/>
-          <Link to='/'>Sign in</Link> <br />
+          <Link to='/'>Back To Sign In</Link> <br />
         </div>
   
       </div>

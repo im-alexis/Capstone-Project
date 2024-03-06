@@ -1,3 +1,89 @@
 body {
     background-color: rgb(197, 233, 188);
 }
+ .dashboard{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    overflow: scroll;
+ }
+ .dashboard .dash-head{
+    display: flex;
+    align-items: center;
+    background-color: hsl(108, 51%, 80%);
+    width: 100vw;
+    border: solid 1px hsl(0, 0%, 80%);
+ }
+ .dashboard .dash-head .dash-title{
+    font-size: 4rem;
+    flex: 1;
+    text-align: center;
+ }
+
+ .dashboard .head-btn{
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+    background-color:aqua ;
+    margin-right: 10px;
+
+ }
+ .dashboard .head-btn:hover{
+    background-color:hsl(180, 100%, 40%) ;
+ }
+ .dashboard .joinBtn{
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.5s ease;
+    background-color:aqua ;
+    margin-left: auto;
+    margin-right: 100px;
+    height: fit-content;
+    width: fit-content;
+ }
+ .dashboard .join-btn:hover{
+    background-color:hsl(180, 100%, 40%) ;
+ }
+ .dashboard .dash-display{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100%;
+ }
+ .dashboard .dash-foot{
+    display: flex;
+    align-items: center;
+    background-color: hsl(108, 51%, 80%);
+    width: 100vw;
+    margin-top: auto;
+    padding: 50px;
+    justify-content: center;
+    border: solid 1px hsl(0, 0%, 80%);
+ }
+ .dashboard .dash-foot .copyright{
+    font-family: Arial, Helvetica, sans-serif;
+    color: black;
+ }
+ .dashboard .dash-display .plant-list{
+    display: flex;
+    padding: 0;
+    flex-direction: row;
+    list-style: none;
+    background-color: hsl(108, 51%, 80%);
+    padding: 100px;
+    border: solid 1px hsl(0, 0%, 80%);
+    border-radius: 6%;
+ }
+
+
+

@@ -3,12 +3,12 @@
 
 from flask import Flask, request, session
 from pymongo import MongoClient
-#from flask_cors import CORS
+from flask_cors import CORS
 import SystemFunctions, UpdateFunctions, LoginFunctions
 
 #LOOK INTO SESSIONS
 app = Flask(__name__)
-#CORS(app)
+CORS(app)
 client = MongoClient("mongodb+srv://alexistorres1802:PsVRgNszt317idtn@apws.qpzzxgw.mongodb.net/")
 
 # ^var resposnse is in JSON formatting
@@ -34,8 +34,12 @@ def login_page():
 #create_user route
 @app.route("/create_user", methods=['POST'])
 def create_user():
+    print("REACHED")
+    print(request)
+    print(client)
     response = ''
     response = LoginFunctions.sign_up(request,client)
+    print(response)
     # global username_global
     # username_global = username
     # session['username'] = Username
