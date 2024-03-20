@@ -940,7 +940,7 @@
     (uuid cc6e5587-7dfa-4c21-8c64-3042c68b6da8)
   )
 
-  (text "Motion Sensor" (at 134.62 59.69 0)
+  (text "Distance Sensor" (at 134.62 59.69 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 163e0543-c31a-4d81-a23f-d73a6841c510)
   )
