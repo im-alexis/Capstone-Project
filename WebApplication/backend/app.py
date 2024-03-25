@@ -34,9 +34,9 @@ def login_page():
 #create_user route
 @app.route("/create_user", methods=['POST'])
 def create_user():
-    print("REACHED")
-    print(request)
-    print(client)
+    # print("REACHED")
+    # print(request)
+    # print(client)
     response = ''
     response = LoginFunctions.sign_up(request,client)
     print(response)
