@@ -134,7 +134,8 @@ def akn_request():
 #data route
 @app.route("/data", methods=['POST'])
 def data():
-    return "Placeholder"
+    response = UpdateFunctions.recieve_data_packet(request,client)
+    return response
 
 
 if __name__ == "__main__":

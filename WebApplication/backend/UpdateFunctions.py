@@ -7,7 +7,7 @@
 #   5) /akn_request
 #   6) /register_system
 #   7) /data
-
+from datetime import datetime
 
 def register_system(request, dbClient):
     data = request.get_json()
@@ -36,6 +36,26 @@ def register_system(request, dbClient):
             "access_level": 0,
         })
         user_collection.update_one({"username":username},{'$set':{'systems':sys_array}})
+        return {'message': "System registered",}
     else:
-        return {'message': "System already registered"}
-    return {'message': "System registered"}
+        return {'message': "System already registered",}
+
+
+
+
+def recieve_data_packet(request, dbClient):
+    data = request.get_json()
+    systemID = data['systemID']
+    system_collection = dbClient.Systems.System
+    system = system_collection.find_one({'systemID': systemID})
+    if system is not None:
+        data_arr = system.get("data_packets")
+        data_arr.append({
+            "date": datetime.today(),
+            "probes": data['probes'],
+            "tank_level": data['tank_level'],
+        })
+        system_collection.update_one({"systemID":systemID},{'$set':{'data_packets':data_arr}})
+        return {'message': "Data Stored",}
+    else:
+        return {'message': "ERROR",}
