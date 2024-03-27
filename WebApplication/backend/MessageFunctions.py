@@ -13,7 +13,7 @@ import smtplib
 #           MailTrap Login              #
 #---------------------------------------#
 #                                       #
-#           WORK IN PROGRESS            #
+#          Use APWS Gmail Login         #
 #                                       #
 #---------------------------------------#
 
@@ -26,8 +26,10 @@ import smtplib
 # Body = "(Detailed Report)"            #
 #---------------------------------------#
 
+sender = "apws.services@gmail.com"
 
-def send_email(sender, receiver, subject, body):
+
+def send_email(receiver, subject, body):
     message = f"""\
     Subject: {subject}
     To: {receiver}
@@ -36,5 +38,5 @@ def send_email(sender, receiver, subject, body):
     {body}"""
 
     with smtplib.SMTP("sandbox.smtp.mailtrap.io", 2525) as server:
-        server.login("6667900ba5a91f", "1e132628cfc265")
+        server.login("121b33b64f36e0", "f7312395b9b74a")
         server.sendmail(sender, receiver, message)
