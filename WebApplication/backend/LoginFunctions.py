@@ -15,7 +15,13 @@ def user_exists(username, dbClient):
         return True
     else:
         return False
-      
+
+# For route /
+    #Request format
+#     {
+#      "username": username,
+#      "password": passord,
+# }      
 def sign_in(request, dbClient):  # Returns Json
     # username = request.form['username']
     # password = request.form['password']
@@ -31,7 +37,7 @@ def sign_in(request, dbClient):  # Returns Json
             return {'message': 'Authorized',
                     'access': True, }
         else:
-            return {'message': 'Not Authorized, incorrect Password',
+            return {'message': 'Not Authorized, incorrect password',
                     'access': False, }
     else:
         return {'message': 'User does not exist',
@@ -50,6 +56,7 @@ def sign_up(request, dbclient):  # Returns Json
             "username": username,
             "password": cypher.encrypt(password),
             "systems": [],
+            "notifications": [],
         }
         user_collection.insert_one(newUser)
         return {'message': 'User added.', }

@@ -16,3 +16,7 @@ pip freeze > requirements.txt
 
 TO CLOSE THE VIRTUAL ENVIRONMENT:
 deactivate
+
+
+DATABASE AND ROUTES DEFINITION
+https://docs.google.com/document/d/1mbG9H52PVBVGft23lnzvOi_USRNvHaWslcnwI_Q0cF0/edit?usp=sharing

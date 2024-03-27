@@ -77,15 +77,12 @@ def system():
 def update_settings():
     #TBD Not sure how settings will look like
     response = ''
-    username = request.form['username']
-    systemID = request.form['systemID']
     return "Placeholder"
 
 #history route
 @app.route("/history", methods=['POST'])
 def history():
     response = ''
-
 
     return "Placeholder"
 
@@ -100,8 +97,6 @@ def system_users():
 @app.route("/change_role", methods=['POST'])
 def change_role():
     response = ''
-
-
     return "Placeholder"
 
 #system_invite route
@@ -120,9 +115,10 @@ def notifications():
     return "Placeholder"
 
 #join_system route
-@app.route("/join_system", methods=['POST'])
+@app.route("/join_system_request", methods=['POST'])
 def join_system():
-    return "Placeholder"
+    response = UpdateFunctions.join_system_request(request, client)
+    return response
 
 #akn_request route
 @app.route("/akn_request", methods=['POST'])
