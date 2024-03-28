@@ -63,7 +63,7 @@ def dashboard():
 @app.route("/register_system", methods=['POST'])
 def register_system():
     response = ''
-    response = UpdateFunctions.register_system(response, client)
+    response = UpdateFunctions.register_system(request, client)
     return response
 
 #system route
@@ -123,7 +123,8 @@ def join_system():
 #akn_request route
 @app.route("/akn_request", methods=['POST'])
 def akn_request():
-    return "Placeholder"
+    response = UpdateFunctions.akn_join_request(request,client)
+    return response
 
 
 #Route for Hardware, TBD if ardino nano can do post requests
