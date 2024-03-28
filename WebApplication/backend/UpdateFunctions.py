@@ -113,9 +113,7 @@ def join_system_request(request, dbClient):
     data = request.get_json()
     username = data['username'].lower()
     systemID = data['systemID_target']
-    user_collection = dbClient.Users.User
     system_collection = dbClient.Systems.System
-    user = user_collection.find_one({"username": username})
     system = system_collection.find_one({'systemID': systemID})
     
     if system is not None:
@@ -132,7 +130,7 @@ def join_system_request(request, dbClient):
 
         join_req_arr.append({
                 "date": datetime.today(),
-                "user": user,
+                "user": username,
         })
         system_collection.update_one({"systemID":systemID},{'$set':{'join_request':join_req_arr}})
         return {'message': "Request has been sent",}

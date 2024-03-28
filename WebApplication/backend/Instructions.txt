@@ -20,3 +20,12 @@ deactivate
 
 DATABASE AND ROUTES DEFINITION
 https://docs.google.com/document/d/1mbG9H52PVBVGft23lnzvOi_USRNvHaWslcnwI_Q0cF0/edit?usp=sharing
+
+
+TO START backend
+cd WebApplication/backend
+flask --app app run
+
+TO START frontend
+cd WebApplication/frontend/apws
+npm start
