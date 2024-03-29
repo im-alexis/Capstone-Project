@@ -69,8 +69,8 @@ def register_system():
 #system route
 @app.route("/system", methods=['POST'])
 def system():
-    response = ''
-    return "Placeholder"
+    response = SystemFunctions.sys_info(request, client)
+    return response
 
 #update_settings route
 @app.route("/update_settings", methods=['POST'])
@@ -78,22 +78,26 @@ def update_settings():
     #TBD Not sure how settings will look like
     response = ''
     return "Placeholder"
-
-#history route
+# ! Could just /system as it sends every parameter
+#/history route
 @app.route("/history", methods=['POST'])
 def history():
     response = ''
 
     return "Placeholder"
 
-#system_users route
+#notifications route
+@app.route("/notifications", methods=['POST'])
+def notifications():
+    return "Placeholder"
+
+#/system_users route
 @app.route("/system_users", methods=['POST'])
 def system_users():
     response = ''
-
     return "Placeholder"
-
-#change_role route
+# ! Could just /system as it sends every parameter
+#/change_role route
 @app.route("/change_role", methods=['POST'])
 def change_role():
     response = ''
@@ -107,12 +111,10 @@ def system_invite():
 #leave_system route
 @app.route("/leave_system", methods=['POST'])
 def leave_system():
-    return "Placeholder"
+    response = ''
+    response = UpdateFunctions.leave_sys(request, client)
+    return response
 
-#notifications route
-@app.route("/notifications", methods=['POST'])
-def notifications():
-    return "Placeholder"
 
 #join_system route
 @app.route("/join_system_request", methods=['POST'])

@@ -21,16 +21,59 @@
 #      "systemID": someID,
 # }
 
-#AWPS: Backend
-# Home of System Infomation Display:
-#   1) /dashboard
-#   2) /history
-#   3) /system
-#   4) /system_users
-#   5) /notifications
 
 from bson import ObjectId
 from datetime import datetime
+
+'''
+/system - Will return everything (user list, data, notis, requests)
+    Request format
+    {
+     "username": username,
+     "systemID": someID,
+    }
+
+'''
+
+def sys_info (request, dbClient):
+    data = request.get_json()
+    username = data['username'].lower()
+    systemID = data['systemID']
+    user_collection = dbClient.Users.User
+    system_collection = dbClient.Systems.System
+    user = user_collection.find_one({"username": username})
+    system = system_collection.find_one({'systemID': systemID}) 
+    if user is not None:
+        user_sys_arr = user.get("systems")
+        if system is not None:
+            sys_usr_arr = system.get("users")
+            isMemb = False
+            isMemb2 = False
+            for entry in user_sys_arr:
+                if entry['systemID'] == systemID:
+                    isMemb = True
+                    break
+            for entry in sys_usr_arr:
+                if entry['username'] == username:
+                    isMemb2 = True
+                    break
+            if isMemb and isMemb2:
+                return{'messsage' : 
+                    {
+                        'systemID': systemID,
+                        'data_packets' : system.get("data_packets"),
+                        'users': system.get("users"),
+                        'join_request': system.get("join_request"),
+                    }}
+            else:
+                return {'message':"User does not have access"}
+        else:
+            return {'message':"System does not exist"}
+                
+    else:
+        return {'message':"User does not exist"}
+    
+
 
 
 def register_system(request, dbClient):

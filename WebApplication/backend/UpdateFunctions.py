@@ -18,7 +18,6 @@ For route /register_system
 }
 '''
 def register_system(request, dbClient):
-    print(request)
     data = request.get_json()
     username = data['username'].lower()
     systemID = data['systemID']
@@ -30,17 +29,17 @@ def register_system(request, dbClient):
         newSystem = {
             "systemID": systemID,
             "users": [{
-                  "userID": user.get('_id'),
+                  
                   "username": username,
                   "access_level": 0,
             },],
             "data_packets": [],
             "join_request": [],
+            "notifications": [],
         }
         id_item = system_collection.insert_one(newSystem).inserted_id
         sys_array = user.get("systems")
         sys_array.append({
-            "mongoID": id_item,
             "systemID":systemID,
             "access_level": 0,
         })
@@ -167,7 +166,7 @@ def change_role(request, dbClient):
     #Action 0: Change to Owner
     #Action 1: Change to Admin
     #Action 2: Change to Reg
-    #Action 3: Remove from System:  Owner -> Admin/Reg | Admin -> Reg | Reg -> None
+    #Action 3: Remove from System:  Owner ->Admin/Reg | Admin -> Reg | Reg -> None
     data = request.get_json()
     username = data['username'].lower()
     systemID = data['systemID']
@@ -213,7 +212,48 @@ def join_system_request(request, dbClient):
         return {'message': "Request has been sent",}
     else:
         return {'message': "System does not exist",}
-            
+
+
+'''
+For route /leave_system
+
+    Request format
+    {
+     "username": username,
+     "systemID": someID,
+     
+    } 
+'''
+
+
+def leave_sys(request, dbClient):
+    data = request.get_json()
+    username = data['username'].lower()
+    systemID = data['systemID']
+    user_collection = dbClient.Users.User
+    system_collection = dbClient.Systems.System
+    system = system_collection.find_one({'systemID': systemID})
+    user = user_collection.find_one({'username': username})
+    if user is not None:
+        user_sys_arr = user.get("systems")
+        if system is not None:
+            sys_user_arry = system.get("users")
+            for entry in sys_user_arry:
+                    if entry["username"].lower() == username:
+                        if entry["access_level"] == 0:
+                            return {'message': 'Owner cannot leave a system'}
+                        else:
+                            sys_user_arry.remove(entry)
+                            for entry2 in user_sys_arr:
+                                if entry2["systemID"] == systemID:
+                                    user_sys_arr.remove(entry2)
+                                    system_collection.update_one({"systemID":systemID},{'$set':{'users':sys_user_arry}}) 
+                                    user_collection.update_one({"username": username},{'$set':{'systems':user_sys_arr}})
+                                    return {'message': username + " has left system: " + systemID}
+        else:
+            return {'message': systemID + " does not exist "}
+    else:
+        return {'message': username + " does not exist "}
 
 
 
