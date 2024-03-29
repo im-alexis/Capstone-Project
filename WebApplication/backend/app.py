@@ -4,7 +4,7 @@
 from flask import Flask, request, session
 from pymongo import MongoClient
 from flask_cors import CORS
-import SystemFunctions, UpdateFunctions, LoginFunctions
+import SystemInformation, UpdateFunctions, LoginFunctions, InviteHandler
 
 #LOOK INTO SESSIONS
 app = Flask(__name__)
@@ -69,7 +69,7 @@ def register_system():
 #system route
 @app.route("/system", methods=['POST'])
 def system():
-    response = SystemFunctions.sys_info(request, client)
+    response = SystemInformation.sys_info(request, client)
     return response
 
 #update_settings route
@@ -112,20 +112,20 @@ def system_invite():
 @app.route("/leave_system", methods=['POST'])
 def leave_system():
     response = ''
-    response = UpdateFunctions.leave_sys(request, client)
+    response = InviteHandler.leave_sys(request, client)
     return response
 
 
 #join_system route
 @app.route("/join_system_request", methods=['POST'])
 def join_system():
-    response = UpdateFunctions.join_system_request(request, client)
+    response = InviteHandler.join_system_request(request, client)
     return response
 
 #akn_request route
 @app.route("/akn_request", methods=['POST'])
 def akn_request():
-    response = UpdateFunctions.akn_join_request(request,client)
+    response = InviteHandler.akn_join_request(request,client)
     return response
 
 
