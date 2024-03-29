@@ -26,8 +26,7 @@ def sign_in(request, dbClient):  # Returns Json
     # username = request.form['username']
     # password = request.form['password']
     data = request.get_json()
-    username = data['username']
-    username.lower()
+    username = data['username'].lower()
     password = data['password']
     user_collection = dbClient.Users.User
     user = user_collection.find_one({'username': username})
@@ -46,8 +45,7 @@ def sign_in(request, dbClient):  # Returns Json
 
 def sign_up(request, dbclient):  # Returns Json
     data = request.get_json()
-    username = data['username']
-    username.lower()
+    username = data['username'].lower()
     password = data['password']
     user_collection = dbclient.Users.User
     user = user_collection.find_one({'username': username})

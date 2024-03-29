@@ -35,43 +35,41 @@ from datetime import datetime
 
 '''
 
-def sys_info (request, dbClient):
+def sys_info(request, dbClient):
     data = request.get_json()
     username = data['username'].lower()
     systemID = data['systemID']
+    
     user_collection = dbClient.Users.User
     system_collection = dbClient.Systems.System
-    user = user_collection.find_one({"username": username})
-    system = system_collection.find_one({'systemID': systemID}) 
-    if user is not None:
-        user_sys_arr = user.get("systems")
-        if system is not None:
-            sys_usr_arr = system.get("users")
-            isMemb = False
-            isMemb2 = False
-            for entry in user_sys_arr:
-                if entry['systemID'] == systemID:
-                    isMemb = True
-                    break
-            for entry in sys_usr_arr:
-                if entry['username'] == username:
-                    isMemb2 = True
-                    break
-            if isMemb and isMemb2:
-                return{'messsage' : 
-                    {
+    
+    user = user_collection.find_one({"username": username}, {"systems": 1})
+    system = system_collection.find_one({'systemID': systemID}, {"users": 1, "data_packets": 1, "join_request": 1})
+    
+    if user:
+        user_sys_arr = user.get("systems", [])
+        if system:
+            sys_usr_arr = system.get("users", [])
+            
+            is_member = any(entry['systemID'] == systemID for entry in user_sys_arr)
+            is_member2 = any(entry['username'] == username for entry in sys_usr_arr)
+            
+            if is_member and is_member2:
+                return {
+                    'message': {
                         'systemID': systemID,
-                        'data_packets' : system.get("data_packets"),
+                        'data_packets': system.get("data_packets"),
                         'users': system.get("users"),
                         'join_request': system.get("join_request"),
-                    }}
+                    }
+                }
             else:
-                return {'message':"User does not have access"}
+                return {'message': "User does not have access"}
         else:
-            return {'message':"System does not exist"}
-                
+            return {'message': "System does not exist"}
     else:
-        return {'message':"User does not exist"}
+        return {'message': "User does not exist"}
+
     
 
 
