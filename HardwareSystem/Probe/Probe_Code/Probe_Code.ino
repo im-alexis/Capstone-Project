@@ -40,7 +40,7 @@ BLEServer* pServer = NULL;
 bool deviceConnected = false;
 bool oldDeviceConnected = false;
 sensors_event_t humidity, temp;  
-int moisture, light;
+uint32_t moisture, light;
 
 Adafruit_AHTX0 aht;
 

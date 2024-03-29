@@ -1,22 +1,11 @@
 /*
-  BLE TimeCentral example
-
-  The wifiTask get the current time from a NTP server and write it to a BLE device with Current Time Service.
-
-  The circuit:
-  - Arduino Nano 33 IoT,
-
-  This example code is in the public domain.
+  
 */
 
-//#include <Wire.h>
 #include <SPI.h>
 #include <ArduinoBLE.h>
-//#include <WiFiNINA.h>
-//#include <WiFiUdp.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
-//#include "BLEDevice.h"
 
 //----------------------------------------------------------------------------------------------------------------------
 // WiFi
@@ -24,14 +13,14 @@
 
 ///////TODO: Put Wifi Username and Password
 char ssid[] = "Ours 2 GHz"; //Need to be 2 GHz
-char pass[] = "";         //Change wifi password
+char pass[] = "_____"INSERT WIFI PASSWORD;         //Change wifi password
 
 //----------------------------------------------------------------------------------------------------------------------
 // Wifi Server
 //----------------------------------------------------------------------------------------------------------------------
 
 ////////TODO: Update serverName
-const char* serverName = "http://192.168.1.106:1880/update-sensor";
+const char* serverName = "http://IP_ADDRESS:5000/data";   //"http://IP_ADDRESS:5000/data"
 
 //----------------------------------------------------------------------------------------------------------------------
 // BLE UUIDs
@@ -50,10 +39,10 @@ static char*    charHumUUID("f3b857d0-1e8a-4dff-a941-9ea9a3594275");
 
 typedef struct __attribute__( ( packed ) )
 {
-  uint16_t moisture;
-  uint16_t temp;
-  uint16_t light;
-  uint16_t humidity;
+  uint32_t moisture;
+  float temp;
+  uint32_t light;
+  float humidity;
 } plant_health;
 
 plant_health ble_plant_health;
@@ -92,10 +81,11 @@ void loop()
   static unsigned long previousMillis = 0;
   static unsigned long ntpSyncPreviousMillis = 0;
 
-  wifiTask();
-  bleTask();
 
-  // Run your code here
+
+  bleTask();          //Todo: should be before wifi
+  //Activate tank based off of moisture read from bleTask
+  wifiTask();
 
   delay(1000);
 
@@ -154,8 +144,10 @@ void wifiTask( void )
     case WIFI_STATE_SEND:
 
 
-      //Testing w/ Alexis
-      //http.begin(client, "http://ipaddress:5000/data");
+      /*//Testing w/ Alexis
+      http.begin(client, "http://IP_ADDRESS:5000/data");
+      Serial.println(WiFi.localIP());
+      */
 
       //orginal: comment out if testing
       http.begin(client, serverName);
@@ -163,7 +155,8 @@ void wifiTask( void )
 
       
       http.addHeader("Content-Type", "application/json");
-      httpResponseCode = http.POST("{\"systemID\":\"test123\",\"tank_level\":60.5,\"probes\":[{\"moisture\":40,\"temp\":40,\"light\":40,\"humidity\":40}]}");
+      httpResponseCode = http.POST("{\"systemID\":\"a2h87hd1\",\"tank_level\":60.5,\"probes\":[{\"moisture\":" + String(ble_plant_health.moisture) + ",\"temp\":" + String(ble_plant_health.temp) + ",\"light\":" + String(ble_plant_health.light) + ",\"humidity\":" + String(ble_plant_health.humidity) + "}]}");
+
       //httpResponseCode = http.POST(httpRequestData);
       Serial.println( "http posted" );
       http.end();
@@ -323,10 +316,6 @@ void bleTask()
     case BLE_STATE_END:
       state = BLE_STATE_OFF;
       BLE.end();
-      // Re-initialize the WiFi driver
-      // This is currently necessary to switch from BLE to WiFi
-      //wiFiDrv.wifiDriverDeinit();
-      //wiFiDrv.wifiDriverInit();
       bleActive = false;
       updateWeb = true;
       Serial.println( "BLE end" );
@@ -334,10 +323,6 @@ void bleTask()
     default:
       state = BLE_STATE_OFF;
       BLE.end();
-      // Re-initialize the WiFi driver
-      // This is currently necessary to switch from BLE to WiFi
-      //wiFiDrv.wifiDriverDeinit();
-      //wiFiDrv.wifiDriverInit();
       bleActive = false;
       Serial.println( "BLE end" );
       break;
