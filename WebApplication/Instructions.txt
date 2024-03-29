@@ -1,4 +1,4 @@
-ALWAYS WORK IN A VIRTUAL ENVIRONMENT
+ALWAYS WORK IN A VIRTUAL ENVIRONMENT - When Developing backend
 
 TO CREATE A VIRTUAL ENVIRONMENT: (pip or pip3)
 pip install virtualenv
@@ -29,3 +29,6 @@ flask --app app run
 TO START frontend
 cd WebApplication/frontend/apws
 npm start
+
+To Test With HARDWARE
+Launch backend using python app.py
