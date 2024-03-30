@@ -100,8 +100,8 @@ def system_users():
 #/change_role route
 @app.route("/change_role", methods=['POST'])
 def change_role():
-    response = ''
-    return "Placeholder"
+    response = UpdateFunctions.change_role(request,client)
+    return response
 
 #system_invite route
 @app.route("/system_invite", methods=['POST'])

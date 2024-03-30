@@ -12,6 +12,7 @@ from datetime import datetime
 For route /akn_request
     Request format
     {
+    "username" : someUserName
      "systemID": someID,
      "target": usernameTarget,
      "action": (
@@ -22,13 +23,27 @@ For route /akn_request
 '''  
 def akn_join_request(request, dbClient):
     data = request.get_json()
+    username = data['username'].lower()
     action = data['action']
     target = data['target'].lower()
     systemID = data['systemID']
     
     user_collection = dbClient.Users.User
     system_collection = dbClient.Systems.System
-    
+
+    user = user_collection.find_one({"username": target})
+    if user:
+        u_sys_arr = user['systems']
+        flg = False
+        for e in u_sys_arr:
+            if e['systemID'] == system:
+                flg = True
+                if e['access'] > 1:
+                    return {'message' : 'User cannot akn join request'}
+                
+        if not flg:
+            return {'message': username + ' is not part of the system'}
+        
     system = system_collection.find_one({'systemID': systemID})
     if system is None:
         return {'message': "System does not exist"}

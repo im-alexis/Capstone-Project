@@ -102,7 +102,7 @@ For route /change_role
      "systemID": someID,
      "target": usernameTarget,
      "action": (
-    Action 0: Change to Owner(0)
+    Action 0: Change to Owner(0) -> Not doing ATM
     Action 1: Change to Admin(1)
     Action 2: Change to Reg (2)
     Action 3: Remove from System:  Owner -> Admin/Reg | Admin -> Reg | Reg -> None
@@ -110,19 +110,87 @@ For route /change_role
     } 
 '''
 def change_role(request, dbClient):
-    #Action 0: Change to Owner
-    #Action 1: Change to Admin
-    #Action 2: Change to Reg
-    #Action 3: Remove from System:  Owner ->Admin/Reg | Admin -> Reg | Reg -> None
     data = request.get_json()
     username = data['username'].lower()
     systemID = data['systemID']
-    target_user = data['target'].lower()
+    target = data['target'].lower()
     action = data['action']
     system_collection = dbClient.Systems.System
     user_collection = dbClient.Users.User
 
-    return "TEST"
+    # Check if the user making the request exists
+    user = user_collection.find_one({'username': username}, {'systems': 1})
+    if user is None:
+        return {'message': "There is no user logged in"}
+
+    # Check if the system exists
+    system = system_collection.find_one({'systemID': systemID}, {'users': 1})
+    if system is None:
+        return {'message': "System does not exist"}
+
+    # Check if the target user exists
+    target_obj = user_collection.find_one({'username': target}, {'systems': 1})
+    if target_obj is None:
+        return {'message': "The user does not exist"}
+
+    user_sys_arr = user.get("systems", [])
+    sys_user_arr = system.get("users", [])
+    tar_sys_arr = target_obj.get("systems", [])
+
+    # Check if the target user is in the system
+    if not any(entry['username'] == target for entry in sys_user_arr):
+        return {'message': "User is not in the System"}
+
+    # Check if the target user is associated with the system
+    if not any(entry['systemID'] == systemID for entry in tar_sys_arr):
+        return {'message': "User is not in the System"}
+
+    if action == 1 or action == 2:
+        # Update access level for both user and target
+        for entry in user_sys_arr:
+            if entry['systemID'] == systemID and entry['access_level'] == 0:
+                for user_entry in sys_user_arr:
+                    if user_entry['username'] == target:
+                        user_entry['access_level'] = action
+                for target_entry in tar_sys_arr:
+                    if target_entry['systemID'] == systemID:
+                        target_entry['access_level'] = action
+                system_collection.update_one({"systemID": systemID}, {'$set': {'users': sys_user_arr}})
+                user_collection.update_one({"username": target}, {'$set': {'systems': tar_sys_arr}})
+                return {'message': target + ' role updated to ' + str(action)}
+        return {'message': 'Action is only allowed by owner'}
+
+    elif action == 3:
+        # Remove user from the system
+        for entry in user_sys_arr:
+            if entry['systemID'] == systemID:
+                if entry['access_level'] == 0:
+                    for e in sys_user_arr[:]:  # Using slicing to create a copy of sys_user_arr
+                        if e['username'] == target:
+                            sys_user_arr.remove(e)
+                    for e in tar_sys_arr[:]:  # Using slicing to create a copy of tar_sys_arr
+                        if e['systemID'] == systemID and e['access_level'] < 1:
+                            tar_sys_arr.remove(e)
+                            user_collection.update_one({"username": target}, {'$set': {'systems': tar_sys_arr}})
+                            return {'message': target + ' was removed'}
+                    return {'message': target + ' is not able to be removed'}
+                elif entry['access_level'] == 1:
+                    for e in tar_sys_arr[:]:  # Using slicing to create a copy of tar_sys_arr
+                        if e['systemID'] == systemID and e['access_level'] == 2:
+                            tar_sys_arr.remove(e)
+                    for e in sys_user_arr[:]:  # Using slicing to create a copy of sys_user_arr
+                        if e['username'] == target and e['access_level'] == 2:
+                            sys_user_arr.remove(e)
+                    system_collection.update_one({"systemID": systemID}, {'$set': {'users': sys_user_arr}})
+                    user_collection.update_one({"username": target}, {'$set': {'systems': tar_sys_arr}})
+                    return {'message': target + ' was removed'}
+                else:
+                    return {'message': 'Only Admin+ is allowed to remove users'}
+        return {'message': 'Invalid Action'}
+
+    else:
+        return {'message': 'Invalid Action'}
+
 
 
 
