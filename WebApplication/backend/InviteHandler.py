@@ -38,7 +38,7 @@ def akn_join_request(request, dbClient):
         for e in u_sys_arr:
             if e['systemID'] == system:
                 flg = True
-                if e['access'] > 1:
+                if e['access_level'] > 1:
                     return {'message' : 'User cannot akn join request'}
                 
         if not flg:
