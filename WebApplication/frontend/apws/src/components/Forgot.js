@@ -20,7 +20,35 @@ class Forgot extends React.Component {
       })
     }
 
-    forgot(){}
+    forgot(){
+      fetch("http://127.0.0.1:5000/forgot_password", {
+        method: 'POST',
+        mode: "cors",
+        headers:{
+          'content-Type':'application/json'
+        },
+        body: JSON.stringify({
+          username: this.state.user,
+        })
+      })
+      
+      .then(response => response.json())
+      .then((data) => {
+        this.setState({
+          success: data['access'],
+        })
+      })
+      setTimeout(() => {
+        if(this.state.success === true){
+          window.alert("Reset Code Sent")
+          // window.location.replace(`/reset_password`)  /* Not Created Yet */
+        }else{
+          window.alert("User No Existing User")
+          alert("User Does Not Exist")
+        }
+      }, 500); // 2000 milliseconds = 2 seconds
+        
+    }
   
     render(){
       return (
@@ -28,11 +56,10 @@ class Forgot extends React.Component {
             <div id = "fp">
               <br />
               <h1>APWS</h1>
-              <br/>
               <label>Email   </label>
               <input type='email' name='user' value={this.email} id='email'></input>
               <br/><br/>
-              <button  id='FPBtn'>Forgot Password</button> 
+              <button onClick={this.forgot} id='FPBtn'>Forgot Password</button> 
               <br/><br/>
               <Link to='/'>Back To Sign In</Link> <br />
           </div>
