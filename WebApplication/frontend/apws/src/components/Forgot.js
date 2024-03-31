@@ -1,5 +1,5 @@
 import React from 'react'
-import "../styles/login.css";
+import "../styles/forgot.css";
 import { BrowserRouter as Routes, Route, useNavigate, Link, Navigate} from "react-router-dom";
 
 class Forgot extends React.Component {
@@ -25,14 +25,14 @@ class Forgot extends React.Component {
     render(){
       return (
         <div id = "back">
-            <div id = "login">
+            <div id = "fp">
               <br />
               <h1>APWS</h1>
               <br/>
               <label>Email   </label>
               <input type='email' name='user' value={this.email} id='email'></input>
               <br/><br/>
-              <button  id='loginBtn'>Forgot Password</button> 
+              <button  id='FPBtn'>Forgot Password</button> 
               <br/><br/>
               <Link to='/'>Back To Sign In</Link> <br />
           </div>
