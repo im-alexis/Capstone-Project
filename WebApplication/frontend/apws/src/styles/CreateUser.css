@@ -12,31 +12,44 @@
     justify-content: center;
 }
 
-#login{
+#cu{
     background-size: auto 35%;
     border: 15px solid;
     border-image: conic-gradient(rgb(58, 226, 58), yellow,rgb(58, 226, 58), rgb(22, 61, 188), rgb(58, 226, 58), yellow,rgb(58, 226, 58), rgb(22, 61, 188), rgb(58, 226, 58)) 1;
     background-color: rgb(253, 252, 252);
     width: 400px;
-    height: 350px;
+    height: 400px;
     align-items: center;
     justify-content: center;
     text-align: center;
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
+p{
+    margin: 0.1px;
+    margin-left: 125px;
+    font-size: 12px;
+    color: rgb(0, 0, 0);
+    text-align: left;
+}
+
 .passLbl{
     margin-bottom:0.1px ;
 }
+
 label {
     display: inline-block;
     width: 100px; /* Adjust the width as needed */
     text-align: right;
     margin-right: 10px; /* Adjust the margin as needed */
-  }
+}
 
 button {
     display: inline-block;
     vertical-align: top; /* Align the button with the top of the labels */
-    margin-right: 10px; /* Adjust the margin as needed */
+    margin-right: 15px; /* Adjust the margin as needed */
+}
+
+#links {
+    margin-right: 5px;
 }

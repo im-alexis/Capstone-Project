@@ -1,0 +1,34 @@
+ALWAYS WORK IN A VIRTUAL ENVIRONMENT - When Developing backend
+
+TO CREATE A VIRTUAL ENVIRONMENT: (pip or pip3)
+pip install virtualenv
+python<version> -m venv <virtual-environment-name>
+
+TO ACTIVATE THE ENVIRONMENT:
+source <virtual-environment-name>/bin/activate
+
+TO INSTALL LIBRARIES:
+pip install -r requirements.txt  
+
+IF YOU ADD NEW LIBRARIES:
+pip freeze > requirements.txt
+
+
+TO CLOSE THE VIRTUAL ENVIRONMENT:
+deactivate
+
+
+DATABASE AND ROUTES DEFINITION
+https://docs.google.com/document/d/1mbG9H52PVBVGft23lnzvOi_USRNvHaWslcnwI_Q0cF0/edit?usp=sharing
+
+
+TO START backend
+cd WebApplication/backend
+flask --app app run
+
+TO START frontend
+cd WebApplication/frontend/apws
+npm start
+
+To Test With HARDWARE
+Launch backend using python app.py

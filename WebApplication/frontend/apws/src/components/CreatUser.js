@@ -1,5 +1,5 @@
 import React from 'react'
-import "../styles/login.css";
+import "../styles/CreateUser.css";
 import { BrowserRouter as Routes, Route, useNavigate, Link} from "react-router-dom";
 class CreateUser extends React.Component {
   constructor(props){
@@ -25,12 +25,6 @@ class CreateUser extends React.Component {
     });
   }
   
-  // usernameHandler(newUser){
-  //   // var newUser = document.getElementById("username").value
-  //   this.setState({
-  //     user: newUser
-  //   })
-  // }
 
   Valid(txt){
 
@@ -127,8 +121,7 @@ class CreateUser extends React.Component {
   render(){
     return (
       <div id = "back">
-  
-        <div id = "login">
+        <div id = "cu">
           <h1>APWS</h1>
           <label>Username   </label>
           <input type='text' name='user' value={this.user} id='username'></input>
@@ -138,13 +131,18 @@ class CreateUser extends React.Component {
           <br/><br/>
           <label className='passLbl'>Re-enter Password</label>
           <input className='passLbl' type='password' name='user' id='pass2'></input>
-          <p>password and username must contain:</p>
-          <p>*atleast 6 charachters</p>
-          <p>*atleast 1 number and letter</p>
-          <p>*cannot contain "!" or " "</p>
+          <br/><br/>
+          <p>PASSWORD MUST CONTAIN:</p>
+          <p>- at least 6 charachters</p>
+          <p>- at least 1 number and letter</p>
+          <p>- cannot contain "!" or " "</p>
+          <br/><br/>
           <button onClick={this.signUp} id='loginBtn'>Create Account</button>  
           <br/><br/>
-          <Link to='/'>Back To Sign In</Link> <br />
+          <div id = "links">
+            <Link to='/'>Back To Sign In</Link>
+            <br />
+          </div>
         </div>
   
       </div>
