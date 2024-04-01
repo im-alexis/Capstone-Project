@@ -20,7 +20,7 @@ import smtplib
 from email.mime.text import MIMEText
 
 subject = "Testing APWS Email System"
-body = f"Now This...THIS is Epic\n\n\n\n\n"
+body = f"Now This...THIS is Epic\n\n\n\n"
 sender = "apws.services@gmail.com"
 recipient = "Kietvle2020@gmail.com"
 

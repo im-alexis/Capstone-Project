@@ -5,6 +5,7 @@
 #   3) /forgot_password
 
 import cypher
+import random
 
 #system_collection = dbclient.Systems.System
  
@@ -63,10 +64,14 @@ def sign_up(request, dbclient):  # Returns Json
     
 def password_reset(request, dbclient):
     data = request.get_json()
-    username = data['username']
-    username.lower()
+    username = data['username'].lower()
+    user_collection = dbclient.Users.User
+    user = user_collection.find_one({'username': username})
     if user_exists(username):
-        #Send an email -> Look into mailtrap
+        #Send an email
+        OTP = random.randint(1000, 9999)
+        update = {"$set": {"new_field": "new_value"}}
+        user_collection.update_one(user, update)
         return {'message': 'Sent email', }
     else:
         return {'message': 'Username does not exist', }
