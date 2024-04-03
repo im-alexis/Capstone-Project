@@ -1,5 +1,6 @@
 /*
-  
+  Tank code
+  Handles connecting the the probe bluetooth signal and sending it to the server
 */
 
 #include <SPI.h>
@@ -13,14 +14,14 @@
 
 ///////TODO: Put Wifi Username and Password
 char ssid[] = "Ours 2 GHz"; //Need to be 2 GHz
-char pass[] = "_____"INSERT WIFI PASSWORD;         //Change wifi password
+char pass[] = ""; //INSERT WIFI PASSWORD;         //Change wifi password
 
 //----------------------------------------------------------------------------------------------------------------------
 // Wifi Server
 //----------------------------------------------------------------------------------------------------------------------
 
-////////TODO: Update serverName
-const char* serverName = "http://IP_ADDRESS:5000/data";   //"http://IP_ADDRESS:5000/data"
+//TODO: Update serverName
+const char* serverName = "http://192.168.1.104:5000/data";   //"http://IP_ADDRESS:5000/data"
 
 //----------------------------------------------------------------------------------------------------------------------
 // BLE UUIDs
@@ -55,6 +56,10 @@ bool updateWeb = true;
 bool updateHealth = true;
 bool wifiActive = false;
 bool bleActive = false;
+bool updated = false;
+bool WiFisetup = false;
+
+#define pumpPin 2              //TODO: Change pumpPin to what the pumpPin will be
 
 String httpRequestData = "";
 WiFiClient client;
@@ -66,6 +71,7 @@ HTTPClient http;
 
 void setup()
 {
+  pinMode(pumpPin, OUTPUT);
   Serial.begin( 9600 );
   while ( !Serial );          //TODO: Delete such that it can run without Serial Monitor
 
@@ -81,10 +87,24 @@ void loop()
   static unsigned long previousMillis = 0;
   static unsigned long ntpSyncPreviousMillis = 0;
 
+  if(WiFisetup == false){
+    setupWifi;
+    WiFisetup == true;
+  }
 
+  bleTask();
 
-  bleTask();          //Todo: should be before wifi
-  //Activate tank based off of moisture read from bleTask
+  if(ble_plant_health.moisture < 12000 && updated == true){
+    updated = false;
+    /*                          //TODO: uncomment this block text, change pumpPin into the pumpPin ammount, maybe change for loop amount
+    for(int i = 1; i < 10; i++){
+      digitalWrite(pumpPin, HIGH);
+      delayMicroseconds(1000/2);
+      digitalWrite(pumpPin, LOW);
+      delayMicroseconds(1000 - 100);
+    }
+    */
+  }
   wifiTask();
 
   delay(1000);
@@ -145,7 +165,7 @@ void wifiTask( void )
 
 
       /*//Testing w/ Alexis
-      http.begin(client, "http://IP_ADDRESS:5000/data");
+      http.begin(client, "http://:5000/data");
       Serial.println(WiFi.localIP());
       */
 
@@ -310,6 +330,7 @@ void bleTask()
         Serial.println(ble_plant_health.moisture);
         Serial.print("Temperature:");
         Serial.println(ble_plant_health.temp);
+        updated = true;
       }
       state++;
       break;
@@ -327,4 +348,8 @@ void bleTask()
       Serial.println( "BLE end" );
       break;
   }
+}
+
+void setupWifi ( void ){
+
 }
