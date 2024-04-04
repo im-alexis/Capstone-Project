@@ -47,10 +47,22 @@ def create_user():
 
    
 
-#forgot_password route
+#forgot password route
 @app.route("/forgot_password", methods=['POST'])
 def forgot_password():
-    response = LoginFunctions.password_reset(request,client)
+    response = LoginFunctions.forgot_request(request,client)
+    return response
+
+#OTP Check
+@app.route("/verify", methods=['POST'])
+def forgot_password():
+    response = LoginFunctions.otp_verify(request,client)
+    return response
+
+#reset password
+@app.route("/reset", methods=['POST'])
+def forgot_password():
+    response = LoginFunctions.reset_password(request,client)
     return response
 
 #dashboard route
