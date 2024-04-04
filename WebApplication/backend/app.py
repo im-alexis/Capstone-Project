@@ -55,13 +55,13 @@ def forgot_password():
 
 #OTP Check
 @app.route("/verify", methods=['POST'])
-def forgot_password():
+def verify():
     response = LoginFunctions.otp_verify(request,client)
     return response
 
 #reset password
 @app.route("/reset", methods=['POST'])
-def forgot_password():
+def reset():
     response = LoginFunctions.reset_password(request,client)
     return response
 
