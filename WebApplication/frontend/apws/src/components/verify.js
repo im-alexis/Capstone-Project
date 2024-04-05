@@ -1,15 +1,19 @@
 import React from 'react'
-import "../styles/forgot.css";
+import "../styles/verify.css";
 import { BrowserRouter as Routes, Route, useNavigate, Link, Navigate} from "react-router-dom";
 
-class Forgot extends React.Component {
+class Verify extends React.Component {
     constructor(props){
       super(props)
-      this.forgot = this.forgot.bind(this)
+      this.verify = this.verify.bind(this)
       this.emailHandler = this.emailHandler.bind(this)
+      var queryString = window.location.search
+      var urlParams = new URLSearchParams(queryString)
+      var data = urlParams.get('data')
       this.state = {
-        email: "",    // NOTE SHOULD USERNAMES JUST BE EMAILS??
-        success: false
+        email: "",
+        success: false,
+        type: data,
       }
     }
 
@@ -20,8 +24,8 @@ class Forgot extends React.Component {
       })
     }
 
-    forgot(){
-      fetch("http://127.0.0.1:5000/forgot_password", {
+    verify(){
+      fetch("http://127.0.0.1:5000/verify", {
         method: 'POST',
         mode: "cors",
         headers:{
@@ -40,11 +44,12 @@ class Forgot extends React.Component {
       })
       setTimeout(() => {
         if(this.state.success === true){
-          window.alert("Reset Code Sent")
-          window.location.replace(`/verify?data=` + encodeURIComponent("fp"))
+            window.alert("OTP Approved")
+            if(this.state.type === "fp") {window.location.replace(`/reset_password`)}
+            else {window.location.replace(`/dashboard`)}
         }else{
-          window.alert("User No Existing User")
-          alert("User Does Not Exist")
+          window.alert("Incorrect Code")
+          alert("Incorrect Code")
         }
       }, 500); // 2000 milliseconds = 2 seconds
         
@@ -53,13 +58,13 @@ class Forgot extends React.Component {
     render(){
       return (
         <div id = "back">
-            <div id = "fp">
+            <div id = "verify">
               <br />
-              <h1>APWS</h1>
-              <label>Email   </label>
-              <input type='email' name='user' value={this.email} id='email'></input>
+              <h1>OTP Verification</h1>
               <br/><br/>
-              <button onClick={this.forgot} id='FPBtn'>Forgot Password</button> 
+              <input type="otp" id="otp" maxlength="6"></input>
+              <br/><br/>
+              <button onClick={this.verify} id='FPBtn'>Continue</button> 
               <br/><br/>
               <Link to='/'>Back To Sign In</Link> <br />
           </div>
@@ -68,4 +73,4 @@ class Forgot extends React.Component {
     }
   }
   
-  export default Forgot;
+  export default Verify;

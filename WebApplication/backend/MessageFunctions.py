@@ -14,7 +14,9 @@
 # receiver = "Kietle24@utexas.com"      #
 # subject = "Your Water Tank is Low"    #
 # Body = f"{Detailed Report}"           #
+# Case = (Flag Number)                  #
 #---------------------------------------#
+
 
 import smtplib
 from email.mime.text import MIMEText
@@ -35,6 +37,8 @@ recipient = "Kietvle2020@gmail.com"
 # ."""
 
 #---------------------------#
+
+# CHECK REQUIRED INPUTS FOR EACH CASE BEFORE CALLING THIS FUNCTION
 
 def send_email(subject, recipient, case, code, pnum, systemID, life, user, invite): # Work In Progress
     if case == 1: # Email Creation
