@@ -13,8 +13,8 @@
 //----------------------------------------------------------------------------------------------------------------------
 
 ///////TODO: Put Wifi Username and Password
-char ssid[] = "Ours 2 GHz"; //Need to be 2 GHz
-char pass[] = ""; //INSERT WIFI PASSWORD;         //Change wifi password
+char ssid[32] = "Ours 2 GHz"; //Need to be 2 GHz
+char pass[32] = ""; //INSERT WIFI PASSWORD;         //Change wifi password
 
 //----------------------------------------------------------------------------------------------------------------------
 // Wifi Server
@@ -37,6 +37,16 @@ static char*    charTempUUID("35b17f66-73d1-4c92-92f6-9032ef1987d3");
 static char*    charLightUUID("3cab9341-e65b-46e9-83ed-c8a7f2f841c2");
 static char*    charHumUUID("f3b857d0-1e8a-4dff-a941-9ea9a3594275");
 
+//----------------------------------------------------------------------------------------------------------------------
+//Bluetooth Wifi Setup
+//----------------------------------------------------------------------------------------------------------------------
+
+#define CHARACTERISTIC_SSID_UUID "fb6cf981-31cc-4f36-af06-1f2f3e919840"
+#define CHARACTERISTIC_Pass_UUID "35b17f66-73d1-4c92-92f6-9032ef1987d3"
+#define CHARACTERISTIC_Done_UUID "3cab9341-e65b-46e9-83ed-c8a7f2f841c2"
+static BLECharacteristic pCharacteristicSSID(CHARACTERISTIC_SSID_UUID, BLERead | BLEWrite, 32);
+static BLECharacteristic pCharacteristicPass(CHARACTERISTIC_Pass_UUID, BLERead | BLEWrite, 32);
+static BLECharacteristic pCharacteristicDone(CHARACTERISTIC_Done_UUID, BLERead | BLEWrite, 1);
 
 typedef struct __attribute__( ( packed ) )
 {
@@ -88,7 +98,7 @@ void loop()
   static unsigned long ntpSyncPreviousMillis = 0;
 
   if(WiFisetup == false){
-    setupWifi;
+    setupWifi();
     WiFisetup == true;
   }
 
@@ -351,5 +361,25 @@ void bleTask()
 }
 
 void setupWifi ( void ){
-
+  BLE.setDeviceName("Wifi Setup");
+  BLE.begin();
+  BLEService SetupWiFiService("19B10000-E8F2-537E-4F6C-D104768A1214");
+  pCharacteristicSSID.setValue("Set SSID");
+  pCharacteristicPass.setValue("Set Pass");
+  char done[] = "0";
+  pCharacteristicDone.setValue(done);
+  SetupWiFiService.addCharacteristic(pCharacteristicSSID);
+  SetupWiFiService.addCharacteristic(pCharacteristicPass);
+  SetupWiFiService.addCharacteristic(pCharacteristicDone);
+  BLE.addService(SetupWiFiService);
+  BLE.advertise();
+  Serial.println( "Advertising " );
+  while(done[0] == char(0)){
+    pCharacteristicDone.readValue(done, 1);
+  }
+  Serial.println( "Done Advertising " );
+  pCharacteristicSSID.readValue(ssid, 32);
+  pCharacteristicPass.readValue(pass, 32);
+  BLE.stopAdvertise();
+  BLE.end();
 }
