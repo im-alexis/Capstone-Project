@@ -71,9 +71,9 @@ Current Water Level: {life}
 ."""
     elif case == 6: # System Invites
         body = f"""\
-You Have Been Invited To {user}'s APWS.
+You have been invited to system#{systemID}.
 
-Here Is Your Invite Code: {invite}
+Invite from {user}
 ."""
     elif case == 7:
         body = f"""\

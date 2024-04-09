@@ -90,12 +90,13 @@ def update_settings():
     #TBD Not sure how settings will look like
     response = ''
     return "Placeholder"
+
 # ! Could just /system as it sends every parameter
 #/history route
 @app.route("/history", methods=['POST'])
 def history():
     response = ''
-
+    
     return "Placeholder"
 
 #notifications route
@@ -140,6 +141,21 @@ def akn_request():
     response = InviteHandler.akn_join_request(request,client)
     return response
 
+# v NEW ROUTES
+
+#sys_invite route
+@app.route("/sys_invite", methods=['POST'])
+def sys_invite():
+    response = InviteHandler.sys_user_invite(request,client)
+    return response
+
+#sys_invite_akn route
+@app.route("/sys_invite_akn", methods=['POST'])
+def sys_invite_akn():
+    response = InviteHandler.user_akn_invite(request,client)
+    return response
+
+# ^ NEW ROUTES
 
 #Route for Hardware, TBD if ardino nano can do post requests
 #data route

@@ -7,6 +7,7 @@
 #   6) /system_invite
 
 from datetime import datetime
+import MessageFunctions
 
 '''
 For route /akn_request
@@ -170,8 +171,50 @@ For route /system_invite
     } 
 
 '''
-def sys_user_invite():
-    return 
+# Only an Admin and Above can send a invite to a user
+def sys_user_invite(request, dbClient):
+    data = request.get_json()
+    username = data['username'].lower()
+    system_id = data['systemID']
+    target_user = data['target'].lower()
+
+    user_collection = dbClient.Users.User
+    system_collection = dbClient.Systems.System
+
+    user = user_collection.find_one({"username": username})
+    if not user:
+        return {'message': username + ' is not part of the system'}
+
+    user_systems = {sys['systemID']: sys['access_level'] for sys in user.get('systems', [])}
+    if system_id not in user_systems:
+        return {'message': 'User cannot send an invite to other users'}
+
+    if user_systems[system_id] > 1:
+        return {'message': 'User cannot send an invite to other users'}
+
+    system = system_collection.find_one({'systemID': system_id })
+    if not system:
+        return {'message': "System does not exist"}
+
+    user_target = user_collection.find_one({"username": target_user})
+    if not user_target:
+        return {'message': "User Target does not exist"}
+
+    invites = user_target.get("sys_invites", [])
+    if any(invite['systemID'] == system_id for invite in invites):
+        return {'message': 'Invite already exists'}
+
+    invites.append({
+        "date": datetime.today(),
+        "systemID": system_id,
+    })
+
+    user_collection.update_one({'username': target_user}, {'$set': {'sys_invites': invites}})
+    
+    # Send an email notification
+    MessageFunctions.send_email(subject="System Invite", systemID=system_id, case=6, recipient=target_user, user=username)
+    
+    return {'message': "Invite has been sent"}
 
 def user_akn_invite():
     return 

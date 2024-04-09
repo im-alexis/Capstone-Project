@@ -65,6 +65,7 @@ def sign_up(request, dbclient):  # Returns Json
             "systems": [],
             "notifications": [],
             "OTP": OTP,
+            "sys_invites": [],
         }
         user_collection.insert_one(newUser)
         subject = "MyAPWS Account Creation: Verify Email"            # Sends Email for New User to Verify Email
