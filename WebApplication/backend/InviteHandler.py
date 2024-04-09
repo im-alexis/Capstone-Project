@@ -146,18 +146,18 @@ def leave_sys(request, dbClient):
             for user_entry in system_users:
                 if user_entry["username"].lower() == username:
                     if user_entry["access_level"] == 0:
-                        return {'message': 'Owner cannot leave a system'}
+                        return {'message': 'Owner cannot leave a system',}
                     else:
                         system_collection.update_one({'systemID': system_id},
                                                      {'$pull': {'users': {'username': username}}})
                         user_collection.update_one({'username': username},
                                                    {'$pull': {'systems': {'systemID': system_id}}})
-                        return {'message': f"{username} has left system: {system_id}"}
-            return {'message': f"{username} is not a member of {system_id}"}
+                        return {'message': f"{username} has left system: {system_id}",}
+            return {'message': f"{username} is not a member of {system_id}",}
         else:
-            return {'message': f"{system_id} does not exist"}
+            return {'message': f"{system_id} does not exist",}
     else:
-        return {'message': f"{username} does not exist"}
+        return {'message': f"{username} does not exist",}
 
 
 '''
@@ -175,7 +175,7 @@ For route /system_invite
 def sys_user_invite(request, dbClient):
     data = request.get_json()
     username = data['username'].lower()
-    system_id = data['systemID']
+    systemID = data['systemID']
     target_user = data['target'].lower()
 
     user_collection = dbClient.Users.User
@@ -183,16 +183,16 @@ def sys_user_invite(request, dbClient):
 
     user = user_collection.find_one({"username": username})
     if not user:
-        return {'message': username + ' is not part of the system'}
+        return {'message': username + ' does not exist',}
 
     user_systems = {sys['systemID']: sys['access_level'] for sys in user.get('systems', [])}
-    if system_id not in user_systems:
-        return {'message': 'User cannot send an invite to other users'}
+    if systemID not in user_systems:
+        return {'message': 'User is not part of system',}
 
-    if user_systems[system_id] > 1:
-        return {'message': 'User cannot send an invite to other users'}
+    if user_systems[systemID] > 1:
+        return {'message': 'User cannot send an invite to other users',}
 
-    system = system_collection.find_one({'systemID': system_id })
+    system = system_collection.find_one({'systemID': systemID })
     if not system:
         return {'message': "System does not exist"}
 
@@ -201,22 +201,78 @@ def sys_user_invite(request, dbClient):
         return {'message': "User Target does not exist"}
 
     invites = user_target.get("sys_invites", [])
-    if any(invite['systemID'] == system_id for invite in invites):
-        return {'message': 'Invite already exists'}
+    if any(invite['systemID'] == systemID for invite in invites):
+        return {'message': 'Invite already exists',}
 
     invites.append({
         "date": datetime.today(),
-        "systemID": system_id,
+        "systemID": systemID,
     })
 
     user_collection.update_one({'username': target_user}, {'$set': {'sys_invites': invites}})
     
     # Send an email notification
-    MessageFunctions.send_email(subject="System Invite", systemID=system_id, case=6, recipient=target_user, user=username)
+    MessageFunctions.send_email(subject="System Invite", systemID=systemID, case=6, recipient=target_user, user=username)
     
-    return {'message': "Invite has been sent"}
+    return {'message': "Invite has been sent",}
 
-def user_akn_invite():
-    return 
 
-# ^TBH IF SYSTEMS SHOULD BE ABLE TO INVITE
+
+'''
+For route /sys_invite_akn
+    An admin sends an invite to a user
+    Request format
+    {
+     "username": username,
+     "systemID": someID,
+     "action": 1 {Accept}, 0 {Reject}
+    } 
+
+'''
+def user_akn_invite(request, dbClient):
+    data = request.get_json()
+    username = data['username'].lower()
+    systemID = data['systemID']
+    action = data['action']
+    
+    if action not in [0, 1]:
+        return {"message": "Action is invalid"}
+    
+    user_collection = dbClient.Users.User
+    system_collection = dbClient.Systems.System
+
+    user = user_collection.find_one({"username": username})
+    if not user:
+        return {'message': username + ' does not exist',}
+    sys_list = user.get("systems", [])
+    
+    system = system_collection.find_one({"systemID": systemID})
+    if not system:
+        return {'message': systemID + ' does not exist',}
+    
+    invites = user.get("sys_invites", [])
+    
+    invite = next((entry for entry in invites if entry["systemID"] == systemID), None)
+    if invite:
+        if action == 1:
+            system_user_arry = system.get("users", [])
+            system_user_arry.append({
+                'username':username,
+                'access_level': 2
+            })
+            system_collection.update_one({"systemID": systemID}, {'$set': {'users': system_user_arry}})
+            invites.remove(invite)
+            sys_list.append({
+                "systemID": systemID,
+                "access_level": 2
+            })
+            user_collection.update_one({"username": username}, {'$set': {'sys_invites': invites, 'systems': sys_list}})
+            return {"message" : "Invite accepted, successfully added"}
+        elif action == 0:
+            invites.remove(invite)
+            user_collection.update_one({"username": username}, {'$set': {'sys_invites': invites, 'systems': sys_list}})
+            return {"message" : "Invite rejected"}
+    else:
+        return {'message': "Invite does not exist"}
+    
+

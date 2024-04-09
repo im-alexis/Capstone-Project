@@ -119,8 +119,13 @@ def change_role():
 #system_invite route
 @app.route("/system_invite", methods=['POST'])
 def system_invite():
-    return "Placeholder"
+    response = InviteHandler.sys_user_invite(request,client)
+    return response
 
+@app.route("/sys_invite_akn", methods=['POST'])
+def sys_invite_akn():
+    response = InviteHandler.user_akn_invite(request,client)
+    return response
 #leave_system route
 @app.route("/leave_system", methods=['POST'])
 def leave_system():
@@ -141,23 +146,6 @@ def akn_request():
     response = InviteHandler.akn_join_request(request,client)
     return response
 
-# v NEW ROUTES
-
-#sys_invite route
-@app.route("/sys_invite", methods=['POST'])
-def sys_invite():
-    response = InviteHandler.sys_user_invite(request,client)
-    return response
-
-#sys_invite_akn route
-@app.route("/sys_invite_akn", methods=['POST'])
-def sys_invite_akn():
-    response = InviteHandler.user_akn_invite(request,client)
-    return response
-
-# ^ NEW ROUTES
-
-#Route for Hardware, TBD if ardino nano can do post requests
 #data route
 @app.route("/data", methods=['POST'])
 def data():
