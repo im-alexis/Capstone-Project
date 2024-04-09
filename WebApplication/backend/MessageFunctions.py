@@ -40,7 +40,9 @@ recipient = "Kietvle2020@gmail.com"
 
 # CHECK REQUIRED INPUTS FOR EACH CASE BEFORE CALLING THIS FUNCTION
 
-def send_email(subject, recipient, case, code, pnum, systemID, life, user, invite): # Work In Progress
+def send_email(subject="", recipient="", case="", 
+               code="", pnum="", systemID="", 
+               life="", user="", invite=""): # Work In Progress
     if case == 1: # Email Creation
         body = f"""\
 Your Email Verification Code: {code}

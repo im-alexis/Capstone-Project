@@ -79,7 +79,7 @@ def forgot_request(request, dbclient):          # Creates OTP for exisiting user
     username = data['username'].lower()
     user = user_collection.find_one({'username': username})
 
-    if user_exists(username):
+    if user_exists(username, dbclient):
         OTP = 0000
         while user:
             temp = random.randint(1000, 9999)
@@ -101,7 +101,7 @@ def otp_verify(request, dbclient):      # Checks to see input code matches the O
     username = data['username'].lower()
     input_otp = data['OTP']
     user = user_collection.find_one({'username': username})
-    if user['OTP'] == input_otp:                            # Compares OTP from User input and Database
+    if int(user['OTP']) == int(input_otp):                            # Compares OTP from User input and Database
         remove = {"$unset": {"OTP": ""}}                    # Removes OTP from DB so it can't be used again
         user_collection.update_one(user, remove)
         return {'access': True, }

@@ -42,3 +42,9 @@ input {
 button {
     margin-left: 10px; /* Adjust the margin as needed */
 }
+#otp {
+    display: inline-block;
+    width: 100px;
+    margin-right: 10px; 
+    text-align: left;
+}

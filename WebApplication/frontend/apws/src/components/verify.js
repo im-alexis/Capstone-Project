@@ -6,21 +6,22 @@ class Verify extends React.Component {
     constructor(props){
       super(props)
       this.verify = this.verify.bind(this)
-      this.emailHandler = this.emailHandler.bind(this)
+      this.otpHandler = this.otpHandler.bind(this)
       var queryString = window.location.search
       var urlParams = new URLSearchParams(queryString)
       var data = urlParams.get('data')
       this.state = {
-        email: "",
+        user: sessionStorage.getItem('user'), // Again IDK what this does
+        otp: "",
         success: false,
         type: data,
       }
     }
 
-    emailHandler(){
-      var newEmail = document.getElementById("email").value
+    otpHandler(){
+      var newOTP = document.getElementById("otp").value
       this.setState({
-        email: newEmail
+        otp: newOTP
       })
     }
 
@@ -33,6 +34,7 @@ class Verify extends React.Component {
         },
         body: JSON.stringify({
           username: this.state.user,
+          OTP: this.state.otp,
         })
       })
       
@@ -49,7 +51,6 @@ class Verify extends React.Component {
             else {window.location.replace(`/dashboard`)}
         }else{
           window.alert("Incorrect Code")
-          alert("Incorrect Code")
         }
       }, 500); // 2000 milliseconds = 2 seconds
         
@@ -61,8 +62,7 @@ class Verify extends React.Component {
             <div id = "verify">
               <br />
               <h1>OTP Verification</h1>
-              <br/><br/>
-              <input type="otp" id="otp" maxlength="6"></input>
+              <input type="otp" id="otp" maxLength="6" value={this.otp} onChange={this.otpHandler} required></input>
               <br/><br/>
               <button onClick={this.verify} id='FPBtn'>Continue</button> 
               <br/><br/>
