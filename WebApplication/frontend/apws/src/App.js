@@ -51,7 +51,7 @@ function App() {
                   {/*<Route path="projects" element={<Projects />} />*/}
                   {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
               </Route>
-              <Route path="/reset_password" element={<reset_password />}>
+              <Route path="/reset_password" element={<Reset_password />}>
                   {/*<Route path="projects" element={<Projects />} />*/}
                   {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
               </Route>
