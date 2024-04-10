@@ -5,6 +5,7 @@ import Forgot from './components/Forgot';
 import Dashboard from './components/Dashboard';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from 'react';
+import Verify from './components/verify';
 // function App() {
 //   return (
 //     <div className="App">
@@ -43,6 +44,14 @@ function App() {
                   {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
               </Route>
               <Route path="/Dashboard" element={<Dashboard />}>
+                  {/*<Route path="projects" element={<Projects />} />*/}
+                  {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
+              </Route>
+              <Route path="/verify" element={<Verify />}>
+                  {/*<Route path="projects" element={<Projects />} />*/}
+                  {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
+              </Route>
+              <Route path="/reset_password" element={<reset_password />}>
                   {/*<Route path="projects" element={<Projects />} />*/}
                   {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
               </Route>

@@ -1,22 +1,21 @@
 import React from 'react'
 import "../styles/forgot.css";
 import { BrowserRouter as Routes, Route, useNavigate, Link, Navigate} from "react-router-dom";
-
 class Forgot extends React.Component {
     constructor(props){
       super(props)
       this.forgot = this.forgot.bind(this)
-      this.emailHandler = this.emailHandler.bind(this)
+      this.usernameHandler = this.usernameHandler.bind(this)
       this.state = {
-        email: "",    // NOTE SHOULD USERNAMES JUST BE EMAILS??
+        user: "",
         success: false
       }
     }
 
-    emailHandler(){
-      var newEmail = document.getElementById("email").value
+    usernameHandler(){
+      var newUser = document.getElementById("username").value
       this.setState({
-        email: newEmail
+        user: newUser
       })
     }
 
@@ -34,6 +33,7 @@ class Forgot extends React.Component {
       
       .then(response => response.json())
       .then((data) => {
+        console.log(data['access'])
         this.setState({
           success: data['access'],
         })
@@ -41,12 +41,12 @@ class Forgot extends React.Component {
       setTimeout(() => {
         if(this.state.success === true){
           window.alert("Reset Code Sent")
+          sessionStorage.setItem('user', this.state.user) // IDK what this might do (trying to transfer data b/w pages)
           window.location.replace(`/verify?data=` + encodeURIComponent("fp"))
         }else{
           window.alert("User No Existing User")
-          alert("User Does Not Exist")
         }
-      }, 500); // 2000 milliseconds = 2 seconds
+      }, 2000); // 2000 milliseconds = 2 seconds
         
     }
   
@@ -57,7 +57,7 @@ class Forgot extends React.Component {
               <br />
               <h1>APWS</h1>
               <label>Email   </label>
-              <input type='email' name='user' value={this.email} id='email'></input>
+              <input type='email' name='user' value={this.user} onChange={this.usernameHandler} required id='username'></input>
               <br/><br/>
               <button onClick={this.forgot} id='FPBtn'>Forgot Password</button> 
               <br/><br/>

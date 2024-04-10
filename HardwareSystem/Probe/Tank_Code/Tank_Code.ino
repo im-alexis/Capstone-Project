@@ -7,6 +7,7 @@
 #include <ArduinoBLE.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
+#include "MAX17043.h"
 
 //----------------------------------------------------------------------------------------------------------------------
 // WiFi
@@ -58,6 +59,15 @@ typedef struct __attribute__( ( packed ) )
 
 plant_health ble_plant_health;
 
+int voltage;
+
+//For Ultrasonic
+int Ultraloop = 0;
+const int trigPin = 9;
+const int echoPin = 10;
+long duration;
+int distance;
+
 //----------------------------------------------------------------------------------------------------------------------
 // App
 //----------------------------------------------------------------------------------------------------------------------
@@ -81,11 +91,32 @@ HTTPClient http;
 
 void setup()
 {
+  Serial.println( "Setup begin" );
   pinMode(pumpPin, OUTPUT);
+
+  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPin, INPUT); // Sets the echoPin as an Input
+
   Serial.begin( 9600 );
   while ( !Serial );          //TODO: Delete such that it can run without Serial Monitor
 
-  Serial.println( "BLE TimeCentral example" );
+  Serial.println( "Tank Code Starting" );
+
+  if (FuelGauge.begin())
+  {
+    Serial.println("Resetting device...");
+    FuelGauge.reset();
+    delay(250);
+
+    Serial.println("Initiating quickstart mode...");
+    FuelGauge.quickstart();
+    delay(125);
+  }
+  else
+  {
+    Serial.println("The MAX17043 device was NOT found.\n");
+    while (true);
+  }
 }
 
 
@@ -97,10 +128,13 @@ void loop()
   static unsigned long previousMillis = 0;
   static unsigned long ntpSyncPreviousMillis = 0;
 
+  /* Still need testgin
+
   if(WiFisetup == false){
     setupWifi();
     WiFisetup == true;
   }
+  */
 
   bleTask();
 
@@ -115,6 +149,12 @@ void loop()
     }
     */
   }
+
+  if(Ultraloop == 0){
+    PeriodicUpdate();
+  }
+  Ultraloop = (Ultraloop + 1) % 5;
+
   wifiTask();
 
   delay(1000);
@@ -382,4 +422,73 @@ void setupWifi ( void ){
   pCharacteristicPass.readValue(pass, 32);
   BLE.stopAdvertise();
   BLE.end();
+}
+
+void sleepMode()
+{
+  if (!FuelGauge.isSleeping())
+  {
+    FuelGauge.sleep();
+
+    if (FuelGauge.isSleeping())
+    {
+      Serial.println("Fuel Gauge put in sleep mode.");
+    }
+    else
+    {
+      Serial.println("Fuel Gauge failed to be put in sleep mode.");
+    }
+  }
+  else
+  {
+    Serial.println("Fuel Gauge is already in sleep mode.");
+  }
+}
+
+void wakeMode()
+{
+  if (FuelGauge.isSleeping())
+  {
+    FuelGauge.wake();
+
+    if (!FuelGauge.isSleeping())
+    {
+      Serial.println("Fuel Gauge is now awake.");
+    }
+    else
+    {
+      Serial.println("Failed to wake Fuel Gauge.");
+    }
+  }
+  else
+  {
+    Serial.println("Fuel Gauge is already awake.");
+  }
+}
+
+void reset()
+{
+  FuelGauge.reset();
+  Serial.println("Fuel Gauge has been reset/rebooted.");
+}
+
+void quickStart()
+{
+  FuelGauge.quickstart();
+  Serial.println("Quick start has been initiated on the Fuel Gauge.");
+}
+
+void PeriodicUpdate(){
+  wakeMode();
+  voltage = FuelGauge.voltage();
+  sleepMode();
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+  duration = pulseIn(echoPin, HIGH);
+  distance = duration * 0.034 / 2;
+  Serial.print("Distance: ");
+  Serial.println(distance);
 }

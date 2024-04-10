@@ -25,27 +25,32 @@ def user_exists(username, dbClient):
 #      "password": passord,
 # }      
 def sign_in(request, dbClient):  # Returns Json
-    # username = request.form['username']
-    # password = request.form['password']
     data = request.get_json()
     username = data['username'].lower()
     password = data['password']
     user_collection = dbClient.Users.User
     user = user_collection.find_one({'username': username})
     if user is not None:
+        print(user)
+        print(user.get("OTP"))
         account_password = cypher.decrypt(user['password'])
-        if password == account_password:
-            return {'message': 'Authorized',
-                    'access': True, }
+        if user.get("OTP") is None:
+            if password == account_password:
+                return {'message': 'Authorized',
+                        'access': True, }
+            else:
+                return {'message': 'Not Authorized, incorrect password',
+                        'access': False, }
         else:
-            return {'message': 'Not Authorized, incorrect password',
-                    'access': False, }
+            return {'message': 'Not Verified User',
+                        'access': False, }
     else:
         return {'message': 'User does not exist',
                 'access':False, }
 
 
 def sign_up(request, dbclient):  # Returns Json
+    print('start')
     data = request.get_json()
     username = data['username'].lower()
     password = data['password']
@@ -54,9 +59,9 @@ def sign_up(request, dbclient):  # Returns Json
 
     if user is None:
         OTP = 0000
-        while user: 
+        while user is None: 
             temp = random.randint(1000, 9999)
-            if user_collection.find_one({'OTP': OTP}) is None:      # Creates Unique OTPs 
+            if user_collection.find_one({'OTP': temp}) is None:      # Creates Unique OTPs 
                 OTP = temp
                 break
         newUser = {
@@ -65,13 +70,16 @@ def sign_up(request, dbclient):  # Returns Json
             "systems": [],
             "notifications": [],
             "OTP": OTP,
+            "sys_invites": [],
         }
         user_collection.insert_one(newUser)
         subject = "MyAPWS Account Creation: Verify Email"            # Sends Email for New User to Verify Email
         MessageFunctions.send_email(subject, username, case=1, code=OTP)  # Parameter '1' = New User Email format to send
-        return {'message': 'User added.', }
+        return {'message': 'User added.',           # TODO Need Catch Block for emails that aren't valid!!
+                'access': True }
     else:
-        return {'message': 'Username exists already.', }
+        return {'message': 'Username exists already.', 
+                'access': False}
     
 def forgot_request(request, dbclient):          # Creates OTP for exisiting users
     data = request.get_json()
@@ -79,7 +87,7 @@ def forgot_request(request, dbclient):          # Creates OTP for exisiting user
     username = data['username'].lower()
     user = user_collection.find_one({'username': username})
 
-    if user_exists(username):
+    if user_exists(username, dbclient):
         OTP = 0000
         while user:
             temp = random.randint(1000, 9999)
@@ -101,7 +109,7 @@ def otp_verify(request, dbclient):      # Checks to see input code matches the O
     username = data['username'].lower()
     input_otp = data['OTP']
     user = user_collection.find_one({'username': username})
-    if user['OTP'] == input_otp:                            # Compares OTP from User input and Database
+    if int(user['OTP']) == int(input_otp):                            # Compares OTP from User input and Database
         remove = {"$unset": {"OTP": ""}}                    # Removes OTP from DB so it can't be used again
         user_collection.update_one(user, remove)
         return {'access': True, }

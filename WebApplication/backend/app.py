@@ -18,31 +18,16 @@ client = MongoClient("mongodb+srv://alexistorres1802:PsVRgNszt317idtn@apws.qpzzx
 #login route
 @app.route("/", methods=['POST'])
 def login_page():
-    response = ''
     response = LoginFunctions.sign_in(request,client)
-
-    #     data = request.get_json()
-    # print(data)
-    # if 'Username' in data and data['Username'] != "":
-    #     response = {"Username" : data["Username"], "Access" : True}
-    #     return response
-    
-    # global username_global
-    # username_global = username
+    print(response)
     return response
 
 #create_user route
 @app.route("/create_user", methods=['POST'])
 def create_user():
-    # print("REACHED")
-    # print(request)
-    # print(client)
-    response = ''
+    print(request.get_json())
     response = LoginFunctions.sign_up(request,client)
     print(response)
-    # global username_global
-    # username_global = username
-    # session['username'] = Username
     return response  # This is a Json Response
 
    
@@ -90,12 +75,13 @@ def update_settings():
     #TBD Not sure how settings will look like
     response = ''
     return "Placeholder"
+
 # ! Could just /system as it sends every parameter
 #/history route
 @app.route("/history", methods=['POST'])
 def history():
     response = ''
-
+    
     return "Placeholder"
 
 #notifications route
@@ -118,8 +104,13 @@ def change_role():
 #system_invite route
 @app.route("/system_invite", methods=['POST'])
 def system_invite():
-    return "Placeholder"
+    response = InviteHandler.sys_user_invite(request,client)
+    return response
 
+@app.route("/sys_invite_akn", methods=['POST'])
+def sys_invite_akn():
+    response = InviteHandler.user_akn_invite(request,client)
+    return response
 #leave_system route
 @app.route("/leave_system", methods=['POST'])
 def leave_system():
@@ -140,8 +131,6 @@ def akn_request():
     response = InviteHandler.akn_join_request(request,client)
     return response
 
-
-#Route for Hardware, TBD if ardino nano can do post requests
 #data route
 @app.route("/data", methods=['POST'])
 def data():

@@ -61,14 +61,15 @@ def sys_info(request, dbClient):
                         'data_packets': system.get("data_packets"),
                         'users': system.get("users"),
                         'join_request': system.get("join_request"),
-                    }
+                    },
+                    "success": True,
                 }
             else:
-                return {'message': "User does not have access"}
+                return {'message': "User does not have access","success": False,}
         else:
-            return {'message': "System does not exist"}
+            return {'message': "System does not exist","success": False,}
     else:
-        return {'message': "User does not exist"}
+        return {'message': "User does not exist","success": False,}
 
     
 

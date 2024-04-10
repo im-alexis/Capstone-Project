@@ -40,7 +40,9 @@ recipient = "Kietvle2020@gmail.com"
 
 # CHECK REQUIRED INPUTS FOR EACH CASE BEFORE CALLING THIS FUNCTION
 
-def send_email(subject, recipient, case, code, pnum, systemID, life, user, invite): # Work In Progress
+def send_email(subject="", recipient="", case="", 
+               code="", pnum="", systemID="", 
+               life="", user="", invite=""): # Work In Progress
     if case == 1: # Email Creation
         body = f"""\
 Your Email Verification Code: {code}
@@ -69,9 +71,9 @@ Current Water Level: {life}
 ."""
     elif case == 6: # System Invites
         body = f"""\
-You Have Been Invited To {user}'s APWS.
+You have been invited to system#{systemID}.
 
-Here Is Your Invite Code: {invite}
+Invite from {user}
 ."""
     elif case == 7:
         body = f"""\

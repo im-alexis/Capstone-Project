@@ -28,15 +28,28 @@
 .passLbl{
     margin-bottom:0.1px ;
 }
-label {
+#emailLabel {
     display: inline-block;
-    width: 100px; /* Adjust the width as needed */
-    text-align: right;
-    margin-right: 10px; /* Adjust the margin as needed */
-  }
+    width: 35px; /* Adjust the width as needed */
+    margin-left: 60px;
+}
+
+#passwordLabel {
+    display: inline-block;
+    width: 60px; /* Adjust the width as needed */
+    margin-left: 30px;
+}
 
 button {
     display: inline-block;
     vertical-align: top; /* Align the button with the top of the labels */
     margin-right: 10px; /* Adjust the margin as needed */
+}
+
+#username {
+    margin-left: 10px;
+}
+
+#password {
+    margin-left: 10px;
 }
