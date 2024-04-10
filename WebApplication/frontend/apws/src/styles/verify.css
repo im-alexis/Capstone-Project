@@ -1,0 +1,50 @@
+#back{
+    height: 100vh;
+    background-image: url(0_2.webp);
+    background-position: bottom;
+    background-repeat: repeat-x;
+    background-attachment: fixed;
+    background-size: auto 30%;
+    background-color: rgb(197, 233, 188);
+    border: rgb(197, 233, 188);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#verify{
+    background-size: auto 35%;
+    border: 15px solid;
+    border-image: conic-gradient(rgb(58, 226, 58), yellow,rgb(58, 226, 58), rgb(22, 61, 188), rgb(58, 226, 58), yellow,rgb(58, 226, 58), rgb(22, 61, 188), rgb(58, 226, 58)) 1;
+    background-color: rgb(253, 252, 252);
+    width: 400px;
+    height: 250px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+.passLbl{
+    margin-bottom:0.1px ;
+}
+label {
+    display: inline-block;
+    width: 100px;
+    margin-right: 10px; 
+    text-align: right;
+  }
+
+input {
+    display: inline;
+    margin-right: 90px;
+}
+
+button {
+    margin-left: 10px; /* Adjust the margin as needed */
+}
+#otp {
+    display: inline-block;
+    width: 100px;
+    margin-right: 10px; 
+    text-align: left;
+}

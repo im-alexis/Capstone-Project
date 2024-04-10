@@ -47,10 +47,22 @@ def create_user():
 
    
 
-#forgot_password route
+#forgot password route
 @app.route("/forgot_password", methods=['POST'])
 def forgot_password():
-    response = LoginFunctions.password_reset(request,client)
+    response = LoginFunctions.forgot_request(request,client)
+    return response
+
+#OTP Check
+@app.route("/verify", methods=['POST'])
+def verify():
+    response = LoginFunctions.otp_verify(request,client)
+    return response
+
+#reset password
+@app.route("/reset", methods=['POST'])
+def reset():
+    response = LoginFunctions.reset_password(request,client)
     return response
 
 #dashboard route
@@ -78,12 +90,13 @@ def update_settings():
     #TBD Not sure how settings will look like
     response = ''
     return "Placeholder"
+
 # ! Could just /system as it sends every parameter
 #/history route
 @app.route("/history", methods=['POST'])
 def history():
     response = ''
-
+    
     return "Placeholder"
 
 #notifications route
@@ -106,8 +119,13 @@ def change_role():
 #system_invite route
 @app.route("/system_invite", methods=['POST'])
 def system_invite():
-    return "Placeholder"
+    response = InviteHandler.sys_user_invite(request,client)
+    return response
 
+@app.route("/sys_invite_akn", methods=['POST'])
+def sys_invite_akn():
+    response = InviteHandler.user_akn_invite(request,client)
+    return response
 #leave_system route
 @app.route("/leave_system", methods=['POST'])
 def leave_system():
@@ -128,8 +146,6 @@ def akn_request():
     response = InviteHandler.akn_join_request(request,client)
     return response
 
-
-#Route for Hardware, TBD if ardino nano can do post requests
 #data route
 @app.route("/data", methods=['POST'])
 def data():
