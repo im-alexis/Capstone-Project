@@ -48,7 +48,7 @@ class Verify extends React.Component {
         if(this.state.success === true){
             window.alert("OTP Approved")
             if(this.state.type === "fp") {window.location.replace(`/reset_password`)}
-            else {window.location.replace(`/dashboard`)}
+            else {window.location.replace(`/`)}
         }else{
           window.alert("Incorrect Code")
         }

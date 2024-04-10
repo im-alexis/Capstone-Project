@@ -49,12 +49,10 @@ class Login extends React.Component {
     .then((data) => {
       this.setState({
         success: data['access'],
-        // user: data['Username']
       })
     })
     setTimeout(() => {
       if(this.state.success === true){
-        // window.alert("Successfully Signed In")
         window.location.replace(`/Dashboard`)
       }else{
         alert("Incorrect Username or Password")
@@ -72,10 +70,10 @@ class Login extends React.Component {
             <br />
             <h1>APWS</h1>
             <br />
-            <label>Email   </label>
+            <label id="emailLabel">Email   </label>
             <input id="username" type='email' name='user' value={this.user} onChange={this.usernameHandler} required></input>
             <br/><br/>
-            <label>Password   </label>
+            <label id="passwordLabel">Password   </label>
             <input id="password" type='password' name='user' value={this.pass} onChange={this.passwordHandler} required></input>
             <br/><br/>
             <button onClick={this.login} id='loginBtn'>Login</button>

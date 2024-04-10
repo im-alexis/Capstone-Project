@@ -101,18 +101,20 @@ class CreateUser extends React.Component {
         console.log(data['message'])
         if (data['message'] === 'User added.') {
           this.setState({
-            success: true,
+            success: data['access'],
           })}
       })
       setTimeout(() => {
+        console.log(this.state.success)
         if(this.state.success === true){
-          window.alert("Successfully Created Account")
-          window.location.replace(`/`)
+          // window.alert("Successfully Created Account")
+          sessionStorage.setItem('user', this.state.user)
+          window.location.replace(`/verify`)
         }else{
           console.log("What's going on 2")
           window.alert("Username already exists")
         }
-      }, 500); // 2000 milliseconds = 2 seconds
+      }, 2000); // 2000 milliseconds = 2 seconds
     
     });
 
@@ -123,13 +125,13 @@ class CreateUser extends React.Component {
       <div id = "back">
         <div id = "cu">
           <h1>APWS</h1>
-          <label>Username   </label>
+          <label id ='cuu'>Username   </label>
           <input type='text' name='user' value={this.user} id='username'></input>
           <br/><br/>
-          <label>Password</label>
+          <label id ='cup'>Password</label>
           <input type='password' name='user' value={this.pass} id='pass1' ></input>
           <br/><br/>
-          <label className='passLbl'>Re-enter Password</label>
+          <label id ='curp'>Re-enter Password</label>
           <input className='passLbl' type='password' name='user' id='pass2'></input>
           <br/><br/>
           <p>PASSWORD MUST CONTAIN:</p>

@@ -46,7 +46,7 @@ class Forgot extends React.Component {
         }else{
           window.alert("User No Existing User")
         }
-      }, 1000); // 2000 milliseconds = 2 seconds
+      }, 2000); // 2000 milliseconds = 2 seconds
         
     }
   
