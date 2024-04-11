@@ -160,7 +160,7 @@ void loop()
 
 
 //==================================================================
-//Use this one for enabling for X amount of seconds
+//Use This one for only enabling for burst amount of seconds at a time but will be reoccuring, meaning we will constantly come back until the clock expires
 #define dutyCycle 1000/2   //50% duty cycle
 
 void pumpEnable(int seconds)
@@ -179,7 +179,7 @@ void pumpEnable(int seconds)
 
 
 //==================================================================
-//Use This one for only enabling for X amount of seconds at a time but will be reoccuring
+////Use this one for enabling for X amount of seconds
 // #define dutyCycle 1000/2   //50% duty cycle
 
 // void pumpEnable(int seconds)
