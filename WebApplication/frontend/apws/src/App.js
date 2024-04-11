@@ -1,5 +1,6 @@
 import './App.css';
 import Login from './components/login'
+import Landing from './components/landing';
 import CreateUser from './components/CreatUser';
 import Forgot from './components/Forgot';
 import Dashboard from './components/Dashboard';
@@ -31,7 +32,11 @@ function App() {
   return (
       <BrowserRouter>
           <Routes>
-              <Route path="/" element={<Login />}>
+              <Route path="/" element={<Landing />}>
+                  {/*<Route path="projects" element={<Projects />} />*/}
+                  {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
+              </Route>
+              <Route path="/Login" element={<Login />}>
                   {/*<Route path="projects" element={<Projects />} />*/}
                   {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
               </Route>
@@ -51,10 +56,10 @@ function App() {
                   {/*<Route path="projects" element={<Projects />} />*/}
                   {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
               </Route>
-              <Route path="/reset_password" element={<Reset_password />}>
+              {/* <Route path="/reset_password" element={<Reset_password />}>
                   {/*<Route path="projects" element={<Projects />} />*/}
                   {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
-              </Route>
+              {/*</Route> */}
           </Routes>
       </BrowserRouter>
   );
