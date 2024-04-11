@@ -299,6 +299,7 @@ void wifiTask( void )
         Serial.print("Error code: ");
         Serial.println(httpResponseCode);
         http.end();
+        state++;
         break;
       }
       // Free resources
@@ -309,6 +310,7 @@ void wifiTask( void )
 
       if (JSON.typeof(myObject) == "undefined") {
         Serial.println("Parsing input failed!");
+        state++;
         break;
       }
     
@@ -327,6 +329,11 @@ void wifiTask( void )
       }
       Serial.print("1 = ");
       Serial.println(sensorReadingsArr[0]);
+      if(sensorReadingsArr[0] == -1){
+        Serial.println( "Device not registered by server" );
+        state++;
+        break;
+      }
       delayTime = sensorReadingsArr[0];
       Serial.print("2 = ");
       Serial.println(sensorReadingsArr[1]);
@@ -334,6 +341,7 @@ void wifiTask( void )
       Serial.print("3 = ");
       Serial.println(sensorReadingsArr[2]);
       pumpEnable(sensorReadingsArr[2]);
+      state++;
       break;
     }
     case WIFI_STATE_END:
