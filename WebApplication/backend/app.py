@@ -135,7 +135,7 @@ def update_settings():
 #water route
 @app.route("/water", methods=['POST'])
 def water():
-    response = ' '
+    response = HardwareInteraction.water_plant(request,client)
     return response
 
 #data route
