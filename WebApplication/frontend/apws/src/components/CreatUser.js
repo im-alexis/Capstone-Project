@@ -104,12 +104,8 @@ class CreateUser extends React.Component {
             success: data['access'],
           })}
       })
-<<<<<<< HEAD
-      .then(setTimeout(() => {
-=======
       setTimeout(() => {
         console.log(this.state.success)
->>>>>>> 0db9445b68d3058d58255842b980595ed8d960d6
         if(this.state.success === true){
           // window.alert("Successfully Created Account")
           sessionStorage.setItem('user', this.state.user)
@@ -118,11 +114,7 @@ class CreateUser extends React.Component {
           console.log("What's going on 2")
           window.alert("Username already exists")
         }
-<<<<<<< HEAD
-      }, 600)) // 2000 milliseconds = 2 seconds)
-=======
       }, 2000); // 2000 milliseconds = 2 seconds
->>>>>>> 0db9445b68d3058d58255842b980595ed8d960d6
     
     });
 
