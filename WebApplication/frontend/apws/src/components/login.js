@@ -55,7 +55,7 @@ class Login extends React.Component {
     setTimeout(() => {
       if(this.state.success === true){
         // window.alert("Successfully Signed In")
-        window.location.replace(`/Dashboard`)
+        window.location.replace(`/Dashboard?Username=${this.state.user}`)
       }else{
         alert("Incorrect Username or Password")
       }

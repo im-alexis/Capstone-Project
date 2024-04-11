@@ -104,7 +104,7 @@ class CreateUser extends React.Component {
             success: true,
           })}
       })
-      setTimeout(() => {
+      .then(setTimeout(() => {
         if(this.state.success === true){
           window.alert("Successfully Created Account")
           window.location.replace(`/`)
@@ -112,7 +112,7 @@ class CreateUser extends React.Component {
           console.log("What's going on 2")
           window.alert("Username already exists")
         }
-      }, 500); // 2000 milliseconds = 2 seconds
+      }, 600)) // 2000 milliseconds = 2 seconds)
     
     });
 
