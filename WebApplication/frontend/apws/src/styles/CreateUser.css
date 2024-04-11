@@ -37,13 +37,6 @@ p{
     margin-bottom:0.1px ;
 }
 
-label {
-    display: inline-block;
-    width: 100px; /* Adjust the width as needed */
-    text-align: right;
-    margin-right: 10px; /* Adjust the margin as needed */
-}
-
 button {
     display: inline-block;
     vertical-align: top; /* Align the button with the top of the labels */
@@ -51,5 +44,26 @@ button {
 }
 
 #links {
+    margin-right: 5px;
+}
+
+#cuu {
+    display: inline-block;
+    width: 115px; /* Adjust the width as needed */
+    font-size: 14px;
+    margin-right: 0px;
+}
+
+#cup {
+    display: inline-block;
+    width: 125px; /* Adjust the width as needed */
+    font-size: 14px;
+    margin-right: 0px;
+}
+
+#curp {
+    display: inline-block;
+    width: 120px; /* Adjust the width as needed */
+    font-size: 14px;
     margin-right: 5px;
 }

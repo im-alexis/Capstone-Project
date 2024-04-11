@@ -18,31 +18,16 @@ client = MongoClient("mongodb+srv://alexistorres1802:PsVRgNszt317idtn@apws.qpzzx
 #login route
 @app.route("/", methods=['POST'])
 def login_page():
-    response = ''
     response = LoginFunctions.sign_in(request,client)
-
-    #     data = request.get_json()
-    # print(data)
-    # if 'Username' in data and data['Username'] != "":
-    #     response = {"Username" : data["Username"], "Access" : True}
-    #     return response
-    
-    # global username_global
-    # username_global = username
+    print(response)
     return response
 
 #create_user route
 @app.route("/create_user", methods=['POST'])
 def create_user():
-    # print("REACHED")
-    # print(request)
-    # print(client)
-    response = ''
+    print(request.get_json())
     response = LoginFunctions.sign_up(request,client)
     print(response)
-    # global username_global
-    # username_global = username
-    # session['username'] = Username
     return response  # This is a Json Response
 
    
