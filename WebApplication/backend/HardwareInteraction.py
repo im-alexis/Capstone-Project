@@ -93,8 +93,49 @@ def get_instructions_hw(systemID, dbClient):
     system_collection = dbClient.Systems.System
     system = system_collection.find_one({'systemID': systemID})
     if system is None:
-        return [-1,-1,-1]
+        return {"delayTime":-1,"moistureCutoff":-1,"pumpOnSeconds":-1}
     else:
-        settings = system.get("settings", []) # is an array of integers [waterTime (In msec), MoistRange (0 to 100), SampleTime(in mins)]
+        settings = system.get("settings", []) 
         #return {'message': settings}
-        return settings
+        time_pump = settings[0]
+        settings[0] = 0 
+        system_collection.update_one({"systemID": systemID}, {'$set': {'settings': settings}})
+        return {"delayTime":settings[2],"moistureCutoff":settings[1],"pumpOnSeconds":time_pump} #{in Minutes, 0 to 100, in seconds}
+    
+'''
+For route /water
+
+    Request format
+    {
+     "username": username,
+     "systemID": someID,
+    } 
+'''
+
+def water_plant(request, dbClient):
+    data = request.get_json()
+    username = data['username'].lower()
+    systemID = data['systemID']
+
+    user_collection = dbClient.Users.User
+    system_collection = dbClient.Systems.System
+
+    # Combine queries to get user and system information in a single query
+    user_system = user_collection.find_one({"username": username, "systems.systemID": systemID})
+
+    if user_system is None:
+        return {'message': f"{username} does not exist or is not part of the system {systemID}"}
+
+    # Check access level
+    for entry in user_system.get('systems', []):
+        if entry['systemID'] == systemID:
+            if entry['access_level'] > 1:
+                return {'message': 'User cannot trigger manual water'}
+            break
+    else:
+        return {'message': f"{username} is not part of the system {systemID}"}
+
+    # Increment water sec count
+    system_collection.update_one({"systemID": systemID}, {'$inc': {'settings.0': 1}})
+
+    return {'message': "Water Ping has been queued"}
