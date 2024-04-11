@@ -1,0 +1,442 @@
+{
+	"info": {
+		"_postman_id": "529e0410-39ac-49a4-83bb-ae81c090e5ca",
+		"name": "APWS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33935813",
+		"_collection_link": "https://restless-meteor-510536.postman.co/workspace/New-Team-Workspace~cc53dfd1-c411-4cad-a34c-05135a80c799/collection/33935813-529e0410-39ac-49a4-83bb-ae81c090e5ca?action=share&source=collection_link&creator=33935813"
+	},
+	"item": [
+		{
+			"name": "APWS Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"alexistorres@utexas.edu\",\n    \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "APWS Create User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"email@utexas.edu\",\n    \"password\": \"password\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/create_user",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"create_user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "APWS Register System",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"email@utexas.edu\",\n    \"systemID\": \"newSystem\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/register_system",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"register_system"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "APWS Send Join System Request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"alexistorres@utexas.edu\",\n    \"systemID_target\": \"a2h87hd1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/join_system_request",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"join_system_request"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "APWS Ack Join Request",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n     \"systemID\": \"a2h87hd1\",\n     \"target\": \"alexistorres@utexas.edu\",\n     \"action\": 1  \n    \n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/akn_request",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"akn_request"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "APWS Send Data Packet",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n     \"systemID\": \"test123\",\n     \"tank_level\": 60,\n     \"probes\": [\n          {\n             \"moisture\" : 40,\n             \"temp\" : 40,\n             \"light\": 40,\n              \"humidity\" : 40\n          }\n     ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/data",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"data"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "APWS Leave System",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"systemID\": \"test123\",\n    \"username\": \"alexistorres@utexas.edu\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/leave_system",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"leave_system"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "APWS System Data",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"alexistorres@utexas.edu\",\n    \"systemID\": \"a2h87hd1\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/system",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"system"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "APWS Change Role",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"target\": \"alexistorres@utexas.edu\",\n    \"systemID\": \"a2h87hd1\",\n    \"username\": \"email@utexas.edu\",\n    \"action\" : 1\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/change_role",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"change_role"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "APWS Invite User to System",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"target\": \"alexistorres@utexas.edu\",\n    \"systemID\": \"a2h87hd1\",\n    \"username\": \"email@utexas.edu\"\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/system_invite",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"system_invite"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "APWS System Invite Akn",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"systemID\": \"a2h87hd1\",\n    \"username\": \"alexistorres@utexas.edu\",\n    \"action\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/sys_invite_akn",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"sys_invite_akn"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "APWS Dashboard",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"email@utexas.edu\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/dashboard",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"dashboard"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "APWS Get Instructions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/GetInstructions?systemID=a2h87hd1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"GetInstructions"
+					],
+					"query": [
+						{
+							"key": "systemID",
+							"value": "a2h87hd1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "APWS Update Settings",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"alexistorres@utexas.edu\",\n    \"systemID\": \"a2h87hd1\",\n    \"settings\" : [45, 2]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/update_settings",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"update_settings"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
