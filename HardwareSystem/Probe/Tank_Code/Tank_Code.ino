@@ -71,6 +71,9 @@ const int echoPin = 10;
 long duration;
 int distance;
 
+int moistureCutoff = 12000;
+int delayTime = 10;
+
 //----------------------------------------------------------------------------------------------------------------------
 // App
 //----------------------------------------------------------------------------------------------------------------------
@@ -81,6 +84,7 @@ bool wifiActive = false;
 bool bleActive = false;
 bool updated = false;
 bool WiFisetup = false;
+bool delayStart = false;
 
 #define pumpPin 2              //TODO: Change pumpPin to what the pumpPin will be
 #define pumpActiveLength 10    //in seconds
@@ -140,10 +144,11 @@ void loop()
   //   WiFisetup == true;
   // }
   
+  delayStart = false;
 
   bleTask();
 
-  if((ble_plant_health.moisture < 12000) && (updated == true) && (pumpActiveTimeRemaining != 0)){
+  if((ble_plant_health.moisture < moistureCutoff) && (updated == true) && (pumpActiveTimeRemaining != 0)){
     updated = false;
     /*                          //TODO: uncomment this block text, change pumpPin into the pumpPin ammount, maybe change for loop amount
     pumpEnable(pumpActiveLength);
@@ -158,6 +163,10 @@ void loop()
   wifiTask();
 
   delay(1000);
+
+  if(delayStart == true){
+    delay(delayTime * 60 * 1000);
+  }
 
 }
 
@@ -318,10 +327,13 @@ void wifiTask( void )
       }
       Serial.print("1 = ");
       Serial.println(sensorReadingsArr[0]);
+      delayTime = sensorReadingsArr[0];
       Serial.print("2 = ");
       Serial.println(sensorReadingsArr[1]);
+      moistureCutoff = sensorReadingsArr[1];
       Serial.print("3 = ");
       Serial.println(sensorReadingsArr[2]);
+      pumpEnable(sensorReadingsArr[2]);
       break;
     }
     case WIFI_STATE_END:
@@ -331,6 +343,7 @@ void wifiTask( void )
       WiFi.disconnect();
       wifiActive = false;
       updateHealth = true;
+      delayStart = true;
       Serial.println( "WiFi end" );
       break;
     default:
