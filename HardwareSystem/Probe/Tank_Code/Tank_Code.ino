@@ -80,6 +80,8 @@ bool updated = false;
 bool WiFisetup = false;
 
 #define pumpPin 2              //TODO: Change pumpPin to what the pumpPin will be
+#define pumpActiveLength 10    //in seconds
+int pumpActiveTimeRemaining = 0;    //This is our timer for our pump to always reference how much time is left to run, no multithreading no r/w problems (dub)
 
 String httpRequestData = "";
 WiFiClient client;
@@ -128,25 +130,20 @@ void loop()
   static unsigned long previousMillis = 0;
   static unsigned long ntpSyncPreviousMillis = 0;
 
-  /* Still need testgin
+  //  Still need testgin
 
-  if(WiFisetup == false){
-    setupWifi();
-    WiFisetup == true;
-  }
-  */
+  // if(WiFisetup == false){
+  //   setupWifi();
+  //   WiFisetup == true;
+  // }
+  
 
   bleTask();
 
-  if(ble_plant_health.moisture < 12000 && updated == true){
+  if((ble_plant_health.moisture < 12000) && (updated == true) && (pumpActiveTimeRemaining != 0_)){
     updated = false;
     /*                          //TODO: uncomment this block text, change pumpPin into the pumpPin ammount, maybe change for loop amount
-    for(int i = 1; i < 10; i++){
-      digitalWrite(pumpPin, HIGH);
-      delayMicroseconds(1000/2);
-      digitalWrite(pumpPin, LOW);
-      delayMicroseconds(1000 - 100);
-    }
+    pumpEnable(pumpActiveLength);
     */
   }
 
@@ -162,11 +159,46 @@ void loop()
 }
 
 
+//==================================================================
+//Use this one for enabling for X amount of seconds
+#define dutyCycle 1000/2   //50% duty cycle
+
+void pumpEnable(int seconds)
+{
+  pumpActiveTimeRemaining += seconds;
+  int burst = 5;  
+  while( (burst != 0) && (pumpActiveTimeRemaining != 0) ){
+      digitalWrite(pumpPin, HIGH);
+      delayMicroseconds(dutyCycle);
+      digitalWrite(pumpPin, LOW);
+      delayMicroseconds(1000 - dutyCycle);
+      burst--; pumpActiveTimeRemaining--;
+    }
+}
+//==================================================================
+
+
+//==================================================================
+//Use This one for only enabling for X amount of seconds at a time but will be reoccuring
+// #define dutyCycle 1000/2   //50% duty cycle
+
+// void pumpEnable(int seconds)
+// {
+//   for(int i = 0; i < seconds; i++){
+//       digitalWrite(pumpPin, HIGH);
+//       delayMicroseconds(dutyCycle);
+//       digitalWrite(pumpPin, LOW);
+//       delayMicroseconds(1000 - dutyCycle);
+//     }
+// }
+//==================================================================
+
 void wifiTask( void )
 {
   enum WIFI_STATE_TYPE { WIFI_STATE_OFF,
                          WIFI_STATE_CONNECT,
                          WIFI_STATE_SEND,
+                         WIFI_STATE_RECIEVE,
                          WIFI_STATE_END,
                          WIFI_STATE_RESTART = 255
                        };
@@ -240,6 +272,82 @@ void wifiTask( void )
       }
       state++;
       break;
+
+
+    case WIFI_STATE_RECIEVE:
+      // https://github.com/amcewen/HttpClient/blob/master/examples/SimpleHttpExample/SimpleHttpExample.ino
+      http.begin(client, serverName);
+      int err = http.get(client, serverName);
+      if (err == 0)
+      {
+        Serial.println("startedRequest ok");
+
+        err = http.responseStatusCode();
+        if (err >= 0)
+        {
+          Serial.print("Got status code: ");
+          Serial.println(err);
+
+          // Usually you'd check that the response code is 200 or a
+          // similar "success" code (200-299) before carrying on,
+          // but we'll print out whatever response we get
+
+          err = http.skipResponseHeaders();
+          if (err >= 0)
+          {
+            int bodyLen = http.contentLength();
+            Serial.print("Content length is: ");
+            Serial.println(bodyLen);
+            Serial.println();
+            Serial.println("Body returned follows:");
+          
+            // Now we've got to the body, so we can print it out
+            unsigned long timeoutStart = millis();
+            char c;
+            // Whilst we haven't timed out & haven't reached the end of the body
+            while ( (http.connected() || http.available()) &&
+                  ((millis() - timeoutStart) < 30*1000) )   //number of millisecodns to wait without recieving any data
+            {
+                if (http.available())
+                {
+                    c = http.read();
+                    // Print out this character
+                    Serial.print(c);
+                  
+                    bodyLen--;
+                    // We read something, reset the timeout counter
+                    timeoutStart = millis();
+                }
+                else
+                {
+                    // We haven't got any data, so let's pause to allow some to
+                    // arrive
+                    delay(1000);  //networkDelay
+                }
+            }
+          }
+          else
+          {
+            Serial.print("Failed to skip response headers: ");
+            Serial.println(err);
+          }
+        }
+        else
+        {    
+          Serial.print("Getting response failed: ");
+          Serial.println(err);
+        }
+      }
+      else
+      {
+        Serial.print("Connect failed: ");
+        Serial.println(err);
+      }
+      http.stop();
+      http.end();
+    } 
+    break;
+
     case WIFI_STATE_END:
       state = WIFI_STATE_OFF;
       wifiConnectTry = 0;
