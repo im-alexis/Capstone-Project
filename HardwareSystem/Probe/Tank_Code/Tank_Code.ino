@@ -7,6 +7,7 @@
 #include <ArduinoBLE.h>
 #include <WiFi.h>
 #include <HTTPClient.h>
+#include <Arduino_JSON.h>
 #include "MAX17043.h"
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -16,13 +17,15 @@
 ///////TODO: Put Wifi Username and Password
 char ssid[32] = "Ours 2 GHz"; //Need to be 2 GHz
 char pass[32] = ""; //INSERT WIFI PASSWORD;         //Change wifi password
-
-//----------------------------------------------------------------------------------------------------------------------
-// Wifi Server
-//----------------------------------------------------------------------------------------------------------------------
+char* systemID = "a2h87hd1";
 
 //TODO: Update serverName
+
 const char* serverName = "http://192.168.1.104:5000/data";   //"http://IP_ADDRESS:5000/data"
+const char* getServerName = strcat("http://192.168.1.104:5000/GetInstruction?SystemID=", systemID);
+
+String sensorReadings;
+int sensorReadingsArr[3];
 
 //----------------------------------------------------------------------------------------------------------------------
 // BLE UUIDs
@@ -62,7 +65,7 @@ plant_health ble_plant_health;
 int voltage;
 
 //For Ultrasonic
-int Ultraloop = 0;
+int sensorLoop = 0;
 const int trigPin = 9;
 const int echoPin = 10;
 long duration;
@@ -93,7 +96,7 @@ HTTPClient http;
 
 void setup()
 {
-  Serial.println( "Setup begin" );
+  delay(2000);
   pinMode(pumpPin, OUTPUT);
 
   pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
@@ -140,17 +143,17 @@ void loop()
 
   bleTask();
 
-  if((ble_plant_health.moisture < 12000) && (updated == true) && (pumpActiveTimeRemaining != 0_)){
+  if((ble_plant_health.moisture < 12000) && (updated == true) && (pumpActiveTimeRemaining != 0)){
     updated = false;
     /*                          //TODO: uncomment this block text, change pumpPin into the pumpPin ammount, maybe change for loop amount
     pumpEnable(pumpActiveLength);
     */
   }
 
-  if(Ultraloop == 0){
+  if(sensorLoop == 0){
     PeriodicUpdate();
   }
-  Ultraloop = (Ultraloop + 1) % 5;
+  sensorLoop = (sensorLoop + 1) % 5;
 
   wifiTask();
 
@@ -206,7 +209,6 @@ void wifiTask( void )
   static int state = WIFI_STATE_OFF;
   static int wifiConnectTry = 0;
   static int wifiStatus = WL_IDLE_STATUS;
-  static int httpResponseCode = 0;
   static unsigned long previousMillis = 0;
 
   switch ( state )
@@ -244,6 +246,7 @@ void wifiTask( void )
       Serial.println( wifiStatus );
       break;
     case WIFI_STATE_SEND:
+    {
 
 
       /*//Testing w/ Alexis
@@ -254,10 +257,9 @@ void wifiTask( void )
       //orginal: comment out if testing
       http.begin(client, serverName);
 
-
       
       http.addHeader("Content-Type", "application/json");
-      httpResponseCode = http.POST("{\"systemID\":\"a2h87hd1\",\"tank_level\":60.5,\"probes\":[{\"moisture\":" + String(ble_plant_health.moisture) + ",\"temp\":" + String(ble_plant_health.temp) + ",\"light\":" + String(ble_plant_health.light) + ",\"humidity\":" + String(ble_plant_health.humidity) + "}]}");
+      int httpResponseCode = http.POST("{\"systemID\":\"" + String(systemID) + "\",\"tank_level\":" + String(distance) + ",\"battery_level\":" + String (voltage) + ",\"probes\":[{\"moisture\":" + String(ble_plant_health.moisture) + ",\"temp\":" + String(ble_plant_health.temp) + ",\"light\":" + String(ble_plant_health.light) + ",\"humidity\":" + String(ble_plant_health.humidity) + "}]}");
 
       //httpResponseCode = http.POST(httpRequestData);
       Serial.println( "http posted" );
@@ -272,82 +274,56 @@ void wifiTask( void )
       }
       state++;
       break;
-
-
+    }
     case WIFI_STATE_RECIEVE:
+    {
       // https://github.com/amcewen/HttpClient/blob/master/examples/SimpleHttpExample/SimpleHttpExample.ino
-      http.begin(client, serverName);
-      int err = http.get(client, serverName);
-      if (err == 0)
-      {
-        Serial.println("startedRequest ok");
-
-        err = http.responseStatusCode();
-        if (err >= 0)
-        {
-          Serial.print("Got status code: ");
-          Serial.println(err);
-
-          // Usually you'd check that the response code is 200 or a
-          // similar "success" code (200-299) before carrying on,
-          // but we'll print out whatever response we get
-
-          err = http.skipResponseHeaders();
-          if (err >= 0)
-          {
-            int bodyLen = http.contentLength();
-            Serial.print("Content length is: ");
-            Serial.println(bodyLen);
-            Serial.println();
-            Serial.println("Body returned follows:");
-          
-            // Now we've got to the body, so we can print it out
-            unsigned long timeoutStart = millis();
-            char c;
-            // Whilst we haven't timed out & haven't reached the end of the body
-            while ( (http.connected() || http.available()) &&
-                  ((millis() - timeoutStart) < 30*1000) )   //number of millisecodns to wait without recieving any data
-            {
-                if (http.available())
-                {
-                    c = http.read();
-                    // Print out this character
-                    Serial.print(c);
-                  
-                    bodyLen--;
-                    // We read something, reset the timeout counter
-                    timeoutStart = millis();
-                }
-                else
-                {
-                    // We haven't got any data, so let's pause to allow some to
-                    // arrive
-                    delay(1000);  //networkDelay
-                }
-            }
-          }
-          else
-          {
-            Serial.print("Failed to skip response headers: ");
-            Serial.println(err);
-          }
-        }
-        else
-        {    
-          Serial.print("Getting response failed: ");
-          Serial.println(err);
-        }
+      http.begin(client, getServerName);
+      int httpResponseCode = http.GET();
+      String payload = "{}"; 
+      if (httpResponseCode>0) {
+        Serial.print("HTTP Response code: ");
+        Serial.println(httpResponseCode);
+        payload = http.getString();
       }
-      else
-      {
-        Serial.print("Connect failed: ");
-        Serial.println(err);
+      else {
+        Serial.print("Error code: ");
+        Serial.println(httpResponseCode);
+        http.end();
+        break;
       }
-      http.stop();
+      // Free resources
       http.end();
-    } 
-    break;
 
+      Serial.println(payload);
+      JSONVar myObject = JSON.parse(payload);
+
+      if (JSON.typeof(myObject) == "undefined") {
+        Serial.println("Parsing input failed!");
+        break;
+      }
+    
+      Serial.print("JSON object = ");
+      Serial.println(myObject);
+    
+      // myObject.keys() can be used to get an array of all the keys in the object
+      JSONVar keys = myObject.keys();
+    
+      for (int i = 0; i < keys.length(); i++) {
+        JSONVar value = myObject[keys[i]];
+        Serial.print(keys[i]);
+        Serial.print(" = ");
+        Serial.println(value);
+        sensorReadingsArr[i] = int(value);
+      }
+      Serial.print("1 = ");
+      Serial.println(sensorReadingsArr[0]);
+      Serial.print("2 = ");
+      Serial.println(sensorReadingsArr[1]);
+      Serial.print("3 = ");
+      Serial.println(sensorReadingsArr[2]);
+      break;
+    }
     case WIFI_STATE_END:
       state = WIFI_STATE_OFF;
       wifiConnectTry = 0;
@@ -367,7 +343,7 @@ void wifiTask( void )
   }
 }
 
-void bleTask()
+void bleTask( void )
 {
   enum BLE_STATE_TYPE { BLE_STATE_OFF,
                         BLE_STATE_BEGIN,
@@ -509,21 +485,30 @@ void bleTask()
 }
 
 void setupWifi ( void ){
+  Serial.println("Setting WIFI");
+  if (!BLE.begin()) {
+    Serial.println("starting Bluetooth® Low Energy module failed!");
+
+    while (1);
+  }
   BLE.setDeviceName("Wifi Setup");
-  BLE.begin();
+  BLE.setLocalName("SP10 Wifi Setup");
   BLEService SetupWiFiService("19B10000-E8F2-537E-4F6C-D104768A1214");
   pCharacteristicSSID.setValue("Set SSID");
   pCharacteristicPass.setValue("Set Pass");
-  char done[] = "0";
-  pCharacteristicDone.setValue(done);
+  char done = (char) 0;
+  pCharacteristicDone.setValue(&done);
   SetupWiFiService.addCharacteristic(pCharacteristicSSID);
   SetupWiFiService.addCharacteristic(pCharacteristicPass);
   SetupWiFiService.addCharacteristic(pCharacteristicDone);
+  BLE.setAdvertisedService(SetupWiFiService);
   BLE.addService(SetupWiFiService);
   BLE.advertise();
   Serial.println( "Advertising " );
-  while(done[0] == char(0)){
-    pCharacteristicDone.readValue(done, 1);
+  BLEDevice central = BLE.central();
+  while (central.connected()) {}
+  while(done == (char) 0){
+    pCharacteristicDone.readValue(&done, 1);
   }
   Serial.println( "Done Advertising " );
   pCharacteristicSSID.readValue(ssid, 32);

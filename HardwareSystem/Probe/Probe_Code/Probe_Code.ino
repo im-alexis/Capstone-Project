@@ -56,8 +56,9 @@ class MyServerCallbacks: public BLEServerCallbacks {
 };
 
 void setup() {
+  delay(2000);
 
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   //Temp & Humidity Sensor setup:
   Serial.println("Adafruit AHT10/AHT20 demo!");
@@ -67,7 +68,6 @@ void setup() {
   }
   Serial.println("AHT10 or AHT20 found");
 
-  Serial.begin(115200);
   Serial.println("Starting BLE work!");
 
   BLEDevice::init("SP10Server");
