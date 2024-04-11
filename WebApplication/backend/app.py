@@ -4,7 +4,7 @@
 from flask import Flask, request, session
 from pymongo import MongoClient
 from flask_cors import CORS
-import SystemInformation, UpdateFunctions, LoginFunctions, InviteHandler
+import SystemInformation, UpdateFunctions, LoginFunctions, InviteHandler, HardwareInteraction
 
 #LOOK INTO SESSIONS
 app = Flask(__name__)
@@ -30,8 +30,6 @@ def create_user():
     print(response)
     return response  # This is a Json Response
 
-   
-
 #forgot password route
 @app.route("/forgot_password", methods=['POST'])
 def forgot_password():
@@ -50,11 +48,6 @@ def reset():
     response = LoginFunctions.reset_password(request,client)
     return response
 
-#dashboard route
-@app.route("/dashboard", methods=['POST'])
-def dashboard():
-    response = ''
-    return "Placeholder"
 
 #register_system route
 @app.route("/register_system", methods=['POST'])
@@ -63,26 +56,31 @@ def register_system():
     response = UpdateFunctions.register_system(request, client)
     return response
 
+#/change_role route
+@app.route("/change_role", methods=['POST'])
+def change_role():
+    response = UpdateFunctions.change_role(request,client)
+    return response
+
+#dashboard route
+@app.route("/dashboard", methods=['POST'])
+def dashboard():
+    response = ''
+    return "Placeholder"
+
 #system route
 @app.route("/system", methods=['POST'])
 def system():
     response = SystemInformation.sys_info(request, client)
     return response
 
-#update_settings route
-@app.route("/update_settings", methods=['POST'])
-def update_settings():
-    #TBD Not sure how settings will look like
-    response = ''
-    return "Placeholder"
-
 # ! Could just /system as it sends every parameter
+
 #/history route
 @app.route("/history", methods=['POST'])
 def history():
-    response = ''
-    
-    return "Placeholder"
+    response = SystemInformation.get_history(request,client)
+    return response
 
 #notifications route
 @app.route("/notifications", methods=['POST'])
@@ -92,14 +90,12 @@ def notifications():
 #/system_users route
 @app.route("/system_users", methods=['POST'])
 def system_users():
-    response = ''
-    return "Placeholder"
-# ! Could just /system as it sends every parameter
-#/change_role route
-@app.route("/change_role", methods=['POST'])
-def change_role():
-    response = UpdateFunctions.change_role(request,client)
+    response = SystemInformation.get_sys_users(request,client)
     return response
+
+# ! Could just /system as it sends every parameter
+
+
 
 #system_invite route
 @app.route("/system_invite", methods=['POST'])
@@ -118,7 +114,6 @@ def leave_system():
     response = InviteHandler.leave_sys(request, client)
     return response
 
-
 #join_system route
 @app.route("/join_system_request", methods=['POST'])
 def join_system():
@@ -130,11 +125,30 @@ def join_system():
 def akn_request():
     response = InviteHandler.akn_join_request(request,client)
     return response
+#update_settings route
+@app.route("/update_settings", methods=['POST'])
+def update_settings():
+    #TBD Not sure how settings will look like
+    response = HardwareInteraction.sys_update_settings(request, client)
+    return response
+
+#water route
+@app.route("/water", methods=['POST'])
+def water():
+    response = ' '
+    return response
 
 #data route
 @app.route("/data", methods=['POST'])
 def data():
-    response = UpdateFunctions.recieve_data_packet(request,client)
+    response = HardwareInteraction.recieve_data_packet(request,client)
+    return response
+
+#Route for HW to recive intructions
+@app.route("/GetInstructions", methods=['GET'])
+def GetInstructions():
+    sysID = request.args.get('systemID')
+    response = HardwareInteraction.get_instructions_hw(sysID,client)
     return response
 
 
