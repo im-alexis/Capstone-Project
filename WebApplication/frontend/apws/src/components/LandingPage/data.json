@@ -1,10 +1,10 @@
 {
   "Header": {
-    "title": "We are a Landing Page",
-    "paragraph": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sed dapibus leo nec ornare diam sed commodo nibh ante facilisis bibendum."
+    "title": "APWS",
+    "paragraph": "Autonomous plant watering system(APWS) that will modernize the act of taking care of household plants or gardens"
   },
   "About": {
-    "paragraph": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "paragraph": "The problem the team is trying to address is that plants can just as easily die from over-enthusiasm as can from neglect. Some factors that kill plants are dust, over-watering, disease, cramping, shock, air quality, neglect, dormancy, light levels, or too much fertilizer. Many at-home plant owners do not know how to keep track of these issues and the health of their plants as time goes on. Some just believe that they do not have a “green thumb.” Others might have a busy schedule resulting in less allocated time tending to their plants. Most household watering systems are outdated systems that are controlled in some sort of panel box found in the garage. Leaving many users unaware of the functionality of their water systems. This is where a digital and modern system is required.",
     "Why": [
       "Lorem ipsum dolor",
       "Tempor incididunt",
