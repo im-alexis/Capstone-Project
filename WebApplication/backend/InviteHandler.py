@@ -203,6 +203,10 @@ def sys_user_invite(request, dbClient):
     invites = user_target.get("sys_invites", [])
     if any(invite['systemID'] == systemID for invite in invites):
         return {'message': 'Invite already exists',}
+    
+    systems = user_target.get("systems", [])
+    if any(sys['systemID'] == systemID for sys in systems):
+        return {'message': 'User already a memeber of system',}
 
     invites.append({
         "date": datetime.today(),

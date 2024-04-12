@@ -1,12 +1,7 @@
 #AWPS: Backend
 # Home of Operations that Update Items:
-#   1) /update_settings
-#   2) /change_role (Changing the role of user )
-#   3) /leave_system (User leaves a system, not the Owner )
-#   4) /join_system_request (User sends an Join request to a system )
-#   5) /akn_request (From Owner/Admin perspective: accept/deny join request)
-#   6) /register_system (Introduce a new system into the database )
-#   7) /data
+#   1) /change_role (Changing the role of user )
+#   2) /register_system (Introduce a new system into the database )
 from datetime import datetime
 
 '''
@@ -39,6 +34,7 @@ def register_system(request, dbClient):
             "data_packets": [],
             "join_request": [],
             "notifications": [],
+            "settings": [0,50,10],
         }
         system_collection.insert_one(new_system)
         
@@ -54,42 +50,6 @@ def register_system(request, dbClient):
         return {'message': "System registered"}
     else:
         return {'message': "System already registered"}
-
-
-
-'''
-For route /data
-    Request format
-    {
-     "systemID": someID,
-     "tank_level": someValue
-     "probes": [
-          {
-             "moisture" : someValue,
-             "temp" : someValue,
-             "light" : someValue,
-              "humidity" : someValue,
-          }, ...
-     ],
-}
-'''
-def recieve_data_packet(request, dbClient):
-    data = request.get_json()
-    systemID = data['systemID']
-    system_collection = dbClient.Systems.System
-    system = system_collection.find_one({'systemID': systemID})
-    if system is not None:
-        data_arr = system.get("data_packets")
-        data_arr.append({
-            "date": datetime.today(),
-            "probes": data['probes'],
-            "tank_level": data['tank_level'],
-        })
-        system_collection.update_one({"systemID":systemID},{'$set':{'data_packets':data_arr}})
-        return {'message': "Data Stored",}
-    else:
-        return {'message': "ERROR",}
-    
 
 
 
@@ -190,8 +150,6 @@ def change_role(request, dbClient):
 
     else:
         return {'message': 'Invalid Action'}
-
-
 
 
 
