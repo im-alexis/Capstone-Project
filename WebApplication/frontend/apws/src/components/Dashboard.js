@@ -40,7 +40,7 @@ function Dashboard(){
     <div className='dashboard'>
       <header className='dash-head'>
         <h1 className='dash-title'>APWS</h1>
-        <a href='/'>
+        <a href='/login'>
           <button className='head-btn'>Sign Out</button>
         </a> 
         <button className='head-btn'>Settings</button>
