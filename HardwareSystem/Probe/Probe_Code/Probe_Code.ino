@@ -60,13 +60,17 @@ void setup() {
 
   Serial.begin(115200);
 
+  delay(2000);
+
   //Temp & Humidity Sensor setup:
+  
   Serial.println("Adafruit AHT10/AHT20 demo!");
   if (! aht.begin()) {
     Serial.println("Could not find AHT? Check wiring");
     while (1) delay(10);  
   }
   Serial.println("AHT10 or AHT20 found");
+  
 
   Serial.println("Starting BLE work!");
 
@@ -107,6 +111,7 @@ void setup() {
 
 void ReadLight(){
   light = analogRead(LightPin);
+  //light = 0;
 
   Serial.println("Light Value: ");
   Serial.println(light);
@@ -134,6 +139,7 @@ void ReadMoisture(){
 }
 
 void ReadTemp(){
+
   aht.getEvent(&humidity, &temp);// populate temp and humidity objects with fresh data
 
   Serial.print("Temperature: "); 
@@ -147,6 +153,7 @@ void ReadTemp(){
 }
 
 void loop() {
+  Serial.print("================================="); 
   ReadMoisture();
   ReadLight();
   ReadTemp();
@@ -169,5 +176,5 @@ void loop() {
     oldDeviceConnected = deviceConnected;
   }
 
-  delay(1000);
+  delay(3 * 1000 * 60);
 }
