@@ -16,7 +16,7 @@ client = MongoClient("mongodb+srv://alexistorres1802:PsVRgNszt317idtn@apws.qpzzx
 
 # 
 #login route
-@app.route("/", methods=['POST'])
+@app.route("/login", methods=['POST'])
 def login_page():
     response = LoginFunctions.sign_in(request,client)
     print(response)
@@ -25,9 +25,9 @@ def login_page():
 #create_user route
 @app.route("/create_user", methods=['POST'])
 def create_user():
-    print(request.get_json())
+    #print(request.get_json())
     response = LoginFunctions.sign_up(request,client)
-    print(response)
+    #print(response)
     return response  # This is a Json Response
 
 #forgot password route

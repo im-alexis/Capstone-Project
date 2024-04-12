@@ -173,7 +173,7 @@ For route /system_invite
 '''
 # Only an Admin and Above can send a invite to a user
 def sys_user_invite(request, dbClient):
-    data = request.get_json()
+    data = request.get_json() # Unpack Request
     username = data['username'].lower()
     systemID = data['systemID']
     target_user = data['target'].lower()
@@ -182,19 +182,20 @@ def sys_user_invite(request, dbClient):
     system_collection = dbClient.Systems.System
 
     user = user_collection.find_one({"username": username})
+    # Initial check of existance of the user and the system
     if not user:
         return {'message': username + ' does not exist',}
+    system = system_collection.find_one({'systemID': systemID })
+
+    if not system:
+        return {'message': "System does not exist"}
 
     user_systems = {sys['systemID']: sys['access_level'] for sys in user.get('systems', [])}
     if systemID not in user_systems:
         return {'message': 'User is not part of system',}
 
-    if user_systems[systemID] > 1:
+    if user_systems[systemID] > 1: # Validate the user can send the invite to a user
         return {'message': 'User cannot send an invite to other users',}
-
-    system = system_collection.find_one({'systemID': systemID })
-    if not system:
-        return {'message': "System does not exist"}
 
     user_target = user_collection.find_one({"username": target_user})
     if not user_target:

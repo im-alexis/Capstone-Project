@@ -18,12 +18,14 @@ def user_exists(username, dbClient):
     else:
         return False
 
-# For route /
-    #Request format
-#     {
-#      "username": username,
-#      "password": passord,
-# }      
+'''
+For route /login
+    Request format
+    {
+     "username": username,
+     "password": passord,
+} 
+'''     
 def sign_in(request, dbClient):  # Returns Json
     data = request.get_json()
     username = data['username'].lower()
@@ -48,6 +50,15 @@ def sign_in(request, dbClient):  # Returns Json
         return {'message': 'User does not exist',
                 'access':False, }
 
+
+'''
+For route /create_user
+    Request format
+    {
+     "username": username,
+     "password": passord,
+} 
+''' 
 
 def sign_up(request, dbclient):  # Returns Json
     print('start')
@@ -98,7 +109,7 @@ def forgot_request(request, dbclient):          # Creates OTP for exisiting user
         user_collection.update_one(user, update)                    # Adds OTP to the user's document
         subject = "MyAPWS Password Reset"                           # Sends Forgot Password Email 
         MessageFunctions.send_email(subject, username, case=2, code=OTP) # Parameter '1' = New User Email format to send
-        return {'access': True, }
+        return {'access': True, 'message': 'Email has been sent'}
     else:
         return {'message': 'Username does not exist',
                 'access': False, }
