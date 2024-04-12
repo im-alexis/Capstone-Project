@@ -79,12 +79,12 @@
     {
       "icon": "fa fa-thermometer-full",
       "name": "Temperature Level",
-      "text": "Monitors the temperature oustide for monitoring and making sure it is suitable for the plant"
+      "text": "Monitors the temperature outside for monitoring and making sure it is suitable for the plant"
     },
     {
       "icon": "fa fa-language",
       "name": "Light Level",
-      "text": "Monitors the light the plant is recieving so YOU can know if it is recieving enough light"
+      "text": "Monitors the light the plant is receiving so YOU can know if it is receiving enough light"
     },
     {
       "icon": "fa fa-plane",
@@ -131,24 +131,44 @@
   ],
   "Team": [
     {
-      "img": "img/team/01.jpg",
-      "name": "John Doe",
-      "job": "Director"
-    },
-    {
-      "img": "img/team/02.jpg",
-      "name": "Mike Doe",
-      "job": "Senior Designer"
-    },
-    {
-      "img": "img/team/03.jpg",
-      "name": "Jane Doe",
-      "job": "Senior Designer"
-    },
-    {
-      "img": "img/team/04.jpg",
-      "name": "Karen Doe",
+      "img": "img/team/kiet.jpg",
+      "name": "Kiet Le",
       "job": "Project Manager"
+    },
+    {
+      "img": "img/team/jesus.jpg",
+      "name": "Jesus Hernandez",
+      "job": "Front-end Developer"
+    },
+    {
+      "img": "img/team/alexis.jpg",
+      "name": "Alexis Torres",
+      "job": "Back-end Developer"
+    },
+    {
+      "img": "img/team/javi.jpg",
+      "name": "Javier Padilla",
+      "job": "Back-end Developer"
+    },
+    {
+      "img": "img/team/jaime.jpg",
+      "name": "Jaime Sanchez",
+      "job": "Hardware Engineer Lead"
+    },
+    {
+      "img": "img/team/ian.jpg",
+      "name": "Ian Skillman",
+      "job": "Hardware Engineer"
+    },
+    {
+      "img": "img/team/temp.jpg",
+      "name": "Evan LeBel",
+      "job": "Hardware Engineer"
+    },
+    {
+      "img": "img/team/temp.jpg",
+      "name": "Rodrigo Romero",
+      "job": "Hardware Engineer"
     }
   ],
   "Contact": {
