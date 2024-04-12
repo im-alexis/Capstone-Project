@@ -64,7 +64,7 @@ typedef struct __attribute__( ( packed ) )
 
 plant_health ble_plant_health;
 
-int voltage;
+double voltage;
 
 //For Ultrasonic
 int sensorLoop = 0;
@@ -606,7 +606,7 @@ void quickStart()
 
 void PeriodicUpdate(){
   wakeMode();
-  voltage = FuelGauge.voltage();
+  voltage = FuelGauge.percent();
   sleepMode();
 
   digitalWrite(trigPin, LOW);

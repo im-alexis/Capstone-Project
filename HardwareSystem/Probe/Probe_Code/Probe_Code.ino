@@ -176,5 +176,6 @@ void loop() {
     oldDeviceConnected = deviceConnected;
   }
 
-  delay(3 * 1000 * 60);
+  delay(3 * 1000 * 60);     //delay 3 minutes
+  //delay(30000);
 }
