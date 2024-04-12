@@ -142,7 +142,7 @@ class CreateUser extends React.Component {
           <button onClick={this.signUp} id='loginBtn'>Create Account</button>  
           <br/><br/>
           <div id = "links">
-            <Link to='/'>Back To Sign In</Link>
+            <Link to='/login'>Back To Sign In</Link>
             <br />
           </div>
         </div>

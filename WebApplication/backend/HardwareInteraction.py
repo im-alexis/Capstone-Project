@@ -100,7 +100,7 @@ def get_instructions_hw(systemID, dbClient):
         time_pump = settings[0]
         settings[0] = 0 
         system_collection.update_one({"systemID": systemID}, {'$set': {'settings': settings}})
-        return {"delayTime":settings[2],"moistureCutoff":settings[1],"pumpOnSeconds":time_pump} #{in Minutes, 0 to 100, in seconds}
+        return {"delayTime":settings[2],"moistureCutoff":settings[1],"pumpOnSeconds":time_pump} #{in Minutes, IDK Range, in seconds}
     
 '''
 For route /water
