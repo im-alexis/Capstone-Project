@@ -32,12 +32,12 @@ def akn_join_request(request, dbClient):
     user_collection = dbClient.Users.User
     system_collection = dbClient.Systems.System
 
-    user = user_collection.find_one({"username": target})
+    user = user_collection.find_one({"username": username})
     if user:
-        u_sys_arr = user['systems']
+        u_sys_arr = user.get("systems", [])
         flg = False
         for e in u_sys_arr:
-            if e['systemID'] == system:
+            if e['systemID'] == systemID:
                 flg = True
                 if e['access_level'] > 1:
                     return {'message' : 'User cannot akn join request'}

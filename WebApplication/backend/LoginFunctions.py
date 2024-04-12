@@ -33,8 +33,8 @@ def sign_in(request, dbClient):  # Returns Json
     user_collection = dbClient.Users.User
     user = user_collection.find_one({'username': username})
     if user is not None:
-        print(user)
-        print(user.get("OTP"))
+       # print(user)
+       # print(user.get("OTP"))
         account_password = cypher.decrypt(user['password'])
         if user.get("OTP") is None:
             if password == account_password:
