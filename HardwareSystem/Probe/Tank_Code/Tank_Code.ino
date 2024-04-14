@@ -15,14 +15,16 @@
 //----------------------------------------------------------------------------------------------------------------------
 
 ///////TODO: Put Wifi Username and Password
-char ssid[32] = "Ours 2 GHz"; //Need to be 2 GHz
-char pass[32] = ""; //INSERT WIFI PASSWORD;         //Change wifi password
+char ssid[32] = "SP10"; //Need to be 2 GHz
+char pass[32] = "319valvano"; //INSERT WIFI PASSWORD;         //Change wifi password
 char* systemID = "a2h87hd1";
 
 //TODO: Update serverName
 
-const char* serverName = "http://192.168.1.104:5000/data";   //"http://IP_ADDRESS:5000/data"
-const char* getServerName = strcat("http://192.168.1.104:5000/GetInstruction?SystemID=", systemID);
+const char* IP = "http://192.168.137.105:5000";
+char* serverName;
+char* getServerName;
+
 
 String sensorReadings;
 int sensorReadingsArr[3];
@@ -62,7 +64,7 @@ typedef struct __attribute__( ( packed ) )
 
 plant_health ble_plant_health;
 
-int voltage;
+double voltage;
 
 //For Ultrasonic
 int sensorLoop = 0;
@@ -109,8 +111,16 @@ void setup()
   Serial.begin( 9600 );
   while ( !Serial );          //TODO: Delete such that it can run without Serial Monitor
 
+  strcat(serverName, IP);
+  strcat(serverName, "/data");
+
+  strcat(getServerName, IP);
+  strcat(getServerName, "/GetInstructions?systemID=");
+  strcat(getServerName, systemID);
+
   Serial.println( "Tank Code Starting" );
 
+/*
   if (FuelGauge.begin())
   {
     Serial.println("Resetting device...");
@@ -126,6 +136,7 @@ void setup()
     Serial.println("The MAX17043 device was NOT found.\n");
     while (true);
   }
+  */
 }
 
 
@@ -156,7 +167,8 @@ void loop()
   }
 
   if(sensorLoop == 0){
-    PeriodicUpdate();
+    Serial.println( "getting PeriodicUpdate" );
+    //PeriodicUpdate();
   }
   sensorLoop = (sensorLoop + 1) % 5;
 
@@ -286,8 +298,8 @@ void wifiTask( void )
     }
     case WIFI_STATE_RECIEVE:
     {
-      // https://github.com/amcewen/HttpClient/blob/master/examples/SimpleHttpExample/SimpleHttpExample.ino
       http.begin(client, getServerName);
+      //int httpResponseCode = http.POST("{\"systemID\":\"" + String(systemID) + "\}");
       int httpResponseCode = http.GET();
       String payload = "{}"; 
       if (httpResponseCode>0) {
@@ -594,8 +606,9 @@ void quickStart()
 
 void PeriodicUpdate(){
   wakeMode();
-  voltage = FuelGauge.voltage();
+  voltage = FuelGauge.percent();
   sleepMode();
+
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
   digitalWrite(trigPin, HIGH);

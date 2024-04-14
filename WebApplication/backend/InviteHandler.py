@@ -32,12 +32,12 @@ def akn_join_request(request, dbClient):
     user_collection = dbClient.Users.User
     system_collection = dbClient.Systems.System
 
-    user = user_collection.find_one({"username": target})
+    user = user_collection.find_one({"username": username})
     if user:
-        u_sys_arr = user['systems']
+        u_sys_arr = user.get("systems", [])
         flg = False
         for e in u_sys_arr:
-            if e['systemID'] == system:
+            if e['systemID'] == systemID:
                 flg = True
                 if e['access_level'] > 1:
                     return {'message' : 'User cannot akn join request'}
@@ -173,7 +173,7 @@ For route /system_invite
 '''
 # Only an Admin and Above can send a invite to a user
 def sys_user_invite(request, dbClient):
-    data = request.get_json()
+    data = request.get_json() # Unpack Request
     username = data['username'].lower()
     systemID = data['systemID']
     target_user = data['target'].lower()
@@ -182,19 +182,20 @@ def sys_user_invite(request, dbClient):
     system_collection = dbClient.Systems.System
 
     user = user_collection.find_one({"username": username})
+    # Initial check of existance of the user and the system
     if not user:
         return {'message': username + ' does not exist',}
+    system = system_collection.find_one({'systemID': systemID })
+
+    if not system:
+        return {'message': "System does not exist"}
 
     user_systems = {sys['systemID']: sys['access_level'] for sys in user.get('systems', [])}
     if systemID not in user_systems:
         return {'message': 'User is not part of system',}
 
-    if user_systems[systemID] > 1:
+    if user_systems[systemID] > 1: # Validate the user can send the invite to a user
         return {'message': 'User cannot send an invite to other users',}
-
-    system = system_collection.find_one({'systemID': systemID })
-    if not system:
-        return {'message': "System does not exist"}
 
     user_target = user_collection.find_one({"username": target_user})
     if not user_target:
