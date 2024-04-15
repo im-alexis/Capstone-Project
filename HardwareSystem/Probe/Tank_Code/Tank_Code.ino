@@ -606,7 +606,7 @@ void quickStart()
 
 void PeriodicUpdate(){
   wakeMode();
-  voltage = FuelGauge.percent();
+  voltage = FuelGauge.voltage();
   sleepMode();
 
   digitalWrite(trigPin, LOW);
