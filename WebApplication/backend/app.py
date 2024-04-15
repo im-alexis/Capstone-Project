@@ -65,8 +65,8 @@ def change_role():
 #dashboard route
 @app.route("/dashboard", methods=['POST'])
 def dashboard():
-    response = ''
-    return "Placeholder"
+    response = SystemInformation.system_collect(request, client)
+    return response
 
 #system route
 @app.route("/system", methods=['POST'])
