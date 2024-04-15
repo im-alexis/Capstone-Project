@@ -8,6 +8,8 @@ import cypher
 import random
 import MessageFunctions
 
+
+
 #system_collection = dbclient.Systems.System
  
 def user_exists(username, dbClient):
