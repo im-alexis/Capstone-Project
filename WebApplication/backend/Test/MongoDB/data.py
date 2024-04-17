@@ -17,7 +17,7 @@ data = {
                 ],
                 }
 systemID = data['systemID']
-system_collection = dbClient.Systems.System
+system_collection = dbClient.APWS.Systems
 system = system_collection.find_one({'systemID': systemID})
 if system is not None:
         data_arr = system.get("data_packets")

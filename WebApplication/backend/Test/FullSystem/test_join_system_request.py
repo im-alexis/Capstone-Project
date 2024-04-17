@@ -6,7 +6,7 @@ dbClient = MongoClient(
 def join_system_request(request):
     username = request['username'].lower()
     systemID = request['systemID_target']
-    system_collection = dbClient.Systems.System
+    system_collection = dbClient.APWS.Systems
     system = system_collection.find_one({'systemID': systemID})
     
     if system is not None:

@@ -22,8 +22,8 @@ def get_history (request, dbClient):
     username = data['username'].lower()
     systemID = data['systemID']
     
-    user_collection = dbClient.Users.User
-    system_collection = dbClient.Systems.System
+    user_collection = dbClient.APWS.Users
+    system_collection = dbClient.APWS.Systems
     
     user = user_collection.find_one({"username": username}, {"systems": 1})
     system = system_collection.find_one({'systemID': systemID}, {"users": 1, "data_packets": 1, "join_request": 1})
@@ -64,8 +64,8 @@ def get_sys_users (request, dbClient):
     username = data['username'].lower()
     systemID = data['systemID']
     
-    user_collection = dbClient.Users.User
-    system_collection = dbClient.Systems.System
+    user_collection = dbClient.APWS.Users
+    system_collection = dbClient.APWS.Systems
     
     user = user_collection.find_one({"username": username}, {"systems": 1})
     system = system_collection.find_one({'systemID': systemID}, {"users": 1, "data_packets": 1, "join_request": 1})
@@ -108,8 +108,8 @@ def sys_info(request, dbClient):
     username = data['username'].lower()
     systemID = data['systemID']
     
-    user_collection = dbClient.Users.User
-    system_collection = dbClient.Systems.System
+    user_collection = dbClient.APWS.Users
+    system_collection = dbClient.APWS.Systems
     
     user = user_collection.find_one({"username": username})
 
@@ -131,6 +131,7 @@ def sys_info(request, dbClient):
                         'data_packets': system.get("data_packets"),
                         'users': system.get("users"),
                         'join_request': system.get("join_request"),
+                         'settings':system.get("settings"),
                     },
                     "success": True,
                 }
@@ -142,16 +143,13 @@ def sys_info(request, dbClient):
         return {'message': "User does not exist","success": False,}
 
     
-
-
-
  
 def system_collect(request, dbClient):
     data = request.get_json()
     username = data['username'].lower()
     
-    user_collection = dbClient.Users.User
-    system_collection = dbClient.Systems.System
+    user_collection = dbClient.APWS.Users
+    system_collection = dbClient.APWS.Systems
 
     user_system_id= []
     
@@ -176,3 +174,34 @@ def system_collect(request, dbClient):
     return {
         'message': system_data_packets,
          }
+
+def dashboard_data(request, dbClient):
+    data = request.get_json()
+    username = data['username'].lower()
+    user_collection = dbClient.APWS.Users
+    system_collection = dbClient.APWS.Systems
+
+    user = user_collection.find_one({"username": username}, {"systems": 1})
+    if user is None:
+        return {'message': username + " does not exist"}
+
+    systems_arr = user.get('systems', [])
+    system_ids = [system['systemID'] for system in systems_arr]
+    
+    # Retrieve the latest data packet for each system in a single query
+    cursor = system_collection.aggregate([
+        {"$match": {"systemID": {"$in": system_ids}}},
+        {"$project": {
+            "systemID": 1,
+            "latestDataPacket": {"$arrayElemAt": ["$data_packets", -1]}
+        }}
+    ])
+
+    ret_arr = []
+    for system_data in cursor:
+        ret_arr.append({
+            'systemID': system_data['systemID'],
+            'data_packet': system_data['latestDataPacket']
+        })
+
+    return {'message': ret_arr}

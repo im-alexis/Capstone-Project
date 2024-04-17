@@ -17,8 +17,8 @@ def register_system(request, dbClient):
     username = data['username'].lower()
     system_id = data['systemID']
     
-    user_collection = dbClient.Users.User
-    system_collection = dbClient.Systems.System
+    user_collection = dbClient.APWS.Users
+    system_collection = dbClient.APWS.Systems
     
     system = system_collection.find_one({'systemID': system_id})
     user = user_collection.find_one({'username': username})
@@ -75,8 +75,8 @@ def change_role(request, dbClient):
     systemID = data['systemID']
     target = data['target'].lower()
     action = data['action']
-    system_collection = dbClient.Systems.System
-    user_collection = dbClient.Users.User
+    user_collection = dbClient.APWS.Users
+    system_collection = dbClient.APWS.Systems
 
     # Check if the user making the request exists
     user = user_collection.find_one({'username': username}, {'systems': 1})

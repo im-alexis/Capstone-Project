@@ -29,8 +29,8 @@ def akn_join_request(request, dbClient):
     target = data['target'].lower()
     systemID = data['systemID']
     
-    user_collection = dbClient.Users.User
-    system_collection = dbClient.Systems.System
+    user_collection = dbClient.APWS.Users
+    system_collection = dbClient.APWS.Systems
 
     user = user_collection.find_one({"username": username})
     if user:
@@ -92,8 +92,8 @@ def join_system_request(request, dbClient):
     data = request.get_json()
     username = data['username'].lower()
     system_id = data['systemID_target']
-    
-    system_collection = dbClient.Systems.System
+
+    system_collection = dbClient.APWS.Systems
     system = system_collection.find_one({'systemID': system_id}, {'users': 1, 'join_request': 1})
     
     if system:
@@ -134,8 +134,8 @@ def leave_sys(request, dbClient):
     username = data['username'].lower()
     system_id = data['systemID']
     
-    user_collection = dbClient.Users.User
-    system_collection = dbClient.Systems.System
+    user_collection = dbClient.APWS.Users
+    system_collection = dbClient.APWS.Systems
     
     user = user_collection.find_one({'username': username}, {'systems': 1})
     system = system_collection.find_one({'systemID': system_id}, {'users': 1})
@@ -178,8 +178,8 @@ def sys_user_invite(request, dbClient):
     systemID = data['systemID']
     target_user = data['target'].lower()
 
-    user_collection = dbClient.Users.User
-    system_collection = dbClient.Systems.System
+    user_collection = dbClient.APWS.Users
+    system_collection = dbClient.APWS.Systems
 
     user = user_collection.find_one({"username": username})
     # Initial check of existance of the user and the system
@@ -243,8 +243,8 @@ def user_akn_invite(request, dbClient):
     if action not in [0, 1]:
         return {"message": "Action is invalid"}
     
-    user_collection = dbClient.Users.User
-    system_collection = dbClient.Systems.System
+    user_collection = dbClient.APWS.Users
+    system_collection = dbClient.APWS.Systems
 
     user = user_collection.find_one({"username": username})
     if not user:

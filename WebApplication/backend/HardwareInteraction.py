@@ -25,12 +25,12 @@ def sys_update_settings(request, dbClient):
     if any (entry < 1 for entry in setting_arry ):
         return{'message': "Values less than one are not allowed"}
     
-    user_collection = dbClient.Users.User
+    user_collection = dbClient.APWS.Users
     user = user_collection.find_one({"username": username}, {"systems": 1})
     if user is None:
         return{'message': username + " does not exist"}
     
-    system_collection = dbClient.Systems.System
+    system_collection = dbClient.APWS.Systems
     system = system_collection.find_one({'systemID': systemID})
     if system is None:
         return {'message': systemID + " does not exist" }
@@ -69,7 +69,7 @@ For route /data
 def recieve_data_packet(request, dbClient):
     data = request.get_json()
     systemID = data['systemID']
-    system_collection = dbClient.Systems.System
+    system_collection = dbClient.APWS.Systems
     system = system_collection.find_one({'systemID': systemID})
     if system is not None:
         data_arr = system.get("data_packets")
@@ -90,7 +90,7 @@ def recieve_data_packet(request, dbClient):
 '''
 
 def get_instructions_hw(systemID, dbClient):
-    system_collection = dbClient.Systems.System
+    system_collection = dbClient.APWS.Systems
     system = system_collection.find_one({'systemID': systemID})
     if system is None:
         return {"delayTime":-1,"moistureCutoff":-1,"pumpOnSeconds":-1}
@@ -116,9 +116,9 @@ def water_plant(request, dbClient):
     data = request.get_json()
     username = data['username'].lower()
     systemID = data['systemID']
-
-    user_collection = dbClient.Users.User
-    system_collection = dbClient.Systems.System
+    
+    user_collection = dbClient.APWS.Users
+    system_collection = dbClient.APWS.Systems
 
     # Combine queries to get user and system information in a single query
     user_system = user_collection.find_one({"username": username, "systems.systemID": systemID})

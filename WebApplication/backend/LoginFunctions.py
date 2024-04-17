@@ -10,10 +10,10 @@ import MessageFunctions
 
 
 
-#system_collection = dbclient.Systems.System
+#system_collection = dbClient.APWS.Systems
  
 def user_exists(username, dbClient):
-    user_collection = dbClient.Users.User
+    user_collection = dbClient.APWS.Users
     user = user_collection.find_one({'username': username})
     if user is not None:  
         return True
@@ -32,7 +32,7 @@ def sign_in(request, dbClient):  # Returns Json
     data = request.get_json()
     username = data['username'].lower()
     password = data['password']
-    user_collection = dbClient.Users.User
+    user_collection = dbClient.APWS.Users
     user = user_collection.find_one({'username': username})
     if user is not None:
        # print(user)
@@ -62,12 +62,12 @@ For route /create_user
 } 
 ''' 
 
-def sign_up(request, dbclient):  # Returns Json
+def sign_up(request, dbClient):  # Returns Json
     print('start')
     data = request.get_json()
     username = data['username'].lower()
     password = data['password']
-    user_collection = dbclient.Users.User
+    user_collection = dbClient.APWS.Users
     user = user_collection.find_one({'username': username})
 
     if user is None:
@@ -94,13 +94,14 @@ def sign_up(request, dbclient):  # Returns Json
         return {'message': 'Username exists already.', 
                 'access': False}
     
-def forgot_request(request, dbclient):          # Creates OTP for exisiting users
+def forgot_request(request, dbClient):          # Creates OTP for exisiting users
     data = request.get_json()
-    user_collection = dbclient.Users.User
+    user_collection = dbClient.APWS.Users
+
     username = data['username'].lower()
     user = user_collection.find_one({'username': username})
 
-    if user_exists(username, dbclient):
+    if user_exists(username, dbClient):
         OTP = 0000
         while user:
             temp = random.randint(1000, 9999)
@@ -116,9 +117,9 @@ def forgot_request(request, dbclient):          # Creates OTP for exisiting user
         return {'message': 'Username does not exist',
                 'access': False, }
     
-def otp_verify(request, dbclient):      # Checks to see input code matches the OTP
+def otp_verify(request, dbClient):      # Checks to see input code matches the OTP
     data = request.get_json()
-    user_collection = dbclient.Users.User
+    user_collection = dbClient.APWS.Users
     username = data['username'].lower()
     input_otp = data['OTP']
     user = user_collection.find_one({'username': username})
@@ -130,9 +131,9 @@ def otp_verify(request, dbclient):      # Checks to see input code matches the O
         return {'message': 'Incorrect Code', 
                 'access': False, }
     
-def reset_password(request, dbclient):      # Changes User Password
+def reset_password(request, dbClient):      # Changes User Password
     data = request.get_json()
-    user_collection = dbclient.Users.User
+    user_collection = dbClient.APWS.Users
     user = user_collection.find_one({'username': username})
 
     username = data['username'].lower()
