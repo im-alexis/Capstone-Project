@@ -18,7 +18,7 @@ function Forgot() {
                 'content-Type':'application/json'
             },
             body: JSON.stringify({
-                username: this.state.user,
+                username: user,
             })
         })
 
@@ -28,7 +28,7 @@ function Forgot() {
 
         if (data["access"] === true) {
             window.alert("Reset Code Sent")
-            sessionStorage.setItem('user', this.state.user) // IDK what this might do (trying to transfer data b/w pages)
+            sessionStorage.setItem('user', user) // transfer data b/w pages
             window.location.replace(`/verify?data=` + encodeURIComponent("fp"))
         } 
         else {
