@@ -134,9 +134,9 @@ def otp_verify(request, dbClient):      # Checks to see input code matches the O
 def reset_password(request, dbClient):      # Changes User Password
     data = request.get_json()
     user_collection = dbClient.APWS.Users
-    user = user_collection.find_one({'username': username})
-
     username = data['username'].lower()
+
+    user = user_collection.find_one({'username': username})
     new_password = data['new_password']
 
     update = {"$set": {"password": cypher.encrypt(new_password)}}

@@ -28,7 +28,6 @@ function Login() {
       }),
     })
     const data = await response.json();
-    // console.log(data)
     setSuccess(data["access"]);
 
     if (data["access"] === true) {

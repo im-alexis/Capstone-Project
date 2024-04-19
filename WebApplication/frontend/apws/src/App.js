@@ -7,6 +7,7 @@ import Dashboard from './components/Dashboard';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from 'react';
 import Verify from './components/verify';
+import Reset_password from './components/reset_password';
 // function App() {
 //   return (
 //     <div className="App">
@@ -56,10 +57,10 @@ function App() {
                   {/*<Route path="projects" element={<Projects />} />*/}
                   {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
               </Route>
-              {/* <Route path="/reset_password" element={<Reset_password />}>
+              <Route path="/reset_password" element={<Reset_password />}>
                   {/*<Route path="projects" element={<Projects />} />*/}
                   {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
-              {/*</Route> */}
+              </Route>
           </Routes>
       </BrowserRouter>
   );
