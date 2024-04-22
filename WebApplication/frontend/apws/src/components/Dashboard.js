@@ -46,7 +46,9 @@ function Dashboard(){
         <button className='head-btn'>Settings</button>
       </header>
       <div className='dash-display'>
-        <button className='joinBtn' onClick={add_plant}>Join</button>
+        <a href='/Join'>
+          <button className='joinBtn' onClick={add_plant}>Join</button>
+        </a>
         <a href='/Register'>
           <button className='joinBtn' onClick={add_plant}>Register Plant</button>
         </a>

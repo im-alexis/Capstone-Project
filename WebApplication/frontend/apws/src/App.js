@@ -6,6 +6,7 @@ import Forgot from './components/Forgot';
 import Dashboard from './components/Dashboard';
 import Register from './components/Register';
 import NotFound from './components/errorPage';
+import Join from './components/join';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from 'react';
 import Verify from './components/verify';
@@ -35,38 +36,15 @@ function App() {
   return (
       <BrowserRouter>
           <Routes>
-              <Route path="/" element={<Landing />}>
-                  {/*<Route path="projects" element={<Projects />} />*/}
-                  {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
-              </Route>
-              <Route path="/Login" element={<Login />}>
-                  {/*<Route path="projects" element={<Projects />} />*/}
-                  {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
-              </Route>
-              <Route path="/Create-User" element={<CreateUser />}>
-                  {/*<Route path="projects" element={<Projects />} />*/}
-                  {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
-              </Route>
-              <Route path="/Forgot" element={<Forgot />}>
-                  {/*<Route path="projects" element={<Projects />} />*/}
-                  {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
-              </Route>
-              <Route path="/Dashboard" element={<Dashboard />}>
-                  {/*<Route path="projects" element={<Projects />} />*/}
-                  {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
-              </Route>
-              <Route path="/verify" element={<Verify />}>
-                  {/*<Route path="projects" element={<Projects />} />*/}
-                  {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
-              </Route>
-              <Route path="/reset_password" element={<Reset_password />}>
-                  {/*<Route path="projects" element={<Projects />} />*/}
-                  {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
-              </Route>
-              <Route path="/Register" element={<Register />}>
-                  {/*<Route path="projects" element={<Projects />} />*/}
-                  {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
-              </Route>
+              <Route path="/" element={<Landing />}></Route>
+              <Route path="/Login" element={<Login />}></Route>
+              <Route path="/Create-User" element={<CreateUser />}></Route>
+              <Route path="/Forgot" element={<Forgot />}></Route>
+              <Route path="/Dashboard" element={<Dashboard />}></Route>
+              <Route path="/verify" element={<Verify />}></Route>
+              <Route path="/reset_password" element={<Reset_password />}></Route>
+              <Route path="/Register" element={<Register />}></Route>
+              <Route path="/Join" element={<Join />}></Route>
               <Route path="*" element={<NotFound />}>
                   {/*<Route path="projects" element={<Projects />} />*/}
                   {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
