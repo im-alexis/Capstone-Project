@@ -31,7 +31,8 @@ function Login() {
     setSuccess(data["access"]);
 
     if (data["access"] === true) {
-      window.location.replace(`/Dashboard`);
+      sessionStorage.setItem("User",user)
+      window.location.replace('/Dashboard');
     } 
     else {
       alert("Incorrect Username or Password");

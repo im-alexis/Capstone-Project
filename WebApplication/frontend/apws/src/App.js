@@ -4,6 +4,8 @@ import Landing from './components/landing';
 import CreateUser from './components/CreatUser';
 import Forgot from './components/Forgot';
 import Dashboard from './components/Dashboard';
+import Register from './components/Register';
+import NotFound from './components/errorPage';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from 'react';
 import Verify from './components/verify';
@@ -58,6 +60,14 @@ function App() {
                   {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
               </Route>
               <Route path="/reset_password" element={<Reset_password />}>
+                  {/*<Route path="projects" element={<Projects />} />*/}
+                  {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
+              </Route>
+              <Route path="/Register" element={<Register />}>
+                  {/*<Route path="projects" element={<Projects />} />*/}
+                  {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
+              </Route>
+              <Route path="*" element={<NotFound />}>
                   {/*<Route path="projects" element={<Projects />} />*/}
                   {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}
               </Route>
