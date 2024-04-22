@@ -14,6 +14,8 @@ function Plant(props){
             <p className='card-text'>Temperature Level: {props.tempL}  </p>
             <p className='card-text'>Humidity Level: {props.humidL}  </p>
             <p className='card-text'>Light level: {props.lightL}</p>
+            <p className='card-text'>Tank level: {props.tankL}</p>
+            <p className='card-text'>SystemID: {props.sysID}</p>
             <p className='card-text'>Alerts : {props.alerts}</p>
             <button className='history-btn' >History</button>
             <br></br>

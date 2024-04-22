@@ -4,32 +4,43 @@ import Plant from './Plant';
 
 function Dashboard(){
   //might need to use  useRef instead of useState if rendering problems occur with useEffect
-  const[plants, setPlants] = useState([["plant 1" , 0, 1, 2, 3, 4], ["plant 2" , 0, 11, 22, 33, 44]]);
+  const[plants, setPlants] = useState([]);
+  const [user, setUSer] = useState(sessionStorage.getItem("User"));
 
   useEffect(() =>{
-    //this is the fetch from create user, will uncomment and make necceesarry changes once backend is complete
-    // fetch("http://127.0.0.1:5000/create_user", {
-    //     method: 'POST',
-    //     mode: "cors",
-    //     headers:{
-    //       'content-Type':'application/json'
-    //     },
-    //     body: JSON.stringify({
-    //       username: u,
-    //       password: p,
-    //     })
-    //   })
-    
-    //   .then(response => response.json())
-    //   .then((data) => {
-    //     console.log("What's going on")
-    //     console.log(data['message'])
-    //     if (data['message'] === 'User added.') {
-    //       this.setState({
-    //         success: true,
-    //       })}
-    //   })
+    loadDashboard();
   },[]);//empty array so this only runs when component initially mounts
+
+  const loadDashboard = async () => {
+    const response = await fetch("http://127.0.0.1:5000/dashboard", {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: user,
+      }),
+    })
+    const data = await response.json();
+
+    console.log(data)
+    const list = data["message"].map((p) =>(
+      ["plant",
+      p["data_packet"]["probes"][0]["humidity"],
+      p["data_packet"]["probes"][0]["light"],
+      p["data_packet"]["probes"][0]["moisture"],
+      p["data_packet"]["probes"][0]["temp"],
+      p["data_packet"]["tank_level"],
+      p["systemID"],
+      "n/a"
+      ]
+    ));
+    console.log(list)
+    setPlants(p => list)
+
+    
+  }
 
   function add_plant(){
       const newPlant = ["plant" , 0, 11, 22, 33, 44]
@@ -56,11 +67,13 @@ function Dashboard(){
           {plants.map((plant, index) =>
             <li key={index}>
               <Plant name={plant[0]}
-                      moistL={plant[1]}
-                      tempL={plant[2]}
-                      humidL={plant[3]}
-                      lightL={plant[4]}
-                      alerts={plant[5]} />
+                      humidityL={plant[1]}
+                      lightL={plant[2]}
+                      moistL={plant[3]}
+                      tempL={plant[4]}
+                      tankL={plant[5]}
+                      sysID={plant[6]}
+                      alerts={plant[7]} />
             </li>
           )}
         </ul>
