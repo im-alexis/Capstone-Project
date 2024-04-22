@@ -137,7 +137,9 @@ def reset_password(request, dbClient):      # Changes User Password
     username = data['username'].lower()
 
     user = user_collection.find_one({'username': username})
-    new_password = data['new_password']
+    new_password = data['password']
 
     update = {"$set": {"password": cypher.encrypt(new_password)}}
     user_collection.update_one(user, update)
+
+    return {"access": True}
