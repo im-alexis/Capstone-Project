@@ -109,6 +109,7 @@ For route /water
     {
      "username": username,
      "systemID": someID,
+     "time":value (in sec)
     } 
 '''
 
@@ -116,6 +117,9 @@ def water_plant(request, dbClient):
     data = request.get_json()
     username = data['username'].lower()
     systemID = data['systemID']
+    time = int(data["time"])
+
+    # Limit
     
     user_collection = dbClient.APWS.Users
     system_collection = dbClient.APWS.Systems
@@ -136,6 +140,6 @@ def water_plant(request, dbClient):
         return {'message': f"{username} is not part of the system {systemID}"}
 
     # Increment water sec count
-    system_collection.update_one({"systemID": systemID}, {'$inc': {'settings.0': 1}})
+    system_collection.update_one({"systemID": systemID}, {'$inc': {'settings.0':time }})
 
     return {'message': "Water Ping has been queued"}
