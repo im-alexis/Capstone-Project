@@ -47,6 +47,9 @@ function Dashboard(){
       </header>
       <div className='dash-display'>
         <button className='joinBtn' onClick={add_plant}>Join</button>
+        <a href='/Register'>
+          <button className='joinBtn' onClick={add_plant}>Register Plant</button>
+        </a>
         <ul className='plant-list'>
           {plants.map((plant, index) =>
             <li key={index}>
