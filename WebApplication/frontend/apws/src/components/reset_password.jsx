@@ -71,8 +71,12 @@ function Reset_password () {
 
       const data = await response.json();
 
-      if (data['access'] === true) {sessionStorage.clear();} 
-      else {window.alert('Username already exists');}
+      if (data['access'] === true) {
+        sessionStorage.clear();
+        window.alert('Reset Password Successful');
+        window.location.replace(`/Login`)
+      } 
+      else {window.alert('Error');}
   }
 
   return (
