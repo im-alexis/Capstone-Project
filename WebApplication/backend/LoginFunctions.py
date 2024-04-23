@@ -35,21 +35,19 @@ def sign_in(request, dbClient):  # Returns Json
     user_collection = dbClient.APWS.Users
     user = user_collection.find_one({'username': username})
     if user is not None:
-       # print(user)
-       # print(user.get("OTP"))
         account_password = cypher.decrypt(user['password'])
         if user.get("OTP") is None:
             if password == account_password:
                 return {'message': 'Authorized',
                         'access': True, }
             else:
-                return {'message': 'Not Authorized, incorrect password',
+                return {'message': 'Incorrect Username And/Or Password',
                         'access': False, }
         else:
             return {'message': 'Not Verified User',
-                        'access': False, }
+                    'access': False, }
     else:
-        return {'message': 'User does not exist',
+        return {'message': 'User Does Not Exist',
                 'access':False, }
 
 

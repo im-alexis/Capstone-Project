@@ -1,7 +1,7 @@
 import './App.css';
 import Login from './components/login'
 import Landing from './components/landing';
-import CreateUser from './components/CreatUser';
+import CreateUser from './components/CreateUser';
 import Forgot from './components/Forgot';
 import Dashboard from './components/Dashboard';
 import Register from './components/Register';

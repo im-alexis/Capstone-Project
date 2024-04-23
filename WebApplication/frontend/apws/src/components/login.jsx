@@ -35,7 +35,7 @@ function Login() {
       window.location.replace('/Dashboard');
     } 
     else {
-      alert("Incorrect Username or Password");
+      alert(data['message']);
     }
   }
 
