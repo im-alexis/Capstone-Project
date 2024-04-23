@@ -42,9 +42,14 @@ function Dashboard(){
     
   }
 
-  function add_plant(){
-      const newPlant = ["plant" , 0, 11, 22, 33, 44]
-      setPlants(p => [...p, newPlant])
+  function join(){
+      // const newPlant = ["plant" , 0, 11, 22, 33, 44]
+      // setPlants(p => [...p, newPlant])
+      window.location.replace("/Join")
+  }
+
+  function register(){
+    window.location.replace("/Register")
   }
 
   // const remove_plant = (Pindex) => {
@@ -65,12 +70,8 @@ function Dashboard(){
         <button className='head-btn'>Settings</button>
       </header>
       <div className='dash-display'>
-        <a href='/Join'>
-          <button className='joinBtn' onClick={add_plant}>Join</button>
-        </a>
-        <a href='/Register'>
-          <button className='joinBtn' onClick={add_plant}>Register Plant</button>
-        </a>
+        <button className='joinBtn' onClick={join}>Join</button>
+        <button className='joinBtn' onClick={register}>Register Plant</button>
         {/* <a href='/remove'>
           <button className='removeBtn' onClick={removeHandler}>Remove Plant</button>
         </a> */}
