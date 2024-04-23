@@ -47,6 +47,14 @@ function Dashboard(){
       setPlants(p => [...p, newPlant])
   }
 
+  // const remove_plant = (Pindex) => {
+  //   setPlants(prevPlants => prevPlants.filter((_, index) => index !== Pindex));
+  // }
+
+  // const removeHandler = (Pindex) => {
+  //   remove_plant(Pindex);
+  // };
+
   return(
     <div className='dashboard'>
       <header className='dash-head'>
@@ -63,6 +71,9 @@ function Dashboard(){
         <a href='/Register'>
           <button className='joinBtn' onClick={add_plant}>Register Plant</button>
         </a>
+        {/* <a href='/remove'>
+          <button className='removeBtn' onClick={removeHandler}>Remove Plant</button>
+        </a> */}
         <ul className='plant-list'>
           {plants.map((plant, index) =>
             <li key={index}>
