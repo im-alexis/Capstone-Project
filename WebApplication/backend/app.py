@@ -132,6 +132,13 @@ def update_settings():
     response = HardwareInteraction.sys_update_settings(request, client)
     return response
 
+#update_settings route
+@app.route("/rename_system", methods=['POST'])
+def rename_system():
+    #TBD Not sure how settings will look like
+    response = UpdateFunctions.update_sys_name(request, client)
+    return response
+
 #water route
 @app.route("/water", methods=['POST'])
 def water():
