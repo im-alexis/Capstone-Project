@@ -25,7 +25,7 @@
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-p{
+#cu p{
     margin: 0.1px;
     margin-left: 125px;
     font-size: 12px;
@@ -37,7 +37,7 @@ p{
     margin-bottom:0.1px ;
 }
 
-button {
+#cu button {
     display: inline-block;
     vertical-align: top; /* Align the button with the top of the labels */
     margin-right: 15px; /* Adjust the margin as needed */
