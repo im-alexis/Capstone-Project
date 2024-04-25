@@ -9,8 +9,10 @@ import Plant_Settings from './settings';
 function Plant(props){
 
     const plantSettings = () => {
-        // sessionStorage.setItem('SysID', props.sysID)
-        // return <Link to={`/settings/${props.sysID}`}></Link>;
+        sessionStorage.setItem('SysID', props.sysID)
+        console.log("Help")
+        window.location.replace('/Plant_Settings')
+        // return <Link to={`/settings`}></Link>;
     }
 
     return(

@@ -50,14 +50,16 @@ function Dashboard(){
   function register(){
     window.location.replace("/Register")
   }
+  function signOut(){
+    sessionStorage.removeItem("User")
+    window.location.replace("/")
+  }
 
   return(
     <div className='dashboard'>
       <header className='dash-head'>
         <h1 className='dash-title'>APWS</h1>
-        <a href='/login'>
-          <button className='head-btn'>Sign Out</button>
-        </a> 
+        <button className='head-btn' onClick={signOut}>Sign Out</button>
         <button className='head-btn'>Settings</button>
       </header>
       <div className='dash-display'>

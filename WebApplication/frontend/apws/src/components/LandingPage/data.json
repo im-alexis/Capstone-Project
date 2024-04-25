@@ -42,22 +42,22 @@
   ],
   "Services": [
     {
-      "icon": "fa fa-wordpress",
+      "icon": "fa fa-tint",
       "name": "Moisture Level",
       "text": "Monitors the moisture level of the soil so it knows when to water the plant, and for you to monitor as well"
     },
     {
-      "icon": "fa fa-cart-arrow-down",
+      "icon": "fa fa-sun-o",
       "name": "Humidity Level",
       "text": "Monitors the humidity level of the air outside"
     },
     {
-      "icon": "fa fa-thermometer-full",
+      "icon": "fa fa-bar-chart",
       "name": "Temperature Level",
       "text": "Monitors the temperature outside for monitoring and making sure it is suitable for the plant"
     },
     {
-      "icon": "fa fa-language",
+      "icon": "fa fa-lightbulb-o",
       "name": "Light Level",
       "text": "Monitors the light the plant is receiving so YOU can know if it is receiving enough light"
     },
@@ -67,7 +67,7 @@
       "text": "Monitors the water level of the water tank, and sends a notification when it is getting to low and needs tobe refilled"
     },
     {
-      "icon": "fa fa-pie-chart",
+      "icon": "fa fa-cogs",
       "name": "Battery Level",
       "text": "Monitors the BAttery level of your probe and hub, and lets you know when it may be time to replace them"
     }
@@ -128,22 +128,22 @@
     {
       "img": "img/team/jaime.jpg",
       "name": "Jaime Sanchez",
-      "job": "Hardware Engineer Lead"
+      "job": "Embedded Systems Engineer"
     },
     {
       "img": "img/team/ian.jpg",
       "name": "Ian Skillman",
-      "job": "Hardware Engineer"
+      "job": "Embedded Systems Engineer"
     },
     {
-      "img": "img/team/temp.jpg",
+      "img": "img/team/evan.jpeg",
       "name": "Evan LeBel",
-      "job": "Hardware Engineer"
+      "job": "Embedded Systems Engineer"
     },
     {
-      "img": "img/team/temp.jpg",
+      "img": "img/team/rodrigo.jpg",
       "name": "Rodrigo Romero",
-      "job": "Hardware Engineer"
+      "job": "Embedded Systems Engineer"
     }
   ],
   "Contact": {
@@ -156,12 +156,12 @@
   },
   "Features": [
     {
-      "icon": "fa fa-comments-o",
+      "icon": "fa fa-tint",
       "title": "Self Watering",
       "text": "Tank full of water that will water your plants when needed as needed"
     },
     {
-      "icon": "fa fa-bank",
+      "icon": "fa fa-leaf",
       "title": "Plant Sensors",
       "text": "Probe with five different sensors so you can keep track of all your plant statistics"
     },
@@ -171,7 +171,7 @@
       "text": "Have more than one Plant you want to monitor? No problem, all you need is another probe for the plant, but it can all be monitored via one hub in your houshold"
     },
     {
-      "icon": "fa fa-television",
+      "icon": "fa fa-desktop",
       "title": "Monitoring",
       "text": "All in one web-application for you to monitor all your plants, change settings, and even manually water your plants if you choose to"
     }

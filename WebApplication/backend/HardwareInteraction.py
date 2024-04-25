@@ -13,15 +13,19 @@ For route /update_settings
     {
      "username": username,
      "systemID": someID,
-     "settings" : [moistureCutoff, delayTime ,pumpActiveLength ]
+     "settings" : [moistureCutoff, delayTime ,pumpActiveLength, tank_length]
     } 
-    Settings Array in Mongo [pumpOnTime (in secs), moistureCutoff (idk), delayTime (in mins), pumpActiveLength (in secs)t5]
+    Settings Array in Mongo [pumpOnTime (in secs), moistureCutoff (idk), delayTime (in mins), pumpActiveLength (in secs), tank_length (in sec)]
 '''
 def sys_update_settings(request, dbClient):
     data = request.get_json()
     username = data['username'].lower()
     systemID = data['systemID']
     setting_arry = data['settings']
+    setting_arry = [int(x) for x in setting_arry]
+
+    print(setting_arry)
+
 
     if any (entry < 1 for entry in setting_arry ):
         return{'message': "Values less than one are not allowed"}
@@ -48,6 +52,7 @@ def sys_update_settings(request, dbClient):
     settings[1] = setting_arry[0]
     settings[2] = setting_arry[1]
     settings[3] = setting_arry[2]
+    settings[4] = setting_arry[3] - 2
     system_collection.update_one({"systemID": systemID}, {'$set': {'settings': settings}})
 
     return {'message': "Settings have been updated"}
@@ -57,13 +62,14 @@ For route /data
     Request format
     {
      "systemID": someID,
-     "tank_level": someValue
+     "tank_level": someValue, (coverted to percentage based on tank length)
+     "battery_level": someValue
      "probes": [
           {
              "moisture" : someValue,
              "temp" : someValue,
              "light" : someValue,
-              "humidity" : someValue,
+            "humidity" : someValue,
           }, ...
      ],
 }
@@ -73,12 +79,17 @@ def recieve_data_packet(request, dbClient):
     systemID = data['systemID']
     system_collection = dbClient.APWS.Systems
     system = system_collection.find_one({'systemID': systemID})
+    setting_tl_max = system.get("settings",[])[4]
+    tank_val = abs(setting_tl_max -data['tank_level'])/ setting_tl_max *100
+    bat = int(data['battery_level']/3100 *100)
+  
     if system is not None:
         data_arr = system.get("data_packets")
         data_arr.append({
             "date": datetime.today(),
             "probes": data['probes'],
-            "tank_level": data['tank_level'],
+            "tank_level": tank_val,
+            "battery_level": bat
         })
         system_collection.update_one({"systemID":systemID},{'$set':{'data_packets':data_arr}})
         return {'message': "Data Stored",}
