@@ -35,7 +35,7 @@ def register_system(request, dbClient):
             "data_packets": [],
             "join_request": [],
             "notifications": [],
-            "settings": [0,12000,10],
+            "settings": [0,12000,10, 5],
         }
         system_collection.insert_one(new_system)
         
