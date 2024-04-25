@@ -81,7 +81,7 @@ def recieve_data_packet(request, dbClient):
     system = system_collection.find_one({'systemID': systemID})
     setting_tl_max = system.get("settings",[])[4]
     tank_val = abs(setting_tl_max -data['tank_level'])/ setting_tl_max *100
-    bat = data['battery_level']/3100 *100
+    bat = int(data['battery_level']/3100 *100)
   
     if system is not None:
         data_arr = system.get("data_packets")
