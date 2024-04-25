@@ -22,6 +22,10 @@ def sys_update_settings(request, dbClient):
     username = data['username'].lower()
     systemID = data['systemID']
     setting_arry = data['settings']
+    setting_arry = [int(x) for x in setting_arry]
+
+    print(setting_arry)
+
 
     if any (entry < 1 for entry in setting_arry ):
         return{'message': "Values less than one are not allowed"}
@@ -77,7 +81,7 @@ def recieve_data_packet(request, dbClient):
     system = system_collection.find_one({'systemID': systemID})
     setting_tl_max = system.get("settings",[])[4]
     tank_val = abs(setting_tl_max -data['tank_level'])/ setting_tl_max *100
-    bat = data['battery_level']/3100 *100
+    bat = int(data['battery_level']/3100 *100)
   
     if system is not None:
         data_arr = system.get("data_packets")
