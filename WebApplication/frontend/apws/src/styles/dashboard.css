@@ -37,19 +37,17 @@ body {
     background-color:hsl(180, 100%, 40%) ;
  }
  .dashboard .joinBtn{
-    padding: 10px 20px;
-    font-size: 1rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.5s ease;
-    background-color:aqua ;
-    margin-left: auto;
-    margin-right: 100px;
-    height: fit-content;
-    width: fit-content;
+   color: black;
+   background-color: aqua ;
+   border-radius: 5px;
+   border: 1px solid hsl(0,0%,20%);
+   width: fit-content;
+   height: fit-content;
+   padding: 10px 20px;
+   margin-bottom: 5px;
+   cursor: pointer;
  }
- .dashboard .join-btn:hover{
+ .dashboard .joinBtn:hover{
     background-color:hsl(180, 100%, 40%) ;
  }
  .dashboard .dash-display{

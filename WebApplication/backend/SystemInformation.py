@@ -131,7 +131,9 @@ def sys_info(request, dbClient):
                         'data_packets': system.get("data_packets"),
                         'users': system.get("users"),
                         'join_request': system.get("join_request"),
-                         'settings':system.get("settings"),
+                        'settings':system.get("settings"),
+                        'name': system.get("name")
+
                     },
                     "success": True,
                 }
@@ -187,13 +189,14 @@ def dashboard_data(request, dbClient):
 
     systems_arr = user.get('systems', [])
     system_ids = [system['systemID'] for system in systems_arr]
-    
+   
     # Retrieve the latest data packet for each system in a single query
     cursor = system_collection.aggregate([
         {"$match": {"systemID": {"$in": system_ids}}},
         {"$project": {
             "systemID": 1,
-            "latestDataPacket": {"$arrayElemAt": ["$data_packets", -1]}
+            "latestDataPacket": {"$arrayElemAt": ["$data_packets", -1]},
+            "sys_name": "$sys_name"
         }}
     ])
 
@@ -201,6 +204,7 @@ def dashboard_data(request, dbClient):
     for system_data in cursor:
         ret_arr.append({
             'systemID': system_data['systemID'],
+            'sys_name':system_data['sys_name'],
             'data_packet': system_data['latestDataPacket']
         })
 

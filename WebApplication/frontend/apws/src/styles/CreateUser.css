@@ -17,15 +17,15 @@
     border: 15px solid;
     border-image: conic-gradient(rgb(58, 226, 58), yellow,rgb(58, 226, 58), rgb(22, 61, 188), rgb(58, 226, 58), yellow,rgb(58, 226, 58), rgb(22, 61, 188), rgb(58, 226, 58)) 1;
     background-color: rgb(253, 252, 252);
-    width: 400px;
-    height: 400px;
+    /* width: 400px;
+    height: 400px; */
     align-items: center;
     justify-content: center;
     text-align: center;
     font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 
-p{
+#cu p{
     margin: 0.1px;
     margin-left: 125px;
     font-size: 12px;
@@ -37,7 +37,7 @@ p{
     margin-bottom:0.1px ;
 }
 
-button {
+#cu button {
     display: inline-block;
     vertical-align: top; /* Align the button with the top of the labels */
     margin-right: 15px; /* Adjust the margin as needed */

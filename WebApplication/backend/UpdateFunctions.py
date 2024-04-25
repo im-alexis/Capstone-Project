@@ -27,6 +27,7 @@ def register_system(request, dbClient):
     if system is None:
         new_system = {
             "systemID": system_id,
+            "sys_name": "System-" +str(system_id), 
             "users": [{
                 "username": username,
                 "access_level": 2,     # Registering System = Owner of System 
@@ -34,7 +35,7 @@ def register_system(request, dbClient):
             "data_packets": [],
             "join_request": [],
             "notifications": [],
-            "settings": [0,12000,10],
+            "settings": [0,12000,10, 5],
         }
         system_collection.insert_one(new_system)
         
@@ -151,5 +152,45 @@ def change_role(request, dbClient):
     else:
         return {'message': 'Invalid Action'}
 
+'''
+For route /rename_sys
 
+    Request format
+    {
+     "username": username,
+     "systemID": someID,
+     "new_name": some_name,
+    } 
+    only admin plus
+'''
 
+def update_sys_name(request, dbClient):
+    data = request.get_json()
+    username = data['username'].lower()
+    systemID = data['systemID']
+    new_name = data['new_name']
+
+    user_collection = dbClient.APWS.Users
+    system_collection = dbClient.APWS.Systems
+
+    # Check if the user making the request exists
+    user = user_collection.find_one({'username': username}, {'systems': 1})
+    if user is None:
+        u_sys_arr = user.get("systems", [])
+        flg = False
+        for e in u_sys_arr:
+            if e['systemID'] == systemID:
+                flg = True
+                if e['access_level'] > 1:
+                    return {'message' : 'User cannot update system name'}
+        if not flg:
+            return {'message': username + ' is not part of the system'}
+
+    # Check if the system exists
+    system = system_collection.find_one({'systemID': systemID}, {'users': 1})
+    if system is None:
+        return {'message': "System does not exist"}
+    
+    system_collection.update_one({"systemID": systemID}, {'$set': {'sys_name': new_name}})
+
+    return{"message": "System custom name has been updated to "+ new_name}
