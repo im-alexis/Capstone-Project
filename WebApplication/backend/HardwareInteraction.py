@@ -22,6 +22,10 @@ def sys_update_settings(request, dbClient):
     username = data['username'].lower()
     systemID = data['systemID']
     setting_arry = data['settings']
+    setting_arry = [int(x) for x in setting_arry]
+
+    print(setting_arry)
+
 
     if any (entry < 1 for entry in setting_arry ):
         return{'message': "Values less than one are not allowed"}
