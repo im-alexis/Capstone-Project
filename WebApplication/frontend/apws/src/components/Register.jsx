@@ -27,6 +27,7 @@ function Register(props){
           body: JSON.stringify({
             username: user,
             systemID: ID,
+            tank_size: height,
           }),
         })
         const data = await response.json();
