@@ -67,7 +67,7 @@
       "text": "Monitors the water level of the water tank, and sends a notification when it is getting to low and needs tobe refilled"
     },
     {
-      "icon": "fa fa-battery-full",
+      "icon": "fa fa-cogs",
       "name": "Battery Level",
       "text": "Monitors the BAttery level of your probe and hub, and lets you know when it may be time to replace them"
     }
