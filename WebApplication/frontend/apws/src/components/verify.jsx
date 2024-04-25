@@ -39,7 +39,10 @@ function Verify () {
     if (data["access"] === true) {
       window.alert("OTP Approved")
       if(type === "fp") {window.location.replace(`/reset_password`)}
-      else {window.location.replace(`/Login`)}
+      else {
+        sessionStorage.clear();
+        window.location.replace(`/Login`)
+      }
     } 
     else {alert("Incorrect Code");}
   }

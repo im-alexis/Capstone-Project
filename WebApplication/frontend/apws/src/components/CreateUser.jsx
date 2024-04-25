@@ -76,6 +76,7 @@ function CreateUser () {
       const data = await response.json();
 
       if (data['access'] === true) {
+        sessionStorage.setItem('user', user)
         window.location.replace(`/verify`)
       } 
       else {window.alert('Error');}   

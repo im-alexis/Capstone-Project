@@ -1,10 +1,14 @@
 import plantpic from '../styles/plantpic.jpg';
 import '../styles/Plant.css';
 import PropTypes from 'prop-types';
+import Dashboard from './Dashboard';
 
 
 function Plant(props){
-
+    
+    const removeHandler = () => {
+        props.removePlant(props.sysID);
+    }
 
     return(
         <div className='plantCard'>
@@ -20,6 +24,8 @@ function Plant(props){
             <button className='history-btn' >History</button>
             <br></br>
             <button className='plant-settings-btn'>plant settings</button>
+            <br></br>
+            <button className='Remove-btn' onClick={removeHandler}>Remove</button>
         </div>
     )
 }

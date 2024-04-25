@@ -29,7 +29,7 @@ def register_system(request, dbClient):
             "systemID": system_id,
             "users": [{
                 "username": username,
-                "access_level": 0,
+                "access_level": 2,     # Registering System = Owner of System 
             }],
             "data_packets": [],
             "join_request": [],
