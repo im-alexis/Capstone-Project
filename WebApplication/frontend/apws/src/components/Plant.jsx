@@ -1,13 +1,16 @@
 import plantpic from '../styles/plantpic.jpg';
 import '../styles/Plant.css';
 import PropTypes from 'prop-types';
-import Dashboard from './Dashboard';
+import { BrowserRouter as Routes, Route, useNavigate, Link, Navigate} from "react-router-dom";
+import Plant_Settings from './settings';
+
 
 
 function Plant(props){
-    
-    const removeHandler = () => {
-        props.removePlant(props.sysID);
+
+    const plantSettings = () => {
+        // sessionStorage.setItem('SysID', props.sysID)
+        // return <Link to={`/settings/${props.sysID}`}></Link>;
     }
 
     return(
@@ -23,9 +26,9 @@ function Plant(props){
             <p className='card-text'>Alerts : {props.alerts}</p>
             <button className='history-btn' >History</button>
             <br></br>
-            <button className='plant-settings-btn'>plant settings</button>
+            <button className='plant-settings-btn' onClick={plantSettings}>plant settings</button>
+            {/* <Link to={`/settings/${props.sysID}`}>Plant Settings</Link> */}
             <br></br>
-            <button className='Remove-btn' onClick={removeHandler}>Remove</button>
         </div>
     )
 }

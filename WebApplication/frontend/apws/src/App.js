@@ -11,6 +11,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from 'react';
 import Verify from './components/verify';
 import Reset_password from './components/reset_password';
+import Plant_Settings from './components/settings';
 // function App() {
 //   return (
 //     <div className="App">
@@ -45,6 +46,7 @@ function App() {
               <Route path="/reset_password" element={<Reset_password />}></Route>
               <Route path="/Register" element={<Register />}></Route>
               <Route path="/Join" element={<Join />}></Route>
+              <Route path="/Plant_Settings" element={<Plant_Settings />}></Route>
               <Route path="*" element={<NotFound />}>
                   {/*<Route path="projects" element={<Projects />} />*/}
                   {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}

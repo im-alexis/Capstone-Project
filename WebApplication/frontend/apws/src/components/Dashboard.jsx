@@ -39,7 +39,6 @@ function Dashboard(){
     console.log(list)
     setPlants(p => list)
 
-    
   }
 
   function join(){
@@ -51,14 +50,6 @@ function Dashboard(){
   function register(){
     window.location.replace("/Register")
   }
-
-  // const remove_plant = (Pindex) => {
-  //   setPlants(prevPlants => prevPlants.filter((_, index) => index !== Pindex));
-  // }
-
-  // const removeHandler = (Pindex) => {
-  //   remove_plant(Pindex);
-  // };
 
   return(
     <div className='dashboard'>
@@ -72,9 +63,6 @@ function Dashboard(){
       <div className='dash-display'>
         <button className='joinBtn' onClick={join}>Join</button>
         <button className='joinBtn' onClick={register}>Register Plant</button>
-        {/* <a href='/remove'>
-          <button className='removeBtn' onClick={removeHandler}>Remove Plant</button>
-        </a> */}
         <ul className='plant-list'>
           {plants.map((plant, index) =>
             <li key={index}>
