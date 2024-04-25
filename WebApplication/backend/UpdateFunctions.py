@@ -10,6 +10,7 @@ For route /register_system
     {
      "username": username,
      "systemID": someID,
+     "tank_size": some_value,
 }
 '''
 def register_system(request, dbClient):
@@ -35,7 +36,7 @@ def register_system(request, dbClient):
             "data_packets": [],
             "join_request": [],
             "notifications": [],
-            "settings": [0,12000,10, 5],
+            "settings": [0,12000,10, 5, data["tank_size"]],
         }
         system_collection.insert_one(new_system)
         
