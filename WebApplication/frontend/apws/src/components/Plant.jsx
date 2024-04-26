@@ -14,6 +14,11 @@ function Plant(props){
         window.location.replace('/Plant_Settings')
         // return <Link to={`/settings`}></Link>;
     }
+    function toHistory(){
+        sessionStorage.setItem('SysID', props.sysID)
+        console.log("Help")
+        window.location.replace('/plantHistory')
+    }
 
     return(
         <div className='plantCard'>
@@ -26,7 +31,7 @@ function Plant(props){
             <p className='card-text'>Tank level: {props.tankL}</p>
             <p className='card-text'>SystemID: {props.sysID}</p>
             <p className='card-text'>Alerts : {props.alerts}</p>
-            <button className='history-btn' >History</button>
+            <button className='history-btn' onClick={toHistory}>History</button>
             <br></br>
             <button className='plant-settings-btn' onClick={plantSettings}>plant settings</button>
             {/* <Link to={`/settings/${props.sysID}`}>Plant Settings</Link> */}
