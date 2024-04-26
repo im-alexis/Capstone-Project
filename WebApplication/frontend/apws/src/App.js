@@ -7,6 +7,7 @@ import Dashboard from './components/Dashboard';
 import Register from './components/Register';
 import NotFound from './components/errorPage';
 import Join from './components/join';
+import History from './components/History';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from 'react';
 import Verify from './components/verify';
@@ -47,6 +48,7 @@ function App() {
               <Route path="/Register" element={<Register />}></Route>
               <Route path="/Join" element={<Join />}></Route>
               <Route path="/Plant_Settings" element={<Plant_Settings />}></Route>
+              <Route path="/plantHistory" element={<History />}></Route>
               <Route path="*" element={<NotFound />}>
                   {/*<Route path="projects" element={<Projects />} />*/}
                   {/*/!*{ <Route path="*" element={<NoPage />} />}*!/*/}

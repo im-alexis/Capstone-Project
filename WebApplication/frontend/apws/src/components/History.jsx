@@ -1,5 +1,4 @@
 import '../styles/History.css';
-import PropTypes from 'prop-types';
 
 
 function History(props){
@@ -7,17 +6,17 @@ function History(props){
 
     return(
         <div className='HistoryPage'>
-
+            <ValueSet></ValueSet>
         </div>
     )
 }
 
-History.propTypes = {
-
-}
-
-History.defaultProps = {
-
+function ValueSet(props){
+    return(
+        <div>
+            <p>Hello</p>
+        </div>
+    )
 }
 
 export default History
