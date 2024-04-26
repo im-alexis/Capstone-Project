@@ -8,7 +8,6 @@
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <Arduino_JSON.h>
-#include "MAX17043.h"
 
 //----------------------------------------------------------------------------------------------------------------------
 // WiFi
@@ -21,9 +20,9 @@ char* systemID = "a2h87hd1";
 
 //TODO: Update serverName
 
-const char* IP = "http://192.168.137.105:5000";
-char* serverName;
-char* getServerName;
+const char* IP = "http://192.168.137.7:5000";
+char serverName[70];
+char getServerName[70];
 
 
 String sensorReadings;
@@ -44,15 +43,8 @@ static char*    charLightUUID("3cab9341-e65b-46e9-83ed-c8a7f2f841c2");
 static char*    charHumUUID("f3b857d0-1e8a-4dff-a941-9ea9a3594275");
 
 //----------------------------------------------------------------------------------------------------------------------
-//Bluetooth Wifi Setup
+//Plant Data
 //----------------------------------------------------------------------------------------------------------------------
-
-#define CHARACTERISTIC_SSID_UUID "fb6cf981-31cc-4f36-af06-1f2f3e919840"
-#define CHARACTERISTIC_Pass_UUID "35b17f66-73d1-4c92-92f6-9032ef1987d3"
-#define CHARACTERISTIC_Done_UUID "3cab9341-e65b-46e9-83ed-c8a7f2f841c2"
-static BLECharacteristic pCharacteristicSSID(CHARACTERISTIC_SSID_UUID, BLERead | BLEWrite, 32);
-static BLECharacteristic pCharacteristicPass(CHARACTERISTIC_Pass_UUID, BLERead | BLEWrite, 32);
-static BLECharacteristic pCharacteristicDone(CHARACTERISTIC_Done_UUID, BLERead | BLEWrite, 1);
 
 typedef struct __attribute__( ( packed ) )
 {
@@ -64,16 +56,21 @@ typedef struct __attribute__( ( packed ) )
 
 plant_health ble_plant_health;
 
-double voltage;
+//----------------------------------------------------------------------------------------------------------------------
+//Sensor Data
+//----------------------------------------------------------------------------------------------------------------------
+
+#define batteryLevelPin A6
+int batteryLevel;
 
 //For Ultrasonic
 int sensorLoop = 0;
-const int trigPin = 9;
-const int echoPin = 10;
+const int trigPin = 2;
+const int echoPin = 3;
 long duration;
-int distance;
+int tankLevel;
 
-int moistureCutoff = 12000;
+int moistureCutoff = 2780;
 int delayTime = 10;
 
 //----------------------------------------------------------------------------------------------------------------------
@@ -88,8 +85,8 @@ bool updated = false;
 bool WiFisetup = false;
 bool delayStart = false;
 
-#define pumpPin 2              //TODO: Change pumpPin to what the pumpPin will be
-#define pumpActiveLength 10    //in seconds
+int pumpPin = 8;              //TODO: Change pumpPin to what the pumpPin will be
+int pumpActiveLength = 2;    //in seconds
 int pumpActiveTimeRemaining = 0;    //This is our timer for our pump to always reference how much time is left to run, no multithreading no r/w problems (dub)
 
 String httpRequestData = "";
@@ -103,13 +100,12 @@ HTTPClient http;
 void setup()
 {
   delay(2000);
-  pinMode(pumpPin, OUTPUT);
-
-  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
-  pinMode(echoPin, INPUT); // Sets the echoPin as an Input
+  
 
   Serial.begin( 9600 );
-  while ( !Serial );          //TODO: Delete such that it can run without Serial Monitor
+  delay(2000);
+
+  Serial.println( "Tank Code Setup" );
 
   strcat(serverName, IP);
   strcat(serverName, "/data");
@@ -117,60 +113,32 @@ void setup()
   strcat(getServerName, IP);
   strcat(getServerName, "/GetInstructions?systemID=");
   strcat(getServerName, systemID);
+  
+  pinMode(pumpPin, OUTPUT);
+
+  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPin, INPUT); // Sets the echoPin as an Input
 
   Serial.println( "Tank Code Starting" );
-
-/*
-  if (FuelGauge.begin())
-  {
-    Serial.println("Resetting device...");
-    FuelGauge.reset();
-    delay(250);
-
-    Serial.println("Initiating quickstart mode...");
-    FuelGauge.quickstart();
-    delay(125);
-  }
-  else
-  {
-    Serial.println("The MAX17043 device was NOT found.\n");
-    while (true);
-  }
-  */
 }
 
-
 void loop()
-{
-#define NTP_SYNC_INTERVAL 60 * 60 * 1000
-#define TIME_UPDATE_INTERVAL 1000 // needs to be 1000 ms
-
-  static unsigned long previousMillis = 0;
-  static unsigned long ntpSyncPreviousMillis = 0;
-
-  //  Still need testgin
-
-  // if(WiFisetup == false){
-  //   setupWifi();
-  //   WiFisetup == true;
-  // }
-  
+{  
   delayStart = false;
 
   bleTask();
 
-  if((ble_plant_health.moisture < moistureCutoff) && (updated == true) && (pumpActiveTimeRemaining != 0)){
+  if((ble_plant_health.moisture > moistureCutoff) && (updated == true)){
     updated = false;
-    /*                          //TODO: uncomment this block text, change pumpPin into the pumpPin ammount, maybe change for loop amount
+    Serial.println( "Pump On" );
     pumpEnable(pumpActiveLength);
-    */
   }
 
   if(sensorLoop == 0){
     Serial.println( "getting PeriodicUpdate" );
-    //PeriodicUpdate();
+    PeriodicUpdate();
   }
-  sensorLoop = (sensorLoop + 1) % 5;
+  sensorLoop = (sensorLoop + 1) % 10;
 
   wifiTask();
 
@@ -179,7 +147,6 @@ void loop()
   if(delayStart == true){
     delay(delayTime * 60 * 1000);
   }
-
 }
 
 
@@ -189,33 +156,15 @@ void loop()
 
 void pumpEnable(int seconds)
 {
-  pumpActiveTimeRemaining += seconds;
-  int burst = 5;  
-  while( (burst != 0) && (pumpActiveTimeRemaining != 0) ){
-      digitalWrite(pumpPin, HIGH);
-      delayMicroseconds(dutyCycle);
-      digitalWrite(pumpPin, LOW);
-      delayMicroseconds(1000 - dutyCycle);
-      burst--; pumpActiveTimeRemaining--;
-    }
+  pumpActiveTimeRemaining = seconds * 1000;
+  while((pumpActiveTimeRemaining != 0) ){
+    Serial.println( "Pump High" );
+    digitalWrite(pumpPin, HIGH);
+    delayMicroseconds(dutyCycle);
+    pumpActiveTimeRemaining--;
+  }
+  digitalWrite(pumpPin, LOW);
 }
-//==================================================================
-
-
-//==================================================================
-////Use this one for enabling for X amount of seconds
-// #define dutyCycle 1000/2   //50% duty cycle
-
-// void pumpEnable(int seconds)
-// {
-//   for(int i = 0; i < seconds; i++){
-//       digitalWrite(pumpPin, HIGH);
-//       delayMicroseconds(dutyCycle);
-//       digitalWrite(pumpPin, LOW);
-//       delayMicroseconds(1000 - dutyCycle);
-//     }
-// }
-//==================================================================
 
 void wifiTask( void )
 {
@@ -230,7 +179,6 @@ void wifiTask( void )
   static int state = WIFI_STATE_OFF;
   static int wifiConnectTry = 0;
   static int wifiStatus = WL_IDLE_STATUS;
-  static unsigned long previousMillis = 0;
 
   switch ( state )
   {
@@ -268,19 +216,10 @@ void wifiTask( void )
       break;
     case WIFI_STATE_SEND:
     {
-
-
-      /*//Testing w/ Alexis
-      http.begin(client, "http://:5000/data");
-      Serial.println(WiFi.localIP());
-      */
-
-      //orginal: comment out if testing
       http.begin(client, serverName);
 
-      
       http.addHeader("Content-Type", "application/json");
-      int httpResponseCode = http.POST("{\"systemID\":\"" + String(systemID) + "\",\"tank_level\":" + String(distance) + ",\"battery_level\":" + String (voltage) + ",\"probes\":[{\"moisture\":" + String(ble_plant_health.moisture) + ",\"temp\":" + String(ble_plant_health.temp) + ",\"light\":" + String(ble_plant_health.light) + ",\"humidity\":" + String(ble_plant_health.humidity) + "}]}");
+      int httpResponseCode = http.POST("{\"systemID\":\"" + String(systemID) + "\",\"tank_level\":" + String(tankLevel) + ",\"battery_level\":" + String (batteryLevel) + ",\"probes\":[{\"moisture\":" + String(ble_plant_health.moisture) + ",\"temp\":" + String(ble_plant_health.temp) + ",\"light\":" + String(ble_plant_health.light) + ",\"humidity\":" + String(ble_plant_health.humidity) + "}]}");
 
       //httpResponseCode = http.POST(httpRequestData);
       Serial.println( "http posted" );
@@ -288,8 +227,6 @@ void wifiTask( void )
       Serial.print("HTTP Response code: ");
       Serial.println(httpResponseCode);
       if(httpResponseCode == 500){
-        //TODO: based on http Responses
-        //Could do a fail to recieve and state = WIFI_STATE_SEND to try again, but then should have it only try 10 times
         state = WIFI_STATE_SEND;
         break;
       }
@@ -352,7 +289,10 @@ void wifiTask( void )
       moistureCutoff = sensorReadingsArr[1];
       Serial.print("3 = ");
       Serial.println(sensorReadingsArr[2]);
-      pumpEnable(sensorReadingsArr[2]);
+      pumpActiveLength = sensorReadingsArr[2];
+      Serial.print("4 = ");
+      Serial.println(sensorReadingsArr[3]);
+      pumpEnable(sensorReadingsArr[3]);
       state++;
       break;
     }
@@ -393,7 +333,6 @@ void bleTask( void )
 #define BLE_SCAN_TIMEOUT 10000
 
   static int state = BLE_STATE_OFF;
-  static unsigned long previousMillis = 0;
   static BLEDevice peripheral;
 
   switch ( state )
@@ -517,105 +456,17 @@ void bleTask( void )
   }
 }
 
-void setupWifi ( void ){
-  Serial.println("Setting WIFI");
-  if (!BLE.begin()) {
-    Serial.println("starting Bluetooth® Low Energy module failed!");
-
-    while (1);
-  }
-  BLE.setDeviceName("Wifi Setup");
-  BLE.setLocalName("SP10 Wifi Setup");
-  BLEService SetupWiFiService("19B10000-E8F2-537E-4F6C-D104768A1214");
-  pCharacteristicSSID.setValue("Set SSID");
-  pCharacteristicPass.setValue("Set Pass");
-  char done = (char) 0;
-  pCharacteristicDone.setValue(&done);
-  SetupWiFiService.addCharacteristic(pCharacteristicSSID);
-  SetupWiFiService.addCharacteristic(pCharacteristicPass);
-  SetupWiFiService.addCharacteristic(pCharacteristicDone);
-  BLE.setAdvertisedService(SetupWiFiService);
-  BLE.addService(SetupWiFiService);
-  BLE.advertise();
-  Serial.println( "Advertising " );
-  BLEDevice central = BLE.central();
-  while (central.connected()) {}
-  while(done == (char) 0){
-    pCharacteristicDone.readValue(&done, 1);
-  }
-  Serial.println( "Done Advertising " );
-  pCharacteristicSSID.readValue(ssid, 32);
-  pCharacteristicPass.readValue(pass, 32);
-  BLE.stopAdvertise();
-  BLE.end();
-}
-
-void sleepMode()
-{
-  if (!FuelGauge.isSleeping())
-  {
-    FuelGauge.sleep();
-
-    if (FuelGauge.isSleeping())
-    {
-      Serial.println("Fuel Gauge put in sleep mode.");
-    }
-    else
-    {
-      Serial.println("Fuel Gauge failed to be put in sleep mode.");
-    }
-  }
-  else
-  {
-    Serial.println("Fuel Gauge is already in sleep mode.");
-  }
-}
-
-void wakeMode()
-{
-  if (FuelGauge.isSleeping())
-  {
-    FuelGauge.wake();
-
-    if (!FuelGauge.isSleeping())
-    {
-      Serial.println("Fuel Gauge is now awake.");
-    }
-    else
-    {
-      Serial.println("Failed to wake Fuel Gauge.");
-    }
-  }
-  else
-  {
-    Serial.println("Fuel Gauge is already awake.");
-  }
-}
-
-void reset()
-{
-  FuelGauge.reset();
-  Serial.println("Fuel Gauge has been reset/rebooted.");
-}
-
-void quickStart()
-{
-  FuelGauge.quickstart();
-  Serial.println("Quick start has been initiated on the Fuel Gauge.");
-}
-
 void PeriodicUpdate(){
-  wakeMode();
-  voltage = FuelGauge.voltage();
-  sleepMode();
-
+  batteryLevel = analogRead(batteryLevelPin);
+  Serial.print("Battery Level: ");
+  Serial.println(batteryLevel);
   digitalWrite(trigPin, LOW);
   delayMicroseconds(2);
   digitalWrite(trigPin, HIGH);
   delayMicroseconds(10);
   digitalWrite(trigPin, LOW);
   duration = pulseIn(echoPin, HIGH);
-  distance = duration * 0.034 / 2;
-  Serial.print("Distance: ");
-  Serial.println(distance);
+  tankLevel = duration * 0.034 / 2;
+  Serial.print("Tank Level: ");
+  Serial.println(tankLevel);
 }
