@@ -1,6 +1,5 @@
 {
   "name": "apws",
-  "proxy": "https://apws-c709f6879079.herokuapp.com/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
