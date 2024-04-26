@@ -26,7 +26,7 @@ function Plant(props){
             <h2 className='card-title'>{props.name}</h2>
             <p className='card-text'>Moisture Level: {props.moistL}  </p>
             <p className='card-text'>Temperature Level: {props.tempL}  </p>
-            <p className='card-text'>Humidity Level: {props.humidL}  </p>
+            <p className='card-text'>Humidity Level: {props.humidityL}  </p>
             <p className='card-text'>Light level: {props.lightL}</p>
             <p className='card-text'>Tank level: {props.tankL}</p>
             <p className='card-text'>SystemID: {props.sysID}</p>

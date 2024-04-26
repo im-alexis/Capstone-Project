@@ -1,0 +1,11 @@
+.HistData{
+    border: 1px solid hsl(0, 0%, 59%);
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px hsla(0, 0%, 0%), 0.1;
+    padding: 20px;
+    margin: 10px;
+    text-align: center; 
+    max-width: 250 px;
+    display: inline-block;
+    background-color: hsl(108, 65%, 72%);
+}
