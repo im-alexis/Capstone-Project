@@ -40,24 +40,44 @@ function Plant_Settings () {
   }
 
   return (
-    <div id = "back">
+    <div id = "settingsback">
         <div id = "plantSettings">
+          <h1 id = "settingtext2">System Settings</h1>
             <br />
-            <label>Pump On Time   </label>
-            <input type='POT' value={num} onChange={POThandler} required id='settings' pattern="[0-9]+" ></input>
+            <div class="horizontal-container">
+              <label id = "settingtext" >Pump On Time </label>
+              <input type='POT' value={num} onChange={POThandler} required id='settings' pattern="[0-9]+" ></input>
+              <label>seconds</label>
+            </div>
+
             <br/><br/>
-            <label>Moisture Threshold    </label>
-            <input type='MCO' value={num} onChange={MCOhandler} required id='settings' pattern="[0-9]+" ></input>
+
+            <div class="horizontal-container">
+              <label id = "settingtext">Moisture Threshold    </label>
+              <input type='MCO' value={num} onChange={MCOhandler} required id='settings' pattern="[0-9]+" ></input>
+              <label>Percentage (change)</label>
+            </div>
+
             <br/><br/>
-            <label>Reading Frequency   </label>
-            <input type='DT' value={num} onChange={Delayhandler} required id='settings' pattern="[0-9]+" ></input>
+
+            <div class="horizontal-container">
+              <label id = "settingtext">Reading Frequency   </label>
+              <input type='DT' value={num} onChange={Delayhandler} required id='settings' pattern="[0-9]+" ></input>
+              <label>minutes</label>
+            </div>
+
             <br/><br/>
-            <label>Pump Active Time   </label>
-            <input type='AP' value={num} onChange={APhandler} required id='settings' pattern="[0-9]+" ></input>
+
+            <div class="horizontal-container">
+              <label id = "settingtext">Pump Active Time   </label>
+              <input type='AP' value={num} onChange={APhandler} required id='settings' pattern="[0-9]+" ></input>
+              <label>seconds</label>
+            </div>
+
             <br/><br/>
             <button onClick={probeSet} id='FPBtn'>Update Settings</button> 
             <br/><br/>
-            <Link to='/Dashboard'>Back To Dashboard</Link> <br />
+            <Link to='/Dashboard' id = "Sbacklink">Back To Dashboard</Link> <br />
         </div>
     </div>
     );
