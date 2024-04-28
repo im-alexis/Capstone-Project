@@ -19,7 +19,7 @@ export const Services = (props) => {
                   <i className={d.icon}></i>
                   <div className="service-desc">
                     <h3>{d.name}</h3>
-                    <p>{d.text}</p>
+                    {/* <p>{d.text}</p> */}
                   </div>
                 </div>
               ))

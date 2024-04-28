@@ -1,10 +1,10 @@
 {
   "Header": {
     "title": "APWS",
-    "paragraph": "Autonomous plant watering system(APWS) that will modernize the act of taking care of household plants or gardens"
+    "paragraph": "An Autonomous Plant Watering System that will modernize the act of taking care of household plants or gardens"
   },
   "About": {
-    "paragraph": "The problem the team is trying to address is that plants can just as easily die from over-enthusiasm as can from neglect. Some factors that kill plants are dust, over-watering, disease, cramping, shock, air quality, neglect, dormancy, light levels, or too much fertilizer. Many at-home plant owners do not know how to keep track of these issues and the health of their plants as time goes on. Some just believe that they do not have a “green thumb.” Others might have a busy schedule resulting in less allocated time tending to their plants. Most household watering systems are outdated systems that are controlled in some sort of panel box found in the garage. Leaving many users unaware of the functionality of their water systems. This is where a digital and modern system is required.",
+    "paragraph": "Due to the changes in the climate and busy schedules, it can be challenging to consistently monitor and maintain your plants. Poor plant health can be attributed to various factors including dust accumulation, over-watering, diseases, cramped conditions, air quality issues, and inadequate light levels. Many at-home plant owners do not know how to keep track of these issues as time goes on, or they fail to do so. Some simply believe that they do not have a “green thumb”, while others are too busy to allocate sufficient time to tend to their plants. Consequently, many households face additional challenges due to outdated and limiting irrigation systems. Leaving many homeowners reluctant to engage with their irrigation systems. This is where a digital and modern system is required.",
     "Why": [
       "Lorem ipsum dolor",
       "Tempor incididunt",
@@ -20,7 +20,7 @@
   },
   "Gallery": [
     {
-      "title": "Enclosure",
+      "title": "Water Tank Hub",
       "largeImage": "img/portfolio/enclosure-large.png",
       "smallImage": "img/portfolio/enclosure-small.png"
     },
@@ -30,7 +30,7 @@
       "smallImage": "img/portfolio/Probe-small.png"
     },
     {
-      "title": "PCB",
+      "title": "Hub PCB",
       "largeImage": "img/portfolio/pcb-large.png",
       "smallImage": "img/portfolio/pcb-small.png"
     },
@@ -43,8 +43,8 @@
   "Services": [
     {
       "icon": "fa fa-tint",
-      "name": "Moisture Level",
-      "text": "Monitors the moisture level of the soil so it knows when to water the plant, and for you to monitor as well"
+      "name": "Moisture Sensor",
+      "text": "Main factor used to determine watering times"
     },
     {
       "icon": "fa fa-sun-o",
@@ -53,7 +53,7 @@
     },
     {
       "icon": "fa fa-bar-chart",
-      "name": "Temperature Level",
+      "name": "Temperature",
       "text": "Monitors the temperature outside for monitoring and making sure it is suitable for the plant"
     },
     {
@@ -63,12 +63,12 @@
     },
     {
       "icon": "fa fa-plane",
-      "name": "Tank Water Level",
+      "name": "Water Capacity",
       "text": "Monitors the water level of the water tank, and sends a notification when it is getting to low and needs tobe refilled"
     },
     {
       "icon": "fa fa-cogs",
-      "name": "Battery Level",
+      "name": "Battery Life",
       "text": "Monitors the BAttery level of your probe and hub, and lets you know when it may be time to replace them"
     }
   ],

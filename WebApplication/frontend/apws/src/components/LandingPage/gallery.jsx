@@ -7,9 +7,9 @@ export const Gallery = (props) => {
       <div className="container">
         <div className="section-title">
           <h2>Gallery</h2>
-          <p>
+          {/* <p>
             Here are some photos of how the probe and hub look like and how we made them.
-          </p>
+          </p> */}
         </div>
         <div className="row">
           <div className="portfolio-items">
