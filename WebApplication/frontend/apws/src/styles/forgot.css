@@ -27,18 +27,19 @@
 .passLbl{
     margin-bottom:0.1px ;
 }
-label {
+#fplabel {
     display: inline-block;
-    width: 100px;
-    margin-right: 10px; 
+    width: 50px;
+    margin-right: 0px; 
+    margin-left: 20px;
     text-align: right;
   }
 
-input {
+#fpinput {
     display: inline;
-    margin-right: 90px;
+    margin-right: 40px;
 }
 
-button {
+#fpbutton {
     margin-left: 10px; /* Adjust the margin as needed */
 }

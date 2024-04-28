@@ -27,19 +27,19 @@
 .passLbl{
     margin-bottom:0.1px ;
 }
-label {
+#vlabel {
     display: inline-block;
     width: 50px;
     margin-right: 10px; 
     text-align: center;
   }
 
-input {
+#vinput {
     display: inline;
     margin-right: 90px;
 }
 
-button {
+#vbutton {
     margin-left: 10px; /* Adjust the margin as needed */
 }
 #otp {

@@ -17,8 +17,8 @@
     border: 15px solid;
     border-image: conic-gradient(rgb(58, 226, 58), yellow,rgb(58, 226, 58), rgb(22, 61, 188), rgb(58, 226, 58), yellow,rgb(58, 226, 58), rgb(22, 61, 188), rgb(58, 226, 58)) 1;
     background-color: rgb(253, 252, 252);
-    /* width: 400px;
-    height: 350px; */
+    width: 400px;
+    height: 350px;
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -30,14 +30,14 @@
 }
 #emailLabel {
     display: inline-block;
-    width: 35px; /* Adjust the width as needed */
+    width: 10px; /* Adjust the width as needed */
     margin-left: 60px;
 }
 
 #passwordLabel {
     display: inline-block;
-    width: 60px; /* Adjust the width as needed */
-    margin-left: 30px;
+    width: 35px; /* Adjust the width as needed */
+    margin-left: 35px;
 }
 
 button {
@@ -47,9 +47,9 @@ button {
 }
 
 #username {
-    margin-left: 10px;
+    margin-left: 0px;
 }
 
 #password {
-    margin-left: 10px;
+    margin-left: 0px;
 }

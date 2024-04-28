@@ -54,7 +54,7 @@ function Verify () {
           <h1>OTP Verification</h1>
           <input type="otp" id="otp" maxLength="6" value={otp} onChange={otpHandler} required></input>
           <br/><br/>
-          <button onClick={verify} id='FPBtn'>Continue</button> 
+          <button onClick={verify} id='vbutton'>Continue</button> 
           <br/><br/>
           <Link to='/'>Back To Sign In</Link> <br />
       </div>

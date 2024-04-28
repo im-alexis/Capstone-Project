@@ -17,8 +17,8 @@
     border: 15px solid;
     border-image: conic-gradient(rgb(58, 226, 58), yellow,rgb(58, 226, 58), rgb(22, 61, 188), rgb(58, 226, 58), yellow,rgb(58, 226, 58), rgb(22, 61, 188), rgb(58, 226, 58)) 1;
     background-color: rgb(253, 252, 252);
-    /* width: 400px;
-    height: 400px; */
+    width: 400px;
+    height: 420px;
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -49,7 +49,7 @@
 
 #cuu {
     display: inline-block;
-    width: 115px; /* Adjust the width as needed */
+    width: 125px; /* Adjust the width as needed */
     font-size: 14px;
     margin-right: 0px;
 }

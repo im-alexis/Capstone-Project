@@ -41,10 +41,10 @@ function Forgot() {
         <div id = "fp">
             <br />
             <h1>APWS</h1>
-            <label>Email   </label>
-            <input type='email' name='user' value={user} onChange={usernameHandler} required id='username'></input>
+            <label id="fplabel">Email   </label>
+            <input type='email' name='user' value={user} onChange={usernameHandler} required id='fpinput'></input>
             <br/><br/>
-            <button onClick={forgot} id='FPBtn'>Forgot Password</button> 
+            <button onClick={forgot} id='fpbutton'>Forgot Password</button> 
             <br/><br/>
             <Link to='/Login'>Back To Sign In</Link> <br />
         </div>
