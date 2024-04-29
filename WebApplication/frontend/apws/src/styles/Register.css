@@ -1,0 +1,32 @@
+.RegisterPage{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+}
+
+#regHead {
+  margin-left: 100px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+#rSystemID {
+  margin-left: 35px;
+}
+
+#rIDLabel {
+  margin-left: 10px;
+}
+
+#regSystemBtn {
+  margin-left: 100px;
+}
+
+#HeightLabel {
+  margin-right: 10px;
+}
+
+#rlink {
+  margin-left: 90px;
+}

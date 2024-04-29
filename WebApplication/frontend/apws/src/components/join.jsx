@@ -33,14 +33,14 @@ function Join(props){
         <div className='JoinPage'>
             <div id="join">
                 <br />
-                <h1>APWS</h1>
+                <h1 id="joinHead">APWS</h1>
                 <br />
                 <label id="IDLabel">System ID</label>
                 <input id="SystemID" type="text" name="SystemID" value={ID} onChange={handleSetID} placeholder='eg. abc123' required ></input>
                 <br /><br />
                 <button id='registerSystemBtn' onClick={joinPlant}>Join Plant</button>
                 <br /><br />
-                <Link to="/Dashboard">Back to DashBoard</Link> <br />
+                <Link to="/Dashboard" id='jlink'>Back to DashBoard</Link> <br />
             </div>
         </div>
     )

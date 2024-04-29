@@ -53,9 +53,9 @@ function Plant_Settings () {
             <br/><br/>
 
             <div class="horizontal-container">
-              <label id = "settingtext">Moisture Threshold    </label>
-              <input type='MCO' value={num} onChange={MCOhandler} required id='settings' pattern="[0-9]+" ></input>
-              <label>Percentage (change)</label>
+              <label id = "settingtextMT">Moisture Threshold    </label>
+              <input type='MCO' value={num} onChange={MCOhandler} required id='settingsMT' pattern="[0-9]+" ></input>
+              <label>level</label>
             </div>
 
             <br/><br/>

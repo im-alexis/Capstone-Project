@@ -60,7 +60,7 @@ function Dashboard(){
       <header className='dash-head'>
         <h1 className='dash-title'>APWS</h1>
         <button className='head-btn' onClick={signOut}>Sign Out</button>
-        <button className='head-btn'>Settings</button>
+        {/* <button className='head-btn'>Settings</button> */}
       </header>
       <div className='dash-display'>
         <button className='joinBtn' onClick={join}>Join</button>

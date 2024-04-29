@@ -1,0 +1,28 @@
+.JoinPage{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  height: auto;
+}
+
+#joinHead {
+  margin-left: 100px;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+#SystemID {
+  margin-left: 10px;
+}
+
+#IDLabel {
+  margin-left: 10px;
+}
+
+#registerSystemBtn {
+  margin-left: 115px;
+}
+
+#jlink {
+  margin-left: 90px;
+}

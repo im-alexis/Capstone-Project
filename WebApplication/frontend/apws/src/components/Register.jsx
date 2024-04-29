@@ -40,17 +40,17 @@ function Register(props){
         <div className='RegisterPage'>
             <div id="register">
                 <br />
-                <h1>APWS</h1>
+                <h1 id='regHead'>APWS</h1>
                 <br />
-                <label id="IDLabel">System ID</label>
-                <input id="SystemID" type="text" name="SystemID" value={ID} onChange={handleSetID} placeholder='eg. abc123' required ></input>
+                <label id="rIDLabel">System ID</label>
+                <input id="rSystemID" type="text" name="SystemID" value={ID} onChange={handleSetID} placeholder='eg. abc123' required ></input>
                 <br /><br />
                 <label id="HeightLabel">Tank Height(cm)</label>
                 <input id="TankHeight" type="text" name="TankHeight" value={height} onChange={handleSetHeight} placeholder='eg. 20' required ></input>
                 <br /><br />
-                <button id='registerSystemBtn' onClick={registerPlant}>Register Plant</button>
+                <button id='regSystemBtn' onClick={registerPlant}>Register Plant</button>
                 <br /><br />
-                <Link to="/Dashboard">Back to DashBoard</Link> <br />
+                <Link to="/Dashboard" id='rlink'>Back to DashBoard</Link> <br />
             </div>
         </div>
     )

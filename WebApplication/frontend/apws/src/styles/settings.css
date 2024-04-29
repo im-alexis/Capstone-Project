@@ -14,17 +14,28 @@
   background-color: aliceblue;
 }
 
-#settings{
+/* #settings{
   margin-right:50px;
+} */
+
+#settingsMT {
+  margin-left: 5px;
 }
 
 #settingtext{
+  width: 110px;
+  margin-left: 10px;
+}
+
+#settingtextMT{
+  margin-left: 5px;
   width: 110px;
 }
 
 #settingtext2{
   color: black;
-  margin-left: 60px;
+  margin-left: 75px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
 .horizontal-container {
   display: flex;
