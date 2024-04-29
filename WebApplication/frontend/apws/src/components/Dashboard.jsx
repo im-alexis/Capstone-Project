@@ -30,8 +30,9 @@ function Dashboard(){
       p["data_packet"]["probes"][0]["humidity"],
       p["data_packet"]["probes"][0]["light"],
       p["data_packet"]["probes"][0]["moisture"],
-      p["data_packet"]["probes"][0]["temp"],
+      p["data_packet"]["probes"][0]["temp"] + " °C",
       p["data_packet"]["tank_level"],
+      Math.round(parseFloat(p["data_packet"]["battery_level"])) + " %",
       p["systemID"],
       "n/a"
       ]
@@ -74,8 +75,9 @@ function Dashboard(){
                       moistL={plant[3]}
                       tempL={plant[4]}
                       tankL={plant[5]}
-                      sysID={plant[6]}
-                      alerts={plant[7]} />
+                      batL={plant[6]}
+                      sysID={plant[7]}
+                      alerts={plant[8]} />
             </li>
           )}
         </ul>

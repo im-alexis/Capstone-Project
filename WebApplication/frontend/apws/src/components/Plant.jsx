@@ -10,13 +10,10 @@ function Plant(props){
 
     const plantSettings = () => {
         sessionStorage.setItem('SysID', props.sysID)
-        console.log("Help")
         window.location.replace('/Plant_Settings')
-        // return <Link to={`/settings`}></Link>;
     }
     function toHistory(){
         sessionStorage.setItem('SysID', props.sysID)
-        console.log("Help")
         window.location.replace('/plantHistory')
     }
 
@@ -25,16 +22,16 @@ function Plant(props){
             <img className='img' src={plantpic} ></img>
             <h2 className='card-title'>{props.name}</h2>
             <p className='card-text'>Moisture Level: {props.moistL}  </p>
-            <p className='card-text'>Temperature Level: {props.tempL}  </p>
+            <p className='card-text'>Temperature Level : {props.tempL}  </p>
             <p className='card-text'>Humidity Level: {props.humidityL}  </p>
-            <p className='card-text'>Light level: {props.lightL}</p>
-            <p className='card-text'>Tank level: {props.tankL}</p>
+            <p className='card-text'>Light Level: {props.lightL}</p>
+            <p className='card-text'>Water Level: {props.tankL}</p>
+            <p className='card-text'>Battery: {props.batL}</p>
             <p className='card-text'>SystemID: {props.sysID}</p>
             <p className='card-text'>Alerts : {props.alerts}</p>
             <button className='history-btn' onClick={toHistory}>History</button>
             <br></br>
             <button className='plant-settings-btn' onClick={plantSettings}>plant settings</button>
-            {/* <Link to={`/settings/${props.sysID}`}>Plant Settings</Link> */}
             <br></br>
         </div>
     )
