@@ -14,6 +14,13 @@
   background-color: aliceblue;
 }
 
+#plantSettings2 {
+  width: auto;
+  height: auto;
+  border: 3px solid rgb(97, 198, 97);
+  background-color: aliceblue;
+  margin-left: 10px;
+}
 /* #settings{
   margin-right:50px;
 } */
@@ -37,6 +44,14 @@
   margin-left: 75px;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 }
+
+#settingtext3{
+  font-size: 30px;
+  color: black;
+  margin-left: 40px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
 .horizontal-container {
   display: flex;
   align-items: center;
@@ -61,4 +76,15 @@
   align-items: center;
   color: black;
   margin-left: 120px;
+}
+
+#wBtn{
+  align-items: center;
+  color: black;
+  margin-left: 130px;
+  margin-bottom: 10px;
+}
+
+#settingtextW {
+  margin-left: 10px;
 }

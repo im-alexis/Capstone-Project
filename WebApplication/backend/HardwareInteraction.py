@@ -130,9 +130,10 @@ def water_plant(request, dbClient):
     data = request.get_json()
     username = data['username'].lower()
     systemID = data['systemID']
-    amount = data["amount"]
-    if amount < 0:
-        return {"message": "You crazy!! No negative numbers"}
+    amount = int(data["amount"])
+    print (amount)
+    if amount < 1:
+        return {"message": "You crazy!! Non-positive numbers"}
     if amount > 30:
         return {"message": "I soft limit you to 30secs"} 
     user_collection = dbClient.APWS.Users

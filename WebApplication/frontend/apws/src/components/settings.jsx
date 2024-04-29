@@ -11,14 +11,35 @@ function Plant_Settings () {
   const [delay, setDelay] = useState()
   const [activePump, setAP] = useState()
   const [num] = useState()
+  const [amount, setAmount] = useState()
 
   const POThandler = (event) => {setPOT(event.target.value);}
   const MCOhandler = (event) => {setMCO(event.target.value);}
   const Delayhandler = (event) => {setDelay(event.target.value);}
   const APhandler = (event) => {setAP(event.target.value);}
+  const Whandler = (event) => {setAmount(event.target.value);}
 
 
   // const remove = async () => {}
+
+  const water = async () => {
+    const response = await fetch("http://127.0.0.1:5000/water", {
+        method: 'POST',
+        mode: "cors",
+        headers:{
+            'content-Type':'application/json'
+        },
+        body: JSON.stringify({
+          username: user,
+          systemID: systemID,
+          amount: amount,
+        })
+    })
+    const data = await response.json();
+    alert(data['message'])
+    sessionStorage.removeItem('SysID');
+    window.location.replace('/Dashboard')
+  }
 
   const probeSet = async () => {
     const response = await fetch("http://127.0.0.1:5000/update_settings", {
@@ -78,6 +99,16 @@ function Plant_Settings () {
             <button onClick={probeSet} id='FPBtn'>Update Settings</button> 
             <br/><br/>
             <Link to='/Dashboard' id = "Sbacklink">Back To Dashboard</Link> <br />
+        </div>
+        <div id = "plantSettings2">
+        <h1 id = "settingtext3">Watering Function</h1>
+        <div class="horizontal-container">
+            <label id = "settingtextW">Water On: </label>
+            <input type='AP' value={num} onChange={Whandler} required id='settings' pattern="[0-9]+" ></input>
+            <label>seconds</label>
+        </div>
+        <br/>
+        <button onClick={water} id='wBtn'>Send</button>
         </div>
     </div>
     );
